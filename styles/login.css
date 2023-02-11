@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: auto;
+    margin-top: 8vh;
+    width: 70vw;
+    height: 85vh;
+    padding: 10px;
+    display: flex;
+}
+
+.container-1{
+    padding: 10px;
+    width: 60%;
+}
+
+.container-2{
+    width: 40%;
+}
+
+.container-3{
+    margin: auto;
+    width: 75%;
+  
+}
+
+.container-4{
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.container-5{
+    display: none;
+}
+
+#forgot-password{
+    font-size: 12px;
+    float: right;
+}
+
+img{
+    width: 100%;
+    height: 80vh;
+}
+
+#logo{
+    width: 100%;
+    height: 20%;
+}
+
+#avatar{
+   height: 100px;
+}
+
+.container-3 h2 {
+   
+    text-align: center;
+}
+
+
+#login-btn{
+    width: 100%;
+}
+
+@media  screen and (max-width:900px){
+    .container-1{
+       width: 0%;
+    }
+
+    .container-2{
+        margin: auto;
+        width: 80%;
+    }
+    
+    .container-3{
+        width: 100%;
+    }
+
+    .container-5{
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .container{
+        width: 50vw;
+    }
+
+}
+
+@media  screen and (max-width:500px){
+   
+    .container{
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+
