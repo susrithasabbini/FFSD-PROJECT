@@ -28,17 +28,19 @@ body{
 
 .container-2{
     width: 40%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .container-3{
     margin: auto;
     width: 75%;
-  
+    
 }
 
 .container-4{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 2vh;
     text-align: center;
 }
 
@@ -63,7 +65,7 @@ img{
 }
 
 #avatar{
-   height: 100px;
+   height: 12vh;
 }
 
 .container-3 h2 {
@@ -83,17 +85,17 @@ img{
 
     .container-2{
         margin: auto;
-        width: 80%;
+        width: 90%;
     }
     
     .container-3{
-        width: 100%;
+        width: 90%;
     }
 
     .container-5{
         display: block;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 2vh;
         text-align: center;
     }
     .container{
@@ -102,12 +104,35 @@ img{
 
 }
 
-@media  screen and (max-width:500px){
+@media  screen and (max-width:600px){
    
     .container{
         width: 100vw;
         height: 100vh;
         margin: 0;
-        padding:0
+        padding:0;
+        border-radius: 0%;
+    }
+}
+
+@media screen and (max-height:600px){
+    .container{
+        height: 90vh;
+        margin-top: 4vh;
+    }
+    
+    #avatar{
+        display: none;
+    }
+
+    .container-3 h2{
+        display: none;
+    }
+    
+}
+
+@media screen and (max-height:450px){
+    .container-2{
+        overflow: auto;
     }
 }
