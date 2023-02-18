@@ -78,6 +78,42 @@ img{
     width: 100%;
 }
 
+.tab{
+    display: none;
+}
+
+#next{
+    float: right;
+    margin: 10px;
+}
+
+#prev{
+    float: right;
+    margin: 10px;
+}
+
+.step{
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color:antiquewhite;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.8;
+}
+
+
+.step.active {
+    
+    background-color: tomato;
+   
+}
+  
+.step.finish {
+   
+}
+
 @media  screen and (max-width:900px){
     .container-1{
        width: 0%;
@@ -133,6 +169,6 @@ img{
 
 @media screen and (max-height:450px){
     .container-2{
-        overflow: auto;
+        overflow: auto;
     }
 }
