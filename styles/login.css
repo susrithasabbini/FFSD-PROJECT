@@ -4,9 +4,7 @@
     box-sizing: border-box;
 }
 
-body{
-    background-color:antiquewhite;
-}
+
 
 .container{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -60,8 +58,12 @@ img{
 }
 
 #logo{
-    width: 100%;
-    height: 20%;
+    font-family: 'Gloock';
+    text-align: center;
+    font-size: 60px;
+    color:   #F37335;
+    text-shadow: -1px 0  black, 0 1px black, 1px 0  #FDC830, 0 -1px  #FDC830;
+    
 }
 
 #avatar{
@@ -73,9 +75,39 @@ img{
     text-align: center;
 }
 
+.error{
+    position: absolute;
+    width: 100%;
+    color: red;
+    font-size: x-small;
+}
+
+.form-control:focus{
+    box-shadow: 0.5px 0.5px 0.5px 0.5px gray;
+}
+
+.form-select:focus{
+    box-shadow: 0.5px 0.5px 0.5px 0.5px gray;
+}
+
+#loginForm h2{
+    font-family:'Gloock', sans-serif;
+    color: gray;
+}
+
+#regForm h2{
+    font-family:'Gloock', sans-serif;
+    color: gray;
+}
 
 #login-btn{
     width: 100%;
+    background:  #F37335;  /* fallback for old browsers */
+    opacity: 0.9;
+}
+
+#login-btn:hover{
+    opacity: 1;
 }
 
 .tab{
@@ -83,6 +115,8 @@ img{
 }
 
 #next{
+    background-color: #F37335;
+    color: white;
     float: right;
     margin: 10px;
 }
@@ -92,27 +126,38 @@ img{
     margin: 10px;
 }
 
+select{
+    height: 60px;
+}
+
+.container-2 a{
+    text-decoration: none;
+    color: gray;
+}
+
+.container-2 a:hover{
+    text-decoration: underline;
+    
+}
+
 .step{
     height: 15px;
     width: 15px;
     margin: 0 2px;
-    background-color:antiquewhite;
+    background-color:gray;
     border: none;
     border-radius: 50%;
     display: inline-block;
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 
 .step.active {
     
-    background-color: tomato;
-   
+    background-color:  #F37335;
+    opacity: 1;
 }
   
-.step.finish {
-   
-}
 
 @media  screen and (max-width:900px){
     .container-1{
@@ -135,7 +180,7 @@ img{
         text-align: center;
     }
     .container{
-        width: 50vw;
+        width: 60vw;
     }
 
 }
@@ -151,7 +196,7 @@ img{
     }
 }
 
-@media screen and (max-height:600px){
+@media screen and (max-height:650px){
     .container{
         height: 90vh;
         margin-top: 4vh;
@@ -169,6 +214,6 @@ img{
 
 @media screen and (max-height:450px){
     .container-2{
-        overflow: auto;
+        overflow:auto;
     }
 }
