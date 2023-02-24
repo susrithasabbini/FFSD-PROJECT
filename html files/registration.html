@@ -10,6 +10,7 @@
   <link href="/styles/login.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gloock">
   <script src="/scripts/registration.js" defer></script>
+  <script src="https://kit.fontawesome.com/dd74aaab55.js" crossorigin="anonymous" defer></script>
 </head>
 
 <body>
@@ -73,76 +74,82 @@
 
   <div class="container-2">
 
-    <h1 id="logo" class="mb-4">Hungrezy</h1>
+    <h1 id="logo" class="mb-5 mt-3">Hungrezy</h1>
 
     <div class="container-3">
 
-
         <form action="#" class="" id="regForm">
 
-          <img src="/images/Login_avatar.svg" alt="" id="avatar">
-          <h2>Register</h2>
+         
+          <h2><i class="fa-solid fa-user fa-sm me-2"></i>Register</h2>
 
             <div class="tab">
-    
-                <div class="form-floating mb-3 mt-3">
+
+                <div class="form-floating mb-4 mt-4">
                     
-                    <input type="text" class="form-control" id="fname" placeholder="Enter fullname" name="fname" required>
+                    <input type="text" class="form-control" id="fname" placeholder="Enter fullname" name="fname" onkeyup="nameValidation()">
                     <label for="fname" class="form-label">Full Name</label>
-                   
+                    <span class="error ms-1" id="nameError"></span>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                     
-                    <input type="tel" class="form-control" id="mnum" placeholder="Enter Mobile Number" name="mnum" required>
-                    <label for="mnum" class="form-label">Mobile Number</label>
-                   
+                    <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter Mobile Number" name="mobileNumber" onkeyup="mobileNumberValidation()">
+                    <label for="mobileNumber" class="form-label">Mobile Number</label>
+                    <span class="error ms-1" id="mobileNumberError"></span>
                 </div>
-                <div class="mb-3 mt-3">
+                <div class="mb-4">
                     
                     
-                    <select class="form-select" id="gen" name="gen" style="height: 60px;" required>
-                        <option>--Select Gender--</option>
+                    <select class="form-select" id="gender" name="gender" style="height: 60px;" onchange="genderValidation()">
+                        <option value="0">--Select Gender--</option>
                         <option>Male</option>
                         <option>Female</option>
                         <option>Other</option>
                       </select>
-                     
+                      <span class="error ms-1" id="genderError"></span>
                 </div>
     
             </div>
     
             <div class="tab">
     
-                <div class="form-floating mb-3 mt-3">
+                <div class="form-floating mb-4 mt-4">
                     
-                    <input type="email" class="form-control" id="uemail" placeholder="Enter email" name="uemail" required>
-                    <label for="uemail" class="form-label">Email</label>
-                   
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" onkeyup="emailValidation()">
+                    <label for="email" class="form-label">Email</label>
+                    <span class="error ms-1" id="emailError"></span>
                 </div>
     
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                    
-                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
-                    <label for="pwd" class="form-label">Password</label>
-                   
+                    <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" onkeyup="passwordValidation()">
+                    <label for="password" class="form-label">Password</label>
+                    <span class="error ms-1" id="passwordError"></span>
                 </div>
                
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                     
-                    <input type="password" class="form-control" id="cpwd" placeholder="Confirm password" name="cpswd" required>
-                    <label for="cpwd" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="cpassword" placeholder="Confirm password" name="cpassword" onkeyup="confirmPassword()">
+                    <label for="cpassword" class="form-label">Confirm Password</label>
                    
                 </div>
     
             </div>
     
             <div class="tab">
-    
+                
                 <div class="form-floating mb-3 mt-3">
                     
                     <textarea type="Address" class="form-control" id="addr" placeholder="Address"></textarea>
                     <label for="addr" class="form-label">Address</label>
                 </div>
+
+                <div class="form-floating mb-3">
+                    
+                  <input type="text" class="form-control" id="pincode" placeholder="Pincode" name="pincode">
+                  <label for="pincode" class="form-label">Pincode</label>
+                 
+              </div>
     
                 <div class="mb-3">
                    
