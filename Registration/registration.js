@@ -154,7 +154,7 @@ function emailValidation(){
         emailValidateMessage.innerText="Email Can't be Empty!";
         return false;
     }
-    else if(!email.match(/^[A-Za-z]{1}[A-Za-z0-9]*[@][A-Za-z]*[.][A-Za-z]*$/)){
+    else if(!email.match(/^[A-Za-z]{1}[A-Za-z0-9.]*[@][A-Za-z]*[.][A-Za-z]*$/)){
         emailValidateMessage.innerText="Invalid Email";
         return false;
     }
@@ -176,10 +176,6 @@ function passwordValidation(){
         passwordMsg.innerText="password cannot be empty";
         return false;
     }
-    else if(password.length<6){
-        passwordMsg.innerText="password should contain atleast 6 characters";
-        return false;
-    }
     else if(!password.match(/(?=.*[A-Z])/)){
         passwordMsg.innerText="password should contain atleast 1 uppercase";
         return false;
@@ -194,6 +190,10 @@ function passwordValidation(){
     }
     else if(!password.match(/(?=.*\d)/)){
         passwordMsg.innerText="password should contain atleast 1 digit";
+        return false;
+    }
+    else if(password.length<6){
+        passwordMsg.innerText="password should contain atleast 6 characters";
         return false;
     }
     else{
@@ -219,3 +219,13 @@ function confirmPassword(){
         return true;
     }
 }
+
+const container = document.querySelector(".container");
+const preloader = document.querySelector(".preloader");
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    container.style.display="flex";
+    preloader.style.display = "none";
+  }, 2000);
+});

@@ -53,3 +53,13 @@ loginForm.addEventListener('submit',(e)=>{
     if(!mobileNumberValidation() || !passwordValidation())
     e.preventDefault();
 });
+
+const container = document.querySelector(".container");
+const preloader = document.querySelector(".preloader");
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    container.style.display="flex";
+    preloader.style.display = "none";
+  }, 2000);
+});
