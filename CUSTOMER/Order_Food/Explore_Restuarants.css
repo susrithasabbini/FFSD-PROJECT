@@ -1,0 +1,207 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    padding: 2rem;
+}
+
+/* -----------search bar and sort select--------------*/
+.search{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+}
+
+#sort{
+    width: 15%;
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form{
+    position: relative;
+    width: 75%;
+}
+
+.form .fa-search{
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.form span{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.left-pan i{
+   padding-left: 10px;
+}
+
+.form-input{
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus{
+    box-shadow: none;
+}
+
+.form-select:focus{
+    box-shadow: none;
+}
+/* -----------search bar and sort select--------------*/
+
+
+
+/* -----------filter buttons--------------*/
+.filter .btn{
+    margin-right: 10px; 
+}
+
+.filters{
+    border: 1px solid gray;
+    color: gray;
+}
+
+
+.selected{
+    background-color:  #E38B29;
+    color: white;
+}
+
+.selected:hover{
+    background-color:  #E38B29;
+    color: white;
+}
+
+
+.filters:hover{
+    border: 1px solid gray;
+    color: gray;
+    background-color: none;
+}
+
+.fm{
+    display: none;
+}
+/* -----------filter buttons--------------*/
+
+
+
+/* -----------food items swiper--------------*/
+
+.slide-container{
+    padding: 3rem;
+    max-width: 1250px;
+  
+}
+
+.swiper-slide .card-title{
+    text-align: center;
+}
+
+.swiper-slide img{
+    border-radius: 50%;
+}
+
+.slide-content{
+    padding: 10px;
+    overflow: hidden;
+   
+}
+
+.btn-swipe{
+    color:  #f5c58e;
+    transition: color 0.3s ease;
+}
+
+.btn-swipe:hover{
+    color: #f68505;
+}
+/* -----------food items swiper--------------*/
+
+
+/* -----------Restuarant grid--------------*/
+
+.restuarant-data{
+    display: flex;
+    flex-direction: column;
+}
+
+.data .badge:first-child{
+    font-size: 15px;
+}
+
+.data .badge:not(:first-child){
+    background-color: rgb(233, 230, 230);
+    color: gray;
+    font-size:small;
+}
+
+.data{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    border: 0;
+    cursor: pointer;
+}
+
+.restuarants-wrapper .card:hover{
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   
+}
+
+.offers{
+    width: fit-content;
+    background-color:  #E38B29;
+    color: white;
+    padding: 2px;
+}
+
+.swiper-wrapper .card{
+   width: fit-content;
+}
+
+.restuarants-wrapper{
+    width: fit-content;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto;   
+    gap: 50px;
+}
+/* -----------Restuarant grid--------------*/
+
+
+
+/* -----------Media queries--------------*/
+@media screen and (max-width : 1000px) {
+    .restuarants-wrapper{
+        grid-template-columns: auto auto; 
+    }
+   
+}
+
+@media screen and (max-width : 600px) {
+    .restuarants-wrapper{
+        grid-template-columns: auto; 
+    }
+}
+
+/* -----------Media queries--------------*/
