@@ -1,0 +1,71 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-sub{
+   
+    border-bottom: 1px dotted gray;
+    border-top: 1px dotted gray;
+}
+
+.menu-sub h6{
+    display: inline-block;
+    margin: 20px;
+}
+
+.menu-header h1{
+    color: #E38B29;
+}
+
+.menu-header span{
+    color: gray;
+}
+
+.menu-header, .menu-container{
+    width: 60vw;
+    margin: auto;
+}
+
+.card{
+    border: none;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+}
+
+.fooditem-data{
+    width: 60%;
+    padding: 0px 30px;
+}
+
+.food-description{
+    color: gray;
+}
+
+.drop i{
+    cursor: pointer;
+}
+
+.nonveg{
+    color: red;
+}
+
+.veg{
+    color: green;
+}
+
+.add{
+    width: 100px;
+    height: 40px;
+    margin-top: 50px;
+    background-color: #E38B29;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
