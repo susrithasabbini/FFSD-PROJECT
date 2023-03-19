@@ -13,9 +13,23 @@
     padding: 0px;
     margin: 0px;
     scroll-behavior: smooth;
+    display: flex;
+    flex-direction: row;
+}
+
+.container-2{
+    min-width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    scroll-snap-type: both mandatory;
+    padding: 0px;
+    margin: 0px;
+    scroll-behavior: smooth;
+   
 }
 
 .container section{
+    flex: none;
     width: 100vw;
     height: 100vh;
     scroll-snap-align: start;
@@ -39,23 +53,27 @@
 }
 
 
-.intro-text button{
-    width: 150px;
-    color: #fbd608;
+
+
+.intro-text a{
+    color: #E38B29;
     margin: auto;
-    border: 2px solid  #fbd608;
-    padding: 10px;
+    border: 2px solid  #E38B29;
+    padding: 15px;
     background: transparent;
     transition: all 0.5s ease;
+    text-decoration: none;
+    font-size: large;
+    border-radius: 5px;
 }
 
-.intro-text button:hover{
-   background-color: #fbd608;
+.intro-text a:hover{
+   background-color: #E38B29;
    color: white;
 }
 
 .intro-text h1{
-    color: #fbd608;
+    color: #E38B29;
     font-size: 120px;
 }
 
@@ -64,7 +82,7 @@
     height: 100vh;
     margin: auto;
     padding-top: 25vh;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(15px);
     text-align: center;
 }
 
@@ -78,3 +96,137 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+  .container-2::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .container-2 {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+
+
+
+.food-card{
+    width: 400px;
+    height: 500px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 10px solid white;
+    overflow: hidden;
+}
+
+.food-content:hover{
+    backdrop-filter: blur(3px);
+}
+
+.middle{
+    transition: .5s ease-in;
+    position: absolute;
+    top: 122%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+
+.food-card:hover .middle,.middle-2{
+    top: 50%;
+}
+
+
+.food-content{ 
+   width: 100%;
+   height: 100%;
+   margin: auto;
+   padding: 20px;
+   text-align: center;
+   padding-top: 20vh;
+   color: white;
+   font-weight: bold;
+}
+
+.food-content p{
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.fc2 .food-content p{
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.food-content button{
+    width: 120px;
+    height: 40px;
+    border: none;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.food-content button:hover{
+   background-color: #E38B29;
+   color: white;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slide-container{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.slide-content{
+    overflow: hidden;
+    padding: 30px;
+}
+
+.btn-swipe{
+   color: #E38B29;
+}
+
+.swiper-pagination{
+    color: #E38B29;
+}
+
+.heading{
+    color: #E38B29;
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+#one{
+    overflow-y: scroll;
+}
+
+.recipes-wrapper{
+    width: fit-content;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;   
+    column-gap: 20px;
+    row-gap: 50px;
+}
+
+.fc2{
+    width: 250px;
+    height: 300px;
+}
+
+.fc2 .food-content{
+    padding: 0;
+    padding-top: 20px;
+}
