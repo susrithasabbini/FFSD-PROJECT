@@ -86,20 +86,22 @@ const Menu = [
 app.get('/', function (req, res) {
     const pageTitle = "Hungrezy";
     res.render('pages/index',{pageTitle : pageTitle});
-
 });
 
 app.get('/Restuarants', function (req, res) {
     const pageTitle = "Restuarants";
     res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : restuarants,pageTitle : pageTitle});
-
 });
 
 
 app.get('/Menu', function (req, res) {
     const pageTitle = "Menu";
     res.render('pages/Restuarant_Menu',{Restuarant: restuarants[0],recomended : recomended,Menu : Menu});
+});
 
+app.get('/Recipes', function (req, res) {
+    const pageTitle = "Recipes";
+    res.render('pages/Food_Recipes');
 });
 
 app.get("/magic", function (req, res) {
