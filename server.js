@@ -19,28 +19,28 @@ const foodItems=[
     {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani"},
     {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza"},
     {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken"},
-    {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls"},
-    {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes"},
-    {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice"},
-    {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali"},
-    {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger"},
-    {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream"}
+    {image:"/CUSTOMER/Order_Food/images/rolls.jpeg",name:"Rolls"},
+    {image:"/CUSTOMER/Order_Food/images/cakes.jpeg",name:"Cakes"},
+    {image:"/CUSTOMER/Order_Food/images/friedrice.jpeg",name:"Fried Rice"},
+    {image:"/CUSTOMER/Order_Food/images/thali.jpeg",name:"Thali"},
+    {image:"/CUSTOMER/Order_Food/images/burger.jpeg",name:"Burger"},
+    {image:"/CUSTOMER/Order_Food/images/icecream.jpeg",name:"Ice Cream"}
 ]
 //<------------------------------temparory static data for food items----------------------------------------------------->
 //<------------------------------temporary static data for restuarants----------------------------------------------------->
 const restuarants=[
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one",location:"Sricity"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
-  {image:"/Login/images/login_image_2.png",name:"Hotel Hungrezy",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one"},
+  {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Rajadhani",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one",location:"Sricity",offer:"30%"},
+  {image:"/CUSTOMER/Order_Food/images/chickenshawarma.jpeg",name:"Hotel MG Grand",type:"Biryani, Chinese ,Fast Food",rating:"4.8",time:"21 MIN",cost:"Rs200 for one",location:"Chennai",offer:"20%"},
+  {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Abhiruchi",type:"Biryani, Chinese ,Fast Food",rating:"4.6",time:"19 MIN",cost:"Rs300 for one",location:"Tada",offer:"25%"},
+  {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Manasa",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"18 MIN",cost:"Rs190 for one",location:"Sullurpeta",offer:"35%"},
+  {image:"/CUSTOMER/Order_Food/images/fishfry.jpeg",name:"The Indian Grill",type:"Biryani, Chinese ,Fast Food",rating:"4",time:"17 MIN",cost:"Rs320 for one",location:"Akkampeta",offer:"10%"},
+  {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Paradise",type:"Biryani, Chinese ,Fast Food",rating:"3.8",time:"27 MIN",cost:"Rs176 for one",location:"Gummadipundi",offer:"25%"},
+  {image:"/CUSTOMER/Order_Food/images/chickenshawarma.jpeg",name:"Hotel Bawarchi",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"31 MIN",cost:"Rs450 for one",location:"Ponneri",offer:"20%"},
+  {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Platform 65",type:"Biryani, Chinese ,Fast Food",rating:"3.9",time:"35 MIN",cost:"Rs210 for one",location:"Arambakam",offer:"29%"},
+  {image:"/CUSTOMER/Order_Food/images/chickenmandibiriyani.jpeg",name:"Hotel Sweet Magic",type:"Biryani, Chinese ,Fast Food",rating:"4.9",time:"16 MIN",cost:"Rs199 for one",location:"Tirupati",offer:"32%"},
+  {image:"/CUSTOMER/Order_Food/images/fishfry.jpeg",name:"Hotel 7 Hills",type:"Biryani, Chinese ,Fast Food",rating:"4.2",time:"41 MIN",cost:"Rs299 for one",location:"Kalahasti",offer:"25%"},
+  {image:"/CUSTOMER/Order_Food/images/chickentandoori.jpeg",name:"Hotel Spice Gardens",type:"Biryani, Chinese ,Fast Food",rating:"4",time:"23 MIN",cost:"Rs399 for one",location:"Gudur",offer:"32%"},
+  {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Swarnamukhi",type:"Biryani, Chinese ,Fast Food",rating:"4.2",time:"51 MIN",cost:"Rs1000 for one",location:"Naidupeta",offer:"29%"},
 ]
 
 const recomended = [
