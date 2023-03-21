@@ -2,12 +2,25 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+*::-webkit-scrollbar {
+    display: none;
+  }
+
+body{
+    background-color: #FFD8A9;
+
+}
+
 
 .head-container{
     position: relative;
     width: 100vw;
     height: 70vh;
+    margin-top: 5rem;
 }
 
 .head-container img{
@@ -25,6 +38,7 @@
     background-color: white;
     border-radius: 20px;
     border: 3px double #E38B29;
+    background: #FDEEDC;
    
 }
 

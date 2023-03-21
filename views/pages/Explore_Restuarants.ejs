@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Restuarants</title>
     <link rel="icon" href="/CUSTOMER/images/icon.png">
+    <link rel="stylesheet" href="/CUSTOMER/navbar.css">
+
+   
 
     <!-- Bootsrap cdn links-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +27,8 @@
     
 </head>
 <body>
+
+    <%- include('../partials/navbar.ejs') %>
 <!-------------search bar and sort selection---------------------------------------->
     <div class="search">
 
@@ -93,7 +98,7 @@
 
                 <div class="card" style="width:300px;">
                     <div class="card-body">
-                        <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="150px">
+                        <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
                         <div class="card-img-overlay">
                              <p class="offers">Flat <%=restuarant.offer%> OFF</p>
                          </div>
