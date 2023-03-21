@@ -6,6 +6,7 @@
 
 body{
     padding: 2rem;
+    background-color: #FFD8A9;
 }
 
 /* -----------search bar and sort select--------------*/
@@ -13,6 +14,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content:flex-start;
+    margin-top: 6rem;
 }
 
 #sort{
@@ -54,14 +56,23 @@ body{
     height: 55px;
     text-indent: 33px;
     border-radius: 10px;
+    background-color:  #FDEEDC;
+    border:1px solid #E38B29;
 }
 
 .form-input:focus{
     box-shadow: none;
+    background-color:  #FDEEDC;
 }
 
 .form-select:focus{
     box-shadow: none;
+    background-color:  #FDEEDC;
+}
+.form-select{
+    box-shadow: none;
+    background-color:  #FDEEDC;
+    border:1px solid #E38B29;
 }
 /* -----------search bar and sort select--------------*/
 
@@ -69,7 +80,8 @@ body{
 
 /* -----------filter buttons--------------*/
 .filter .btn{
-    margin-right: 10px; 
+    margin-right: 10px;
+    
 }
 
 .filters{
@@ -118,6 +130,10 @@ body{
     border-radius: 50%;
 }
 
+#sw .card{
+    background-color:#FFD8A9;
+}
+
 .slide-content{
     padding: 10px;
     overflow: hidden;
@@ -160,6 +176,7 @@ body{
 .card{
     border: 0;
     cursor: pointer;
+    background-color:  #FDEEDC;
 }
 
 .restuarants-wrapper .card:hover{

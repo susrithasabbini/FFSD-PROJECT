@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=foodItem.name%> Recipe</title>
+    <link rel="icon" href="/CUSTOMER/images/icon.png">
+
+    <link rel="stylesheet" href="/CUSTOMER/navbar.css">
+
+    <!-- Bootsrap cdn links-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- font-awesome cdn link-->
+    <script src="https://kit.fontawesome.com/dd74aaab55.js" crossorigin="anonymous" defer></script>
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="/CUSTOMER/Order_Food/View_Recipe.css">
+</head>
+<body>
+
+    <%- include('../partials/navbar.ejs') %>
+        <div class="head-container">
+            <img src="<%=foodItem.image%>" alt="Food Image">
+            <div class="sub-head">
+                <div class="food-title"><h1><strong><%=foodItem.name%></strong></h1></div>
+                <p><%=foodItem.description%></p>
+            </div>
+        </div>
+
+        <div class="recipe-container">
+            <div class="recipe-info">
+                <h3 class="ms-5"><strong>Quick Info : </strong></h3>
+                <pre>
+                    PREP TIME  : 15 mins
+                    COOK TIME  : 40 mins
+                    MARINATING : 6 hrs
+                    TOTAL TIME : 6 hrs 55 mins
+                    SERVINGS   : 4 to 6 servings
+                </pre>
+            </div>
+            <div class="ingredients">
+                <h3 class="ms-5"><strong>Ingredients : </strong></h3>
+                <pre>
+                    3 tablespoons vegetable oil
+                    1 teaspoon ground coriander
+                    1 teaspoon ground cumin
+                    1 teaspoon ground turmeric
+                    1 teaspoon cayenne
+                    1 tablespoon garam masala
+                    1 tablespoon sweet (not hot) paprika
+                    1 cup plain yogurt (can sub buttermilk)
+                    2 tablespoons lemon juice
+                    4 garlic cloves, minced
+                    2 tablespoons minced fresh ginger
+                    1 teaspoon salt
+                    4 whole chicken leg quarters (drumsticks and thighs), skinless, bone-in
+                </pre>
+            </div>
+            <div class="procedure">
+                <h3 class="ms-5"><strong>Food Recipe : </strong></h3>
+                <p>
+                    Heat the spices in oil:
+                    Heat the oil in a small pan over medium heat, then cook the coriander, cumin, turmeric, cayenne, garam masala and paprika, stirring often, until fragrant (approximately 2-3 minutes). Let cool completely.
+                    
+                    Whisk spices into yogurt, add lemon juice, garlic, salt, ginger:
+                    Whisk the cooled spice-oil mixture into the yogurt, then mix in the lemon juice, garlic, salt and ginger.
+                    
+                    Cut deep slashes into chicken, coat with marinade, chill:
+                    Cut deep slashes (to the bone) in 3-4 places on the leg/thigh pieces. Just make 2-3 cuts if you are using separate drumsticks and thighs. Coat the chicken in the marinade, cover and chill for at least an hour (preferably 6 hours), no more than 8 hours.
+                    <br><br>
+                    Prepare grill:
+                    Prepare your grill so that one side is quite hot over direct heat, the other side cooler, not over direct heat. If using charcoal, leave one side of the grill without coals, so you have a hot side and a cooler side. If you are using a gas grill, just turn on one-half of the burners.
+                    Use tongs to wipe the grill grates with a paper towel soaked in vegetable oil.
+                    
+                    Shake off excess marinade, place chicken on hot side of grill:
+                    Take the chicken out of the marinade and shake off the excess. You want the chicken coated, but not gloppy.
+                    Put the chicken pieces on the hot side of the grill and cover. Cook 2-3 minutes before checking.
+                    Turn the chicken so it is brown (even a little bit charred) on all sides
+                    <br><br>
+                    Move to cool side of grill, cover and cook:
+                    Move chicken to the cool side of the grill. Cover and cook for at least 20 minutes, up to 40 minutes (or longer) depending on the size of the chicken and the temperature of the grill. The chicken is done when its juices run clear.
+                    Let it rest for at least 5 minutes before serving. It's also great at room temperature or even cold the next day.
+                    Serve with naan, and Indian flatbread, or with Indian style rice, with yogurt-based raita on the side.
+                    
+                </p>
+            </div>
+        </div>
+</body>
+</html>

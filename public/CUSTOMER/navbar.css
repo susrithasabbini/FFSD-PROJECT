@@ -6,6 +6,11 @@
     color: #444;
 }
 
+*::-webkit-scrollbar {
+    display: none;
+  }
+
+
 *,
 *::after,
 *::before {
@@ -15,7 +20,7 @@
 }
 
 html {
-    font-size: 62.5%;
+    
     position: relative;
     box-sizing: border-box;
     height: 100%;
@@ -23,8 +28,8 @@ html {
 
 body {
     font-family: "Ubuntu", sans-serif;
-    font-size: 1.6rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 300;
     background-color: #FFD8A9;
     color: #1f1f1f;
     position: relative;
@@ -51,17 +56,18 @@ body {
     left: 0;
     right: 0;
     padding: 1rem 7%;
-    height: 8rem;
+    height: 5rem;
     background: #FDEEDC;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    
 }
 
 .logo {
-    font-size: 3.6rem;
+    font-size: 3rem;
     font-weight: 700;
 }
 
@@ -81,11 +87,11 @@ body {
     border-color: #E38B29;
 }
 
-.btn {
+.login-btn {
     display: inline-block;
     color: black;
-    background-color: #F1A661;
-    padding: 3rem;
+   
+    padding: 2rem;
     border-radius: 0.5rem;
     transition: all 0.2s linear;
 }

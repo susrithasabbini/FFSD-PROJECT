@@ -1,0 +1,48 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.swiper-slide img{
+    width: 100vw;
+    height: 100vh;
+   
+}
+
+.container-1{
+    position: relative;
+}
+
+.donatebtn{
+    position: absolute;
+    width: 250px;
+    height: 80px;
+    background-color: white;
+    color: #E38B29;
+    z-index: 10;
+    top: 83vh;
+    left: 42vw;
+    border-radius: 10px;
+    transition: transform 0.5s ease;
+}
+
+.donatebtn a{
+    left: 0;
+    top:0;
+    position: absolute;
+    text-decoration: none;
+    color: inherit;
+    font-size: 30px;
+    font-weight: bolder;
+    padding: 30px;
+    padding-top: 15px; 
+}
+
+.donatebtn:hover{
+    transform: scale(1.1,1.1);
+}
+
+
+
+
