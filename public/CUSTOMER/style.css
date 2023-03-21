@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
 
+
+:root {
+  --page-margin: min(2rem, 5vw);
+  color: #444;
+}
+
 *,
 *::after,
 *::before {
@@ -10,7 +16,9 @@
 
 html {
   font-size: 62.5%;
+  position: relative;
   box-sizing: border-box;
+  height: 100%;
 }
 
 body {
@@ -19,6 +27,8 @@ body {
   font-weight: 400;
   background-color: #FFD8A9;
   color: #1f1f1f;
+  position: relative;
+  height: 100%;
 }
 
 a {
@@ -28,10 +38,6 @@ a {
 
 li {
   list-style: none;
-}
-
-img {
-  height: 100%;
 }
 
 section {
@@ -60,6 +66,10 @@ section {
 .logo {
   font-size: 3.6rem;
   font-weight: 700;
+}
+
+.navbar {
+  margin-left: 650px;
 }
 
 .navbar a {
@@ -122,7 +132,7 @@ section {
     width: 90%;
     padding: 2.5rem;
     margin: 0 auto;
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     background-color: #FDEEDC;
     text-align: center;
     border-radius: 1.5rem;
@@ -143,6 +153,9 @@ section {
   .navbar.show {
     top: 9rem;
   }
+  .swiper {
+    width: 100px;
+  }
 }
 
 .preloader {
@@ -161,4 +174,145 @@ section {
 .preloader img {
   width: 40rem;
   height: 40rem;
+}
+
+.swiper {
+  margin-top: 100px;
+  height: 200px;
+  width: 600px;
+}
+
+.swiper-slide {
+  text-align: center;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+div.swiper-slide {
+  background-color: #FDEEDC;
+  padding: 40px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 50%;
+  border: 2px solid #F1A661;
+  color: #E38B29;
+}
+
+img.swiper-slide {
+  margin-top: -10px;
+  padding-bottom: 10px;
+}
+
+.swiper-slide:nth-child(2n) {
+  width: 100px;
+  height: 100px;
+}
+
+.swiper-slide:nth-child(n) {
+  width: 100px;
+  height: 100px;
+}
+
+
+.flip-card {
+  border-radius: 30px;
+  width: 300px;
+  height: 300px;
+  background-color: #FDEEDC;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  border-radius: 30px;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+/* .flip-card-front {
+  background-color: #FDEEDC;
+  color: black;
+  padding: 40px;
+} */
+
+.flip-card-front img {
+  width: 100%;
+  height: auto;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+}
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.scroll {
+  display: grid;
+  grid-template-columns: var(--page-margin) [center-start] 1fr [center-end] var(--page-margin);
+}
+
+.scroll > * {
+  grid-column: center;
+}
+
+.flip-wrapper {
+  grid-column: center-start / -1;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  padding-right: var(--page-margin);
+  overflow: auto;
+}
+
+.flip-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.flip-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.checked {
+  color: orange;
+}
+
+h4 {
+  padding: 10px;
+}
+
+h3 {
+  padding: 10px;
+}
+
+.addcart {
+  background-color: #F1A661;
+  padding: 10px;
+  width: 200px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
 }
