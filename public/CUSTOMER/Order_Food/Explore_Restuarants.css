@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
 *{
     padding: 0;
     margin: 0;
@@ -7,6 +9,7 @@
 body{
     padding: 2rem;
     background-color: #FFD8A9;
+    font-family: "Ubuntu", sans-serif;
 }
 
 /* -----------search bar and sort select--------------*/
@@ -71,7 +74,7 @@ body{
 }
 .form-select{
     box-shadow: none;
-    background-color:  #FDEEDC;
+    background-color: #FDEEDC;
     border:1px solid #E38B29;
 }
 /* -----------search bar and sort select--------------*/
@@ -81,10 +84,11 @@ body{
 /* -----------filter buttons--------------*/
 .filter .btn{
     margin-right: 10px;
-    
+    background-color: #FDEEDC;
 }
 
 .filters{
+    background-color: #FDEEDC;
     border: 1px solid gray;
     color: gray;
 }
@@ -118,8 +122,8 @@ body{
 
 .slide-container{
     padding: 3rem;
+    background-color: #F1A661;
     max-width: 1250px;
-  
 }
 
 .swiper-slide .card-title{
@@ -130,8 +134,13 @@ body{
     border-radius: 50%;
 }
 
+.h2 {
+    color: #E38B29;
+    padding: 20px;
+}
+
 #sw .card{
-    background-color:#FFD8A9;
+    background-color: #F1A661;
 }
 
 .slide-content{

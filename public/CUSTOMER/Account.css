@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
 *{
     box-sizing: border-box;
     margin: 0;
@@ -7,6 +9,7 @@
 
 body{
     background-color: #FFD8A9;
+    font-family: "Ubuntu", sans-serif;
 }
 
 .container-1{
@@ -54,10 +57,14 @@ body{
 .fc1{
     width: 40%;
     display: inline-block;
+    background-color: #FFD8A9;
 }
+
 .fc2{
     width: 85%;
+    background-color: #FFD8A9;
 }
+
 .form-control{
     margin: 10px;
     margin-top: 20px;

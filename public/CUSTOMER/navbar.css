@@ -285,3 +285,7 @@ body {
 .cart-wrap.open-cart{
     max-height: 1000vh;
 }
+
+.login-btn {
+    background-color: #F1A661;
+}
