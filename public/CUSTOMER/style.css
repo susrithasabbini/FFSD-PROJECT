@@ -1,164 +1,136 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
-
-*,
-*::after,
-*::before {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
+.swiper {
+  margin-top: 100px;
+  height: 200px;
+  width: 600px;
 }
 
-html {
-  font-size: 62.5%;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Ubuntu", sans-serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  background-color: #FFD8A9;
-  color: #1f1f1f;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-li {
-  list-style: none;
-}
-
-img {
-  height: 100%;
-}
-
-section {
-  padding: 2rem 9%;
-}
-
-.theme {
-  color: #E38B29;
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem 7%;
-  height: 8rem;
-  background: #FDEEDC;
-  display: flex;
-  align-items: center;
+.swiper-slide {
+  text-align: center;
+  display: inline-flex;
   justify-content: space-between;
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.logo {
-  font-size: 3.6rem;
-  font-weight: 700;
-}
-
-.navbar a {
-  font-weight: 500;
-  transition: all 0.2s linear;
-  padding: 1rem;
-  border-bottom: 2px solid transparent;
-}
-
-.navbar a:not(:last-child) {
-  margin-right: 1rem;
-}
-
-.navbar a:not(:last-child):hover {
+div.swiper-slide {
+  background-color: #FDEEDC;
+  padding: 40px;
+  border-radius: 50%;
+  border: 2px solid #F1A661;
   color: #E38B29;
-  border-color: #E38B29;
 }
 
-.btn {
-  display: inline-block;
+img.swiper-slide {
+  margin-top: -10px;
+  padding-bottom: 10px;
+}
+
+.swiper-slide:nth-child(2n) {
+  width: 100px;
+  height: 100px;
+}
+
+.swiper-slide:nth-child(n) {
+  width: 100px;
+  height: 100px;
+}
+
+
+.flip-card {
+  border-radius: 30px;
+  width: 300px;
+  height: 300px;
+  background-color: #FDEEDC;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  border-radius: 30px;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+/* .flip-card-front {
+  background-color: #FDEEDC;
   color: black;
-  background-color: #F1A661;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s linear;
+  padding: 40px;
+} */
+
+.flip-card-front img {
+  width: 100%;
+  height: auto;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
 }
 
-.btn:hover {
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
 }
 
-.header .hamburger img {
-  width: 3rem;
+.scroll {
+  display: grid;
+  grid-template-columns: var(--page-margin) [center-start] 1fr [center-end] var(--page-margin);
 }
 
-.header .hamburger {
+.scroll > * {
+  grid-column: center;
+}
+
+.flip-wrapper {
+  grid-column: center-start / -1;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  padding-right: var(--page-margin);
+  overflow: auto;
+}
+
+.flip-wrapper::-webkit-scrollbar {
   display: none;
 }
 
-@media (max-width: 996px) {
-  .logo {
-    font-size: 3rem;
-  }
-
-  .navbar a {
-    padding: 0.5rem;
-  }
-
-  .navbar a:not(:last-child) {
-    margin-right: 0.5rem;
-  }
+.flip-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@media (max-width: 650px) {
-  .header .navbar {
-    position: fixed;
-    /* top: 9rem; */
-    left: 0;
-    right: 0;
-    width: 90%;
-    padding: 2.5rem;
-    margin: 0 auto;
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-    background-color: #FDEEDC;
-    text-align: center;
-    border-radius: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    transition: 0.4s;
-    top: -100%;
-  }
-
-  .header .navbar a:last-child {
-    display: none;
-  }
-
-  .header .hamburger {
-    display: block;
-  }
-
-  .navbar.show {
-    top: 9rem;
-  }
+.checked {
+  color: orange;
 }
 
-.preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000000;
+.item-name {
+  padding: 10px;
 }
 
-.preloader img {
-  width: 40rem;
-  height: 40rem;
+.item-cost {
+  padding: 10px;
+}
+
+.addcart {
+  background-color: #F1A661;
+  padding: 10px;
+  width: 200px;
+  margin: 0 auto;
+  border-radius: 20px;
 }

@@ -1,13 +1,19 @@
 <%- include('../partials/head.ejs') %>
-<script src="/CUSTOMER/app.js" defer></script>
-</head>
+    </head>
 
-<body>
-    <div class="preloader">
-        <img src="/CUSTOMER/images/preloader.gif" alt="">
-    </div>
-    <div class="main">
-        <%- include('../partials/navbar.ejs') %>
-    </div>
-</body>
-</html>
+    <body>
+        <div class="preloader">
+            <img src="/CUSTOMER/images/preloader.gif" alt="">
+        </div>
+        <div class="main">
+            <%- include('../partials/navbar.ejs') %>
+            <%- include('../partials/swiper.ejs') %>
+            <%- include('../partials/flipcard.ejs') %>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+        <script src="CUSTOMER/customer.js"></script>
+        <script src="CUSTOMER/app.js"></script>
+    </body>
+
+    </html>
