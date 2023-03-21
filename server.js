@@ -117,11 +117,14 @@ app.get('/', function (req, res) {
     res.render('pages/index',{pageTitle : pageTitle});
 });
 
-app.get('/Restuarants', function (req, res) {
-    const pageTitle = "Restuarants";
+app.get('/Restaurants', function (req, res) {
+    const pageTitle = "Restaurants";
     res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : restuarants,pageTitle : pageTitle});
 });
 
+app.get('/login', function(req, res) {
+    res.sendFile(__dirname + "/public/Login/login.html");
+});
 
 app.get('/Menu', function (req, res) {
     const pageTitle = "Menu";
@@ -135,6 +138,4 @@ app.get('/Recipes', function (req, res) {
 
 app.get("/magic", function (req, res) {
     res.render("magic");
-  });
-
-
+});

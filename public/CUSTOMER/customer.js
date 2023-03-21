@@ -31,3 +31,14 @@ const addcart = document.querySelector(".addcart");
 addcart.addEventListener("click", () => {
   alert("hi");
 });
+
+let submenu = document.getElementById("submenu");
+let cart = document.getElementById("cart");
+
+function toggleMenu() {
+  submenu.classList.toggle("open-menu");
+}
+
+function openNav() {
+  cart.classList.toggle("open-cart");
+}
