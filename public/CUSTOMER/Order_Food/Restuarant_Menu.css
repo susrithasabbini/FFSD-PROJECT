@@ -24,7 +24,7 @@
 }
 
 .menu-header, .menu-container{
-    width: 60vw;
+    width: 50vw;
     margin: auto;
 }
 
@@ -68,4 +68,57 @@
     border: none;
     border-radius: 5px;
 }
+
+.add i{
+    display: none;
+    color: white;
+    padding: 5px;
+    z-index: 1;
+}
+
+.add p{
+    display: inline;
+}
+
+#cart-message{
+    width: 50vw;
+    margin: auto;
+    height: 60px;
+    background-color:#E38B29;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 90%;
+    display: none;
+    cursor: pointer;
+}
+
+#cart-message h4{
+    display: inline-block;
+    width: 80%;
+    color: white;
+}
+
+#cart-message h5{
+    display: inline;
+    color: white;
+}
+
+.modal-title{
+    color: #E38B29;
+}
+
+.modal-body{
+    height: 500px;
+    align-items: center;
+}
+.modal-body h5{
+    color: gainsboro;
+    text-align: center;
+    
+}
+
+
+
 

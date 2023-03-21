@@ -91,7 +91,7 @@ const chickenRecipes = [
 ]
 
 const tiffinRecipes = [
-    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
+    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa  is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
     {name : "Idli",image:"/CUSTOMER/Order_Food/images/idli.jpeg",description:"Idli is a soft, pillowy steamed savory cake made from fermented rice and lentil batter.It is naturally vegetarian, vegan, gluten-free and makes for one of the healthiest breakfast options served with Sambar and Coconut Chutney."},
     {name : "Chapathi",image:"/CUSTOMER/Order_Food/images/chapati.jpeg",description:"a round flat unleavened bread of India that is usually made of whole wheat flour and cooked on a griddle."},
     {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
@@ -107,6 +107,14 @@ const snacksRecipes = [
     {name : "Chat",image:"/CUSTOMER/Order_Food/images/chat.jpeg",description:"Aloo Chaat is a popular Indian street food snack made with potatoes, sweet sour spicy chutneys, sev and coriander leaves. Aloo is a Hindi word for potatoes"},
     {name : "Panipuri",image:"/CUSTOMER/Order_Food/images/panipuri.jpeg",description:"Panipuri consists of a round hollow puri (a deep-fried crisp flatbread), filled with a mixture of flavored water (known as imli pani), tamarind chutney, chili powder, chaat masala, potato mash, onion, or chickpeas."},
     
+]
+
+const banners = [
+    {image:"/Food_Donation/images/banner1.jpg"},
+    {image:"/Food_Donation/images/banner2.jpg"},
+    {image:"/Food_Donation/images/banner3.jpg"},
+    {image:"/Food_Donation/images/banner4.jpg"},
+    {image:"/Food_Donation/images/banner5.jpg"},
 ]
 
 // *** GET Routes - display pages ***
@@ -131,6 +139,21 @@ app.get('/Menu', function (req, res) {
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
     res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes});
+});
+
+app.get('/View_Recipe', function (req, res) {
+    const pageTitle = "Recipes";
+    res.render('pages/View_Recipe',{foodItem :chickenRecipes[1]});
+});
+
+app.get('/Account', function (req, res) {
+    const pageTitle = "Account";
+    res.render('pages/Account',);
+});
+
+app.get('/Donate_Food', function (req, res) {
+    const pageTitle = "Donate Food";
+    res.render('pages/Donate_Food',{banners : banners});
 });
 
 app.get("/magic", function (req, res) {

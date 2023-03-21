@@ -41,7 +41,7 @@
         <div class="mt-4 mb-4">
             
             <div class="drop">
-                <h4 data-bs-toggle="collapse" data-bs-target="#recomended" style="display: inline-block;width: 95%;">Recomended</h4>
+                <h5 data-bs-toggle="collapse" data-bs-target="#recomended" style="display: inline-block;width: 95%;">Recomended</h5>
                 <span  data-bs-toggle="collapse" data-bs-target="#recomended"><i class="fa-duotone fa-caret-down fa-lg"></i></span>
             </div>
 
@@ -62,7 +62,7 @@
                                 <p class="food-description"><%=food.description%></p>
                             </div>
                             
-                            <button class="add">Add</button>
+                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text"> Add </p><i class="fa-solid fa-plus"></i></button>
 
                         </div>
                     
@@ -78,7 +78,7 @@
             <div>
 
                 <div class="drop">
-                    <h4 data-bs-toggle="collapse" data-bs-target="#<%=category.categoryName%>" style="display: inline-block;width: 95%;"><%=category.categoryName%></h4>
+                    <h5 data-bs-toggle="collapse" data-bs-target="#<%=category.categoryName%>" style="display: inline-block;width: 95%;"><%=category.categoryName%></h5>
                     <span  data-bs-toggle="collapse" data-bs-target="#<%=category.categoryName%>"><i class="fa-duotone fa-caret-down fa-lg"></i></span>
                     <hr>
                 </div>
@@ -100,7 +100,7 @@
                                 <p class="food-description"><%=food.description%></p>
                             </div>
                             
-                            <button class="add">Add</button>
+                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text"> Add </p><i class="fa-solid fa-plus"></i></button>
 
                         </div>
                     
@@ -112,7 +112,88 @@
             </div>
         <%})%>
 
+        <div id="cart-message" data-bs-toggle="modal" data-bs-target="#cart">
+            <h4>Items added to cart!</h4>
+            <h5>View Cart &nbsp;<i class="fa-solid fa-arrow-right fa-lg"></i></h5>
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="cart">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title"><strong>Cart</strong></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <h5>Your cart is Empty!</h5>
+                    </div>
+            
+                    <!-- Modal footer -->
+                    <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div> -->
+            
+                </div>
+            </div>
+        </div>
+        
+
     </div>
+
+    <script>
+        var cartItems = 0;
+        const cartMessage = document.getElementById("cart-message");
+        const addstxt = document.querySelectorAll(".add-text");
+
+        addstxt.forEach((mid)=>{
+        mid.addEventListener('click',()=>{
+            var count = 1;
+            cartItems++;
+            const minus = mid.previousSibling;
+            mid.innerHTML = count;
+            const plus = mid.nextSibling;
+            minus.style.display="inline";
+            plus.style.display="inline";
+            minus.addEventListener('click',()=>{
+                
+            if(count>0){
+                count--;
+                cartItems--;
+            }
+            mid.innerHTML=count;
+            if(cartItems>0)cartMessage.style.display = "block";
+            else cartMessage.style.display = "none";
+            if(count<=0){
+                mid.innerHTML="Add"
+                minus.style.display="none";
+                plus.style.display="none";
+            }
+            else{
+            minus.style.display="inline";
+            plus.style.display="inline";
+            }
+            });
+            plus.addEventListener('click',()=>{
+                count++;
+                cartItems++;
+                mid.innerHTML=count
+                if(cartItems>0)cartMessage.style.display = "block";
+                else cartMessage.style.display = "none";
+            });
+            if(cartItems>0)cartMessage.style.display = "block";
+            else cartMessage.style.display = "none";
+            
+        });
+        });
+        
+        if(cartItems>0)cartMessage.style.display = "block";
+        else cartMessage.style.display = "none";
+    </script>
 
 </body>
 </html>
