@@ -212,6 +212,11 @@ body{
     grid-template-columns: auto auto auto;   
     gap: 50px;
 }
+
+.restuarants-wrapper a{
+    text-decoration: none;
+    color: black;
+}
 /* -----------Restuarant grid--------------*/
 
 

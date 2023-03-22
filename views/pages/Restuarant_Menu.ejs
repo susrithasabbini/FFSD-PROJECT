@@ -114,13 +114,13 @@
             </div>
         <%})%>
 
-        <div id="cart-message" data-bs-toggle="modal" data-bs-target="#cart">
+        <div id="cart-message" data-bs-toggle="modal" data-bs-target="#modal-cart">
             <h4>Items added to cart!</h4>
             <h5>View Cart &nbsp;<i class="fa-solid fa-arrow-right fa-lg"></i></h5>
         </div>
 
         <!-- The Modal -->
-        <div class="modal fade" id="cart">
+        <div class="modal fade" id="modal-cart">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
             
@@ -196,6 +196,6 @@
         if(cartItems>0)cartMessage.style.display = "block";
         else cartMessage.style.display = "none";
     </script>
-
+     <script src="CUSTOMER/customer.js"></script>
 </body>
 </html>

@@ -3,6 +3,9 @@ var express = require('express');
 const ejs = require('ejs');
 // Initialise Express
 var app = express();
+
+const bodyParser = require('body-parser'); 
+app.use(bodyParser.urlencoded({ extended: false }));
 // Render static files
 app.use(express.static('public'));
 // Set the view engine to ejs
@@ -12,6 +15,82 @@ app.set('views', 'views')
 
 // Port website will run on
 app.listen(8080);
+
+
+
+//<-----------------------SQLite----------------------------------------->
+
+
+const sqlite3 = require('sqlite3').verbose();
+
+let db = new sqlite3.Database('./server.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the database.');
+  });
+
+let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIMARY KEY,name varchar(50),image varchar(500),type varchar(200),rating varchar(1),time varchar(3),cost varchar(5),location varchar(250),offer varchar(3),menuid varchar(5))`;
+
+
+//  query = `CREATE TABLE IF NOT EXISTS USER(MOBILE VARCHAR(10) PRIMARY KEY,PASSWORD VARCHAR(25))`;
+
+// db.run(query, [], (err, rows) => {
+//     if (err) {
+//       throw err;
+//     }
+//    console.log("table created");
+//   });
+
+// //query = `INSERT INTO  USER VALUES('6304940431','vivek@123')`;
+
+//query = `INSERT INTO RESTAURANTS VALUES('R0001','Hotel Rajadhani','/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg','Biryani Chinese Fast Food','5','15','100','Sricity','30','M0001')`;
+
+// db.run(query, [], (err, rows) => {
+//     if (err) {
+//       throw err;
+//     }
+//    console.log("row inserted");
+//   });
+
+query = `SELECT * FROM RESTAURANTS`;
+
+const Restaurants =[];
+
+db.all(query, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+   rows.forEach((row)=>{
+    
+       let restaurant = {
+        image:row.image,name:row.name,type:row.type,rating:row.rating,time:row.time,cost:row.cost,location:row.location,offer:row.offer,restaurantID:row.restaurantid,menuID:row.menuid
+       }
+       console.log(restaurant);
+       Restaurants.push(restaurant);
+   })
+  });
+
+
+// query = 'SELECT * FROM USER';
+// const users=[]
+
+// db.all(query, [], (err, rows) => {
+//     if (err) {
+//       throw err;
+//     }
+//    rows.forEach((row)=>{
+//     console.log(row.MOBILE,row.PASSWORD);
+//         let user={
+//             mobileNumber : row.MOBILE,
+//             password : row.PASSWORD
+//         }
+//         users.push(user);
+//    })
+//   });
+
+//<-----------------------SQLite----------------------------------------->
+
 
 
 //<------------------------------temparory static data for food items----------------------------------------------------->
@@ -29,7 +108,7 @@ const foodItems=[
 //<------------------------------temparory static data for food items----------------------------------------------------->
 //<------------------------------temporary static data for restuarants----------------------------------------------------->
 const restuarants=[
-  {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Rajadhani",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one",location:"Sricity",offer:"30%"},
+  {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Rajadhani",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one",location:"Sricity",offer:"30%",restaurantID:'R0001',menuID:'M0001'},
   {image:"/CUSTOMER/Order_Food/images/chickenshawarma.jpeg",name:"Hotel MG Grand",type:"Biryani, Chinese ,Fast Food",rating:"4.8",time:"21 MIN",cost:"Rs200 for one",location:"Chennai",offer:"20%"},
   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Abhiruchi",type:"Biryani, Chinese ,Fast Food",rating:"4.6",time:"19 MIN",cost:"Rs300 for one",location:"Tada",offer:"25%"},
   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Manasa",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"18 MIN",cost:"Rs190 for one",location:"Sullurpeta",offer:"35%"},
@@ -127,12 +206,32 @@ app.get('/', function (req, res) {
 
 app.get('/Restaurants', function (req, res) {
     const pageTitle = "Restaurants";
-    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : restuarants,pageTitle : pageTitle});
+    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : Restaurants,pageTitle : pageTitle});
 });
 
-app.get('/login', function(req, res) {
-    res.sendFile(__dirname + "/public/Login/login.html");
+app.get('/login', function (req, res) {
+    const pageTitle = "Login";
+    res.render('pages/login',{pageTitle : pageTitle});
 });
+
+
+
+// app.get('/login_user', function (req, res) {
+//     const pageTitle = "Menu";
+
+//     let mobileNumber = req.body.mobileNumber;
+//     let password = req.body.password;
+//     let status = false;
+    
+//    users.forEach((user)=>{
+//     console.log(user.mobileNumber, mobileNumber,user.password),password;
+//     if(user.mobileNumber==mobileNumber && user.password == password)status=true;
+//    });
+//    if(status) res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : restuarants,pageTitle : pageTitle});
+//    else  res.render('pages/login');
+// });
+
+
 
 app.get('/Menu', function (req, res) {
     const pageTitle = "Menu";
