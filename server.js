@@ -14,7 +14,9 @@ app.set('views', 'views')
 
 
 // Port website will run on
-app.listen(8080);
+app.listen(8080, () => {
+    console.log("Your server is running on port 8080.");
+});
 
 
 
@@ -234,7 +236,10 @@ app.get('/login', function (req, res) {
     res.render('pages/login',{pageTitle : pageTitle});
 });
 
-
+app.get('/helpAndSupport', function(req, res) {
+    const pageTitle = "Help & Support";
+    res.render('pages/helpAndSupport', {pageTitle: pageTitle});
+});
 
 // app.get('/login_user', function (req, res) {
 //     const pageTitle = "Menu";
