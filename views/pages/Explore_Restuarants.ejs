@@ -22,8 +22,7 @@
 
     <link rel="stylesheet" href="/CUSTOMER/Order_Food/Explore_Restuarants.css">
     <script src="/CUSTOMER/Order_Food/Explore_Restuarants.js" defer></script>
-    <script src="CUSTOMER/customer.js"></script>
-    <script src="CUSTOMER/app.js"></script>
+   
     
 </head>
 <body>
@@ -96,6 +95,7 @@
 
             <%restuarants.map((restuarant)=>{%>
 
+               <a href="/Menu">
                 <div class="card" style="width:300px;">
                     <div class="card-body">
                         <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
@@ -114,11 +114,13 @@
                         </div>
                     </div>
                 </div>
+               </a>
             <% }); %>
 
         </div>
     </div>
-<!----------------------Restuarants Grid---------------------------------------->   
+<!----------------------Restuarants Grid---------------------------------------->  
+<script src="CUSTOMER/customer.js"></script> 
    
 </body>
 </html>

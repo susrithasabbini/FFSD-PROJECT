@@ -124,7 +124,7 @@ body{
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    border: 10px solid white;
+    border: 20px;
     overflow: hidden;
 }
 
@@ -226,14 +226,16 @@ body{
     width: fit-content;
     margin: auto;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;   
-    column-gap: 20px;
+    grid-template-columns: auto auto auto auto;   
+    column-gap: 50px;
     row-gap: 50px;
 }
 
 .fc2{
     width: 240px;
     height: 280px;
+    box-shadow: none;
+    border-radius: 1rem;
 }
 
 .fc2 .food-content{

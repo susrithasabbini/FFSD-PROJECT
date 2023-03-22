@@ -13,7 +13,7 @@ function organisationIDValidation(){
         validationMsgElement.innerText="Organisation ID Required";
         return false;
     }
-    else if(!organisationID.match(/^[R|O]20\d{9}$/)){
+    else if(!organisationID.match(/^[R|O]20\d{4}$/)){
         validationMsgElement.innerText="Invalid ID";
         return false;
     }
