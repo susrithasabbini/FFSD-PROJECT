@@ -201,7 +201,7 @@ const banners = [
 
 app.get('/', function (req, res) {
     const pageTitle = "Hungrezy";
-    res.render('pages/index',{pageTitle : pageTitle});
+    res.render('pages/Home',{pageTitle : pageTitle});
 });
 
 app.get('/Restaurants', function (req, res) {
