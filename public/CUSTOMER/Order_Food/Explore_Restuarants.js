@@ -3,12 +3,12 @@
 //<------------------------------function for onclick changes for filter buttons----------------------------------------------------->
 function filter(id){
   let element = document.getElementById(id);
-  if(element.className=="btn filters"){
-    element.className="btn selected";
+  if(element.className==" filters"){
+    element.className=" selected";
     element.lastChild.style.display="inline-block";
   }
-  else if(element.className=="btn selected"){
-    element.className="btn filters";
+  else if(element.className==" selected"){
+    element.className=" filters";
     element.lastChild.style.display="none";
   }
 }
