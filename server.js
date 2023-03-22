@@ -94,6 +94,8 @@ db.all(query, [], (err, rows) => {
   });
 
 
+
+
 // query = 'SELECT * FROM USER';
 // const users=[]
 
@@ -240,6 +242,12 @@ app.get('/helpAndSupport', function(req, res) {
     const pageTitle = "Help & Support";
     res.render('pages/helpAndSupport', {pageTitle: pageTitle});
 });
+app.get('/About', function (req, res) {
+    const pageTitle = "About Us";
+    res.render('pages/About',{pageTitle : pageTitle});
+});
+
+
 
 // app.get('/login_user', function (req, res) {
 //     const pageTitle = "Menu";
@@ -260,7 +268,7 @@ app.get('/helpAndSupport', function(req, res) {
 
 app.get('/Menu', function (req, res) {
     const pageTitle = "Menu";
-    res.render('pages/Restuarant_Menu',{Restuarant: restuarants[0],recomended : recomended,Menu : Menu});
+    res.render('pages/Restuarant_Menu',{Restuarant: Restaurants[0],recomended : recomended,Menu : Menu});
 });
 
 app.get('/Recipes', function (req, res) {

@@ -41,6 +41,7 @@ body{
 .menu-container{
     width: 50vw;
     margin: auto;
+    margin-bottom: 6rem;
 }
 
 .card{

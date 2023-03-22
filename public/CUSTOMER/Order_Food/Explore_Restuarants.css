@@ -82,27 +82,27 @@ body{
 
 
 /* -----------filter buttons--------------*/
-.filter .btn{
-    margin-right: 10px;
-    background-color: #FDEEDC;
-}
 
 .filters{
     background-color: #FDEEDC;
     border: 1px solid gray;
     color: gray;
+    margin: 0px 3px;
+    
+    padding: 8px;
+    border-radius: 10px;
 }
 
 
 .selected{
     background-color:  #E38B29;
     color: white;
+    margin: 0px 3px;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
 }
 
-.selected:hover{
-    background-color:  #E38B29;
-    color: white;
-}
 
 
 .filters:hover{

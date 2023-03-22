@@ -72,6 +72,13 @@ body{
     font-size: x-large;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: all 0.3s ease-in-out;
+}
+
+.recipe-text a:hover{
+   color: #E38B29;
+   background-color: #FDEEDC;
+   
 }
 
 .recipe-text h1{
