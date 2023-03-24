@@ -44,7 +44,7 @@ body{
 .intro{
     width: 100%;
     height: 100%;
-    background-image: url("/CUSTOMER/Order_Food/images/recipe_background.jpg");
+    background-image: url("/CUSTOMER/Order_Food/images/cook.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -88,7 +88,7 @@ body{
     height: 100vh;
     margin: auto;
     padding-top: 25vh;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(12px);
     text-align: center;
 }
 
@@ -201,6 +201,7 @@ body{
 }
 
 .btn-swipe{
+    padding-top: 6rem;
    color: #E38B29;
 }
 
@@ -212,15 +213,13 @@ body{
     color: #E38B29;
     font-size: 50px;
     font-weight: bolder;
+    margin-top: 6rem;
 }
 
 #one{
     overflow-y: scroll;
 }
 
-.container{
-   margin-top: 5rem;
-}
 
 .recipes-wrapper{
     width: fit-content;

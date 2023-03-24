@@ -10,6 +10,7 @@
 body{
     background-color: #FFD8A9;
     font-family: "Ubuntu", sans-serif;
+    padding-top: 0px;
 }
 
 .container-1{
@@ -17,7 +18,7 @@ body{
     background: #FDEEDC;
     width: fit-content;
     margin: auto;
-    margin-top: 18vh;
+    margin-top: 19vh;
     height: fit-content;
     position: relative;
     margin-bottom: 6rem;
@@ -84,6 +85,12 @@ body{
 
 #sub4{
     display: none;
+}
+
+#sub4 a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
 }
 
 #sub2 .btn{

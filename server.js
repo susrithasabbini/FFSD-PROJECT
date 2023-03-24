@@ -96,22 +96,22 @@ db.all(query, [], (err, rows) => {
 
 
 
-// query = 'SELECT * FROM USER';
-// const users=[]
+query = 'SELECT * FROM USER';
+const users=[]
 
-// db.all(query, [], (err, rows) => {
-//     if (err) {
-//       throw err;
-//     }
-//    rows.forEach((row)=>{
-//     console.log(row.MOBILE,row.PASSWORD);
-//         let user={
-//             mobileNumber : row.MOBILE,
-//             password : row.PASSWORD
-//         }
-//         users.push(user);
-//    })
-//   });
+db.all(query, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+   rows.forEach((row)=>{
+    console.log(row.MOBILE,row.PASSWORD);
+        let user={
+            mobileNumber : row.MOBILE,
+            password : row.PASSWORD
+        }
+        users.push(user);
+   })
+  });
 
 //<-----------------------SQLite----------------------------------------->
 
@@ -249,20 +249,20 @@ app.get('/About', function (req, res) {
 
 
 
-// app.get('/login_user', function (req, res) {
-//     const pageTitle = "Menu";
+app.post('/login', function (req, res){
+   
 
-//     let mobileNumber = req.body.mobileNumber;
-//     let password = req.body.password;
-//     let status = false;
+    let mobileNumber = req.body.mobileNumber;
+    let password = req.body.password;
+    let status = false;
     
-//    users.forEach((user)=>{
-//     console.log(user.mobileNumber, mobileNumber,user.password),password;
-//     if(user.mobileNumber==mobileNumber && user.password == password)status=true;
-//    });
-//    if(status) res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : restuarants,pageTitle : pageTitle});
-//    else  res.render('pages/login');
-// });
+   users.forEach((user)=>{
+    console.log(user.mobileNumber, mobileNumber,user.password,password);
+    if(user.mobileNumber==mobileNumber && user.password == password)status=true;
+   });
+   if(status) res.render('pages/Home');
+   else  res.render('pages/login');
+});
 
 
 
@@ -278,7 +278,7 @@ app.get('/Recipes', function (req, res) {
 
 app.get('/View_Recipe', function (req, res) {
     const pageTitle = "Recipes";
-    res.render('pages/View_Recipe',{foodItem :chickenRecipes[1]});
+    res.render('pages/View_Recipe',{foodItem :chickenRecipes[2]});
 });
 
 app.get('/Account', function (req, res) {

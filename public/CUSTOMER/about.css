@@ -60,3 +60,11 @@ text-align: center;
     }
 }
 
+.right{
+    width:80%;
+    display: flex;
+  justify-content: space-around;
+    column-gap: 1rem;
+    align-items: center;  
+}
+

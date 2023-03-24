@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Restaurants</title>
     <link rel="icon" href="/CUSTOMER/images/icon.png">
-    
+    <link rel="stylesheet" href="/CUSTOMER/footer.css">
 
     <link rel="stylesheet" href="/CUSTOMER/navbar.css">
     <!-- Bootsrap cdn links-->
@@ -29,7 +29,9 @@
 <body>
 
     <%- include('../partials/navbar.ejs') %>
-<!-------------search bar and sort selection---------------------------------------->
+
+    <div class="body-padding">
+                <!-------------search bar and sort selection---------------------------------------->
     <div class="search">
 
         <div class="form">
@@ -66,7 +68,7 @@
 
 
 <!----------------------food items swiper---------------------------------------->      
-    <h1 class="mt-3">Top Food Items</h1>
+    <h1 class="mt-3 mb-2">Top Food Items</h1>
     <div class="slide-container swiper ">
         <div class="slide-content">
             <div class="swiper-wrapper" id="sw">
@@ -90,7 +92,7 @@
 
 <!----------------------Restuarants Grid---------------------------------------->      
     <div class="restuarants-container">
-        <h1>Best Restuarants for you</h1>
+        <h1 class="mt-2 mb-4">Best Restuarants for you</h1>
         <div class="restuarants-wrapper">
            
 
@@ -121,6 +123,10 @@
         </div>
     </div>
 <!----------------------Restuarants Grid----------------------------------------> 
+    </div>
+
+
+<%- include('../partials/footer.ejs') %>
 
 <script src="CUSTOMER/customer.js"></script> 
    

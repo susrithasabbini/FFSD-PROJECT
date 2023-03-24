@@ -44,22 +44,22 @@ function passwordValidation(){
     
 }
 
-function validateOrgSelection(){
+// function validateOrgSelection(){
     
-    let organisationSelected = selectOrganisationElement.value;
-    if(organisationSelected==0){
-        selectOrganisationElement.style.borderColor = "red";
-        selectOrganisationElement.style.boxShadow = "0.5px 0.5px 0.5px 0.5px red";
-        return false;
-    }else{
-        selectOrganisationElement.style.borderColor = "green";
-        selectOrganisationElement.style.boxShadow = "0.5px 0.5px 0.5px 0.5px green";
-        return true;
-    }
-}
+//     let organisationSelected = selectOrganisationElement.value;
+//     if(organisationSelected==0){
+//         selectOrganisationElement.style.borderColor = "red";
+//         selectOrganisationElement.style.boxShadow = "0.5px 0.5px 0.5px 0.5px red";
+//         return false;
+//     }else{
+//         selectOrganisationElement.style.borderColor = "green";
+//         selectOrganisationElement.style.boxShadow = "0.5px 0.5px 0.5px 0.5px green";
+//         return true;
+//     }
+// }
 
 loginForm.addEventListener('submit',(e)=>{
-    if(!validateOrgSelection() || !organisationIDValidation() || !passwordValidation())
+    if(!organisationIDValidation() || !passwordValidation())
     e.preventDefault();
 });
 

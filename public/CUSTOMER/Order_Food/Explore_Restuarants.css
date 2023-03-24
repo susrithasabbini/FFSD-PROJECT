@@ -7,9 +7,15 @@
 }
 
 body{
-    padding: 2rem;
+   
     background-color: #FFD8A9;
     font-family: "Ubuntu", sans-serif;
+}
+
+.body-padding{
+    padding-left: 2rem;
+    padding-top: 7rem;
+    padding-bottom: 4rem;
 }
 
 /* -----------search bar and sort select--------------*/
@@ -17,7 +23,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content:flex-start;
-    margin-top: 6rem;
+   
 }
 
 #sort{
