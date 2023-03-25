@@ -37,7 +37,7 @@ let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIM
 
 
 
-//  query = `CREATE TABLE IF NOT EXISTS USER(MOBILE VARCHAR(10) PRIMARY KEY,PASSWORD VARCHAR(25))`;
+//  query = `CREATE TABLE IF NOT EXISTS USERS(MOBILE VARCHAR(10) PRIMARY KEY,NAME VARCHAR(50),GENDER VARCHAR(10),EMAIL VARCHAR(50),PASSWORD VARCHAR(25))`;
 
 // db.run(query, [], (err, rows) => {
 //     if (err) {
@@ -96,7 +96,7 @@ db.all(query, [], (err, rows) => {
 
 
 
-query = 'SELECT * FROM USER';
+query = 'SELECT * FROM USERS';
 const users=[]
 
 db.all(query, [], (err, rows) => {
@@ -104,10 +104,13 @@ db.all(query, [], (err, rows) => {
       throw err;
     }
    rows.forEach((row)=>{
-    console.log(row.MOBILE,row.PASSWORD);
+    console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
         let user={
             mobileNumber : row.MOBILE,
-            password : row.PASSWORD
+            password : row.PASSWORD,
+            name : row.NAME,
+            gender : row.GENDER,
+            email : row.EMAIL
         }
         users.push(user);
    })
@@ -255,16 +258,48 @@ app.post('/login', function (req, res){
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
     let status = false;
-    
-   users.forEach((user)=>{
-    console.log(user.mobileNumber, mobileNumber,user.password,password);
-    if(user.mobileNumber==mobileNumber && user.password == password)status=true;
-   });
-   if(status) res.render('pages/Home');
-   else  res.render('pages/login');
+    query = `SELECT PASSWORD FROM USERS WHERE MOBILE = '${mobileNumber}'`;
+
+    db.each(query, 
+    (error, row) => {
+    /*gets called for every row our query returns*/
+      if(row.PASSWORD == password){
+        res.render('pages/Home');
+      }
+      else{
+        res.render('pages/login');
+      }
+    });
+
 });
 
+app.post('/Registration', function (req, res){
+   
+    let name = req.body.fname;
+    let mobileNumber = req.body.mobileNumber;
+    let password = req.body.password;
+    let gender = req.body.gender;
+    let email = req.body.email;
+    let status = false;
+    query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${password}')`;
+    db.run(query, [], (err, rows) => {
+        if (err) {
+           
+            res.render('pages/registration')
+            throw err;
+        }
+        else{
+            console.log("row inserted");
+            res.render('pages/Home');
+        }
+    });
+  
+});
 
+app.get('/Registration', function (req, res) {
+    const pageTitle = "Registration";
+    res.render('pages/registration');
+});
 
 app.get('/Menu', function (req, res) {
     const pageTitle = "Menu";
