@@ -1,6 +1,8 @@
 // Load Node modules
 var express = require('express');
 const ejs = require('ejs');
+const bcrypt = require ('bcrypt');
+const saltRounds = 10;
 // Initialise Express
 var app = express();
 
@@ -37,7 +39,8 @@ let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIM
 
 
 
-//  query = `CREATE TABLE IF NOT EXISTS USERS(MOBILE VARCHAR(10) PRIMARY KEY,NAME VARCHAR(50),GENDER VARCHAR(10),EMAIL VARCHAR(50),PASSWORD VARCHAR(25))`;
+query = `CREATE TABLE IF NOT EXISTS USERS(MOBILE VARCHAR(10) PRIMARY KEY,NAME VARCHAR(50),GENDER VARCHAR(10),EMAIL VARCHAR(50),PASSWORD VARCHAR(100))`;
+
 
 // db.run(query, [], (err, rows) => {
 //     if (err) {
@@ -46,7 +49,7 @@ let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIM
 //    console.log("table created");
 //   });
 
-// //query = `INSERT INTO  USER VALUES('6304940431','vivek@123')`;
+
 
 //query = `INSERT INTO RESTAURANTS VALUES('R0001','Hotel Rajadhani','/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg','Biryani Chinese Fast Food','5','15','100','Sricity','30','M0001')`;
 //query = `INSERT INTO RESTAURANTS VALUES('R0002',"Quality Bakery","/CUSTOMER/Order_Food/images/cakes.jpeg",'Chinese cakes Fast Food','4.9','25','150','Sricity','20','M0002')`;
@@ -254,45 +257,59 @@ app.get('/About', function (req, res) {
 
 app.post('/login', function (req, res){
    
-
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
-    let status = false;
+    
     query = `SELECT PASSWORD FROM USERS WHERE MOBILE = '${mobileNumber}'`;
 
     db.each(query, 
     (error, row) => {
     /*gets called for every row our query returns*/
-      if(row.PASSWORD == password){
-        res.render('pages/Home');
-      }
-      else{
-        res.render('pages/login');
-      }
+
+    bcrypt.compare(password, row.PASSWORD, function(err, result) {
+        
+        if (result) {
+          // log in
+          res.redirect('/');
+        }
+        else {
+          // access denied
+          res.redirect('/login');
+        }
+      });
     });
 
 });
 
 app.post('/Registration', function (req, res){
-   
+
     let name = req.body.fname;
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
     let gender = req.body.gender;
     let email = req.body.email;
-    let status = false;
-    query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${password}')`;
-    db.run(query, [], (err, rows) => {
-        if (err) {
-           
-            res.render('pages/registration')
-            throw err;
-        }
+    let hashedPassword;
+    bcrypt.hash(password, saltRounds, function(err, hash) {
+        if(err)throw err;
         else{
-            console.log("row inserted");
-            res.render('pages/Home');
+            query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${hash}')`;
+            db.run(query, [], (err, rows) => {
+                if (err) {
+                   
+                    res.redirect('Registration')
+                    throw err;
+                }
+                else{
+                    console.log("row inserted");
+                    res.redirect('/');
+                }
+            });
         }
-    });
+       
+       
+      });
+
+   
   
 });
 
