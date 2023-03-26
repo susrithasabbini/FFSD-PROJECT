@@ -8,7 +8,11 @@
         <a href="/Restaurants" class="navbar-items">Order Food</a>
         <a href="/Recipes" class="navbar-items">Recipes</a>
         <a href="/Account" class="navbar-items">Account</a>
-        <a href="/login" class="login-btn navbar-items">Login</a>
+        <% if(currentUser){ %>
+        <a href="/logout" class="login-btn navbar-items">Logout</a>
+        <%}else{ %>
+            <a href="/login" class="login-btn navbar-items">Login</a>
+        <%}%>
     </nav>
 
     <div class="profile">
@@ -24,7 +28,11 @@
         <div class="sub-menu">
             <div class="user-info">
                 <img src="/CUSTOMER/images/user.png" alt="">
-                <h3>Susritha</h3>
+                <% if(currentUser){ %>
+                <h3><%=currentUser.name%></h3>
+                <%}else{ %>
+                <h3>User</h3>
+                <%}%>
             </div>
             <hr>
 

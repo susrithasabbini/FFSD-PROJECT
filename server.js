@@ -8,6 +8,7 @@ var app = express();
 
 const bodyParser = require('body-parser'); 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // Render static files
 app.use(express.static('public'));
 // Set the view engine to ejs
@@ -100,7 +101,8 @@ db.all(query, [], (err, rows) => {
 
 
 query = 'SELECT * FROM USERS';
-const users=[]
+const users=[];
+let currentUser=null;
 
 db.all(query, [], (err, rows) => {
     if (err) {
@@ -231,12 +233,12 @@ const banners = [
 
 app.get('/', function (req, res) {
     const pageTitle = "Hungrezy";
-    res.render('pages/Home',{pageTitle : pageTitle});
+    res.render('pages/Home',{pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.get('/Restaurants', function (req, res) {
     const pageTitle = "Restaurants";
-    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : Restaurants,pageTitle : pageTitle});
+    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : Restaurants,pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.get('/login', function (req, res) {
@@ -244,9 +246,14 @@ app.get('/login', function (req, res) {
     res.render('pages/login',{pageTitle : pageTitle});
 });
 
+app.get('/logout', function (req, res) {
+   currentUser=null;
+    res.redirect('/');
+});
+
 app.get('/helpAndSupport', function(req, res) {
     const pageTitle = "Help & Support";
-    res.render('pages/helpAndSupport', {pageTitle: pageTitle});
+    res.render('pages/helpAndSupport', {pageTitle: pageTitle,currentUser:currentUser});
 });
 app.get('/About', function (req, res) {
     const pageTitle = "About Us";
@@ -260,7 +267,7 @@ app.post('/login', function (req, res){
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
     
-    query = `SELECT PASSWORD FROM USERS WHERE MOBILE = '${mobileNumber}'`;
+    query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
 
     db.each(query, 
     (error, row) => {
@@ -270,6 +277,14 @@ app.post('/login', function (req, res){
         
         if (result) {
           // log in
+          currentUser={
+            mobileNumber:row.MOBILE,
+            name:row.NAME,
+            email:row.EMAIL,
+            gender:row.GENDER,
+            password:password
+        };
+         
           res.redirect('/');
         }
         else {
@@ -288,7 +303,7 @@ app.post('/Registration', function (req, res){
     let password = req.body.password;
     let gender = req.body.gender;
     let email = req.body.email;
-    let hashedPassword;
+    
     bcrypt.hash(password, saltRounds, function(err, hash) {
         if(err)throw err;
         else{
@@ -315,32 +330,37 @@ app.post('/Registration', function (req, res){
 
 app.get('/Registration', function (req, res) {
     const pageTitle = "Registration";
-    res.render('pages/registration');
+    res.render('pages/registration',{pageTitle:pageTitle});
 });
 
 app.get('/Menu', function (req, res) {
-    const pageTitle = "Menu";
-    res.render('pages/Restuarant_Menu',{Restuarant: Restaurants[0],recomended : recomended,Menu : Menu});
+    let Rid = req.query.id;
+    let R=Restaurants[0];
+    Restaurants.forEach((restaurant)=>{
+        if(restaurant.restaurantID==Rid)R=restaurant;
+    });
+    const pageTitle = "Menu-"+R.name;
+    res.render('pages/Restuarant_Menu',{Restuarant: R,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
-    res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes});
+    res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes,currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/View_Recipe', function (req, res) {
-    const pageTitle = "Recipes";
-    res.render('pages/View_Recipe',{foodItem :chickenRecipes[2]});
+    const pageTitle = "Recipe Blog";
+    res.render('pages/View_Recipe',{foodItem :chickenRecipes[2],currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/Account', function (req, res) {
     const pageTitle = "Account";
-    res.render('pages/Account',);
+    res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/Donate_Food', function (req, res) {
     const pageTitle = "Donate Food";
-    res.render('pages/Donate_Food',{banners : banners});
+    res.render('pages/Donate_Food',{banners : banners,pageTitle:pageTitle});
 });
 
 app.get("/magic", function (req, res) {
