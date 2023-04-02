@@ -154,7 +154,7 @@ function emailValidation(){
         emailValidateMessage.innerText="Email Can't be Empty!";
         return false;
     }
-    else if(!email.match(/^[A-Za-z]{1}[A-Za-z0-9.]*[@][A-Za-z]*[.][A-Za-z]*$/)){
+    else if(!email.match(/^[a-zA-Z0-9._%+-]+@gmail.com$/)){
         emailValidateMessage.innerText="Invalid Email";
         return false;
     }

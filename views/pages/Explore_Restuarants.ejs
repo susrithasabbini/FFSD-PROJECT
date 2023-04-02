@@ -10,98 +10,98 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="body-padding">
-                <!-------------search bar and sort selection---------------------------------------->
-    <div class="search">
+        <!-------------search bar and sort selection---------------------------------------->
+        <div class="search">
 
-        <div class="form">
-            <i class="fa fa-search"></i>
-            <input type="text" class="form-control form-input" placeholder="Search anything...">
-            <span class="left-pan"><i class="fa fa-microphone"></i></span>
-        </div>
-
-        <select class="form-select ms-4" placeholder="Sort by" id="sort" name="sort">
-            <option value="0">--Sort by--</option>
-            <option>Recomended</option>
-            <option>Rating</option>
-            <option>Delivery Time</option>
-            <option>Cost</option>
-        </select>
-
-    </div>
-<!-------------search bar and sort selection---------------------------------------->
-
-
-
-<!--------------------filter buttons---------------------------------------->      
-    <div class="filter mt-3">
-       <button type="button" class="btn"><i class="fa fa-filter"></i> Filter</button>
-       <div style="display: inline-flex;">
-        <button type="button" class=" filters"  id="f1" onclick="filter('f1')"><i class="fa-solid fa-leaf"></i> Pure Veg <i class="fa-solid fa-xmark fm ms-1"></i></button>
-        <button type="button" class=" filters" id="f2" onclick="filter('f2')"><i class="fa-solid fa-motorcycle"></i> Fast Delivery <i class="fa-solid fa-xmark fm ms-1"></i></button>
-        <button type="button" class=" filters" id="f3" onclick="filter('f3')">Rating 4<i class="fa fa-star fa-xs"></i>+ <i class="fa-solid fa-xmark fm ms-1"></i></button>
-        <button type="button" class=" filters" id="f4" onclick="filter('f4')">POD <i class="fa-solid fa-xmark fm ms-1"></i></button>
-       </div>
-    </div>
-<!--------------------filter buttons---------------------------------------->      
-
-
-
-<!----------------------food items swiper---------------------------------------->      
-    <h1 class="mt-3 mb-2">Top Food Items</h1>
-    <div class="slide-container swiper ">
-        <div class="slide-content">
-            <div class="swiper-wrapper" id="sw">
-               
-                    <% foodItems.map((food)=>{ %>
-
-                        <div class="card swiper-slide">
-                            <img class="card-img-top" src= "<%=food.image%>"  alt="Card image" width="100px" height="150px">
-                            <h5 class="card-title"><%= food.name %></h5>
-                        </div>
-                          
-                    <% }) %>
-                  
+            <div class="form">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control form-input" placeholder="Search anything...">
+                <span class="left-pan"><i class="fa fa-microphone"></i></span>
             </div>
-            <div class="swiper-button-next btn-swipe"></div>
-            <div class="swiper-button-prev btn-swipe"></div>
+
+            <select class="form-select ms-4" placeholder="Sort by" id="sort" name="sort">
+                <option value="0">--Sort by--</option>
+                <option>Recomended</option>
+                <option>Rating</option>
+                <option>Delivery Time</option>
+                <option>Cost</option>
+            </select>
+
         </div>
-    </div>
-<!----------------------food items swiper---------------------------------------->      
+    <!-------------search bar and sort selection---------------------------------------->
 
 
-<!----------------------Restuarants Grid---------------------------------------->      
-    <div class="restuarants-container">
-        <h1 class="mt-2 mb-4">Best Restuarants for you</h1>
-        <div class="restuarants-wrapper">
-           
 
-            <%restuarants.map((restuarant)=>{%>
+    <!--------------------filter buttons---------------------------------------->      
+        <div class="filter mt-3">
+        <button type="button" class="btn"><i class="fa fa-filter"></i> Filter</button>
+        <div style="display: inline-flex;">
+            <button type="button" class=" filters"  id="f1" onclick="filter('f1')"><i class="fa-solid fa-leaf"></i> Pure Veg <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f2" onclick="filter('f2')"><i class="fa-solid fa-motorcycle"></i> Fast Delivery <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f3" onclick="filter('f3')">Rating 4<i class="fa fa-star fa-xs"></i>+ <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f4" onclick="filter('f4')">POD <i class="fa-solid fa-xmark fm ms-1"></i></button>
+        </div>
+        </div>
+    <!--------------------filter buttons---------------------------------------->      
 
-               <a href="/Menu?id=<%=restuarant.restaurantID %>" >
-                <div class="card" style="width:300px;">
-                    <div class="card-body">
-                        <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
-                        <div class="card-img-overlay">
-                             <p class="offers">Flat <%=restuarant.offer%>% OFF</p>
-                         </div>
-                         <div class="restuarant-data">
-                            <h4 class="card-title mt-1"><%=restuarant.name%></h4>
-                            <p><%=restuarant.type%></p>
-                            <hr>
-                            <div class="data">
-                                 <p class="badge bg-success"><%=restuarant.rating%><i class="fa fa-star fa-xs"></i></p>
-                                 <p class="badge"><%=restuarant.time%> MIN</p>
-                                 <p class="badge">Rs <%=restuarant.cost%></p>
+
+
+    <!----------------------food items swiper---------------------------------------->      
+        <h1 class="mt-3 mb-2">Top Food Items</h1>
+        <div class="slide-container swiper ">
+            <div class="slide-content">
+                <div class="swiper-wrapper" id="sw">
+                
+                        <% foodItems.map((food)=>{ %>
+
+                            <div class="card swiper-slide">
+                                <img class="card-img-top" src= "<%=food.image%>"  alt="Card image" width="100px" height="150px">
+                                <h5 class="card-title"><%= food.name %></h5>
+                            </div>
+                            
+                        <% }) %>
+                    
+                </div>
+                <div class="swiper-button-next btn-swipe"></div>
+                <div class="swiper-button-prev btn-swipe"></div>
+            </div>
+        </div>
+    <!----------------------food items swiper---------------------------------------->      
+
+
+    <!----------------------Restuarants Grid---------------------------------------->      
+        <div class="restuarants-container">
+            <h1 class="mt-2 mb-4">Best Restuarants for you</h1>
+            <div class="restuarants-wrapper">
+            
+
+                <%restuarants.map((restuarant)=>{%>
+
+                <a href="/Menu?id=<%=restuarant.restaurantID %>" >
+                    <div class="card" style="width:300px;">
+                        <div class="card-body">
+                            <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
+                            <div class="card-img-overlay">
+                                <p class="offers">Flat <%=restuarant.offer%>% OFF</p>
+                            </div>
+                            <div class="restuarant-data">
+                                <h4 class="card-title mt-1"><%=restuarant.name%></h4>
+                                <p><%=restuarant.type%></p>
+                                <hr>
+                                <div class="data">
+                                    <p class="badge bg-success"><%=restuarant.rating%><i class="fa fa-star fa-xs"></i></p>
+                                    <p class="badge"><%=restuarant.time%> MIN</p>
+                                    <p class="badge">Rs <%=restuarant.cost%></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-               </a>
-            <% }); %>
+                </a>
+                <% }); %>
 
+            </div>
         </div>
-    </div>
-<!----------------------Restuarants Grid----------------------------------------> 
+    <!----------------------Restuarants Grid----------------------------------------> 
     </div>
 
 

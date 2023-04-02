@@ -55,11 +55,20 @@
                 <span>></span>
             </a>
 
-            <a href="/login" class="sub-menu-link">
-                <img src="/CUSTOMER/images/logout.png" alt="">
-                <p>Log out</p>
-                <span>></span>
-            </a>
+            <%if(currentUser){%>
+                <a href="/logout" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/logout.png" alt="">
+                    <p>Log out</p>
+                    <span>></span>
+                </a>
+            <% } else { %>
+                <a href="/login" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/logout.png" alt="">
+                    <p>Log In</p>
+                    <span>></span>
+                </a>
+            <%}%>
+            
         </div>
     </div>
 

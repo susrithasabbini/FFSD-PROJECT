@@ -127,13 +127,111 @@ body{
 }
 
 .modal-body{
-    height: 500px;
-    align-items: center;
+    height: 550px;
+    display: flex;
 }
-.modal-body h5{
-    color: gainsboro;
-    text-align: center;
-    
+
+
+.modal-content{
+    background-color:#FFD8A9;
+}
+
+.steps{
+    display: flex;
+    justify-content: space-around;
+    color: lightgray;
+    width: 60%;
+    margin: auto;
+}
+
+.step1 , .step2{
+    width: 50%;
+}
+
+
+
+.step2{
+    width: 380px;
+    margin: auto;
+    background-color: #FDEEDC;
+    border-radius: 15px;
+    position: fixed;
+    left: 50%;
+    padding-bottom: 20px;
+}
+
+.step2 h5{
+    color: #E38B29;
+    font-weight: bolder;
+}
+
+.cart-item-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color:#FDEEDC;
+    width: 80%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cart-item-card div{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    padding-bottom: 0px;
+}
+
+.cart-item-card button{
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color:inherit;
+    border: 3px solid #E38B29;
+    color: gray;
+}
+
+.bill{
+    width: 80%;
+    margin: auto;
+    background-color: #FDEEDC;
+    padding: 30px;
+
+}
+
+.user-details,.payments{
+    background-color: #FDEEDC;
+    padding: 20px;
+}
+
+.place-order button{
+    width: 100%;
+    height: 40px;
+    background-color: #E38B29;
+    color: white;
+    font-size: large;
+    border: none;
+    border-radius: 10px;
+}
+.place-order {
+    width: 90%;
+    margin: auto;
+}
+
+@media screen and (max-width:1000px){
+    .modal-body{
+        flex-direction: column;
+    }
+
+    .step2{
+        display: block;
+        position: static;
+    }
+
+    .step1{
+        display: block;
+        width: 100%;
+    }
 }
 
 

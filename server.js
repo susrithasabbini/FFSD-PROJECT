@@ -154,39 +154,55 @@ const foodItems=[
 //   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Swarnamukhi",type:"Biryani, Chinese ,Fast Food",rating:"4.2",time:"51 MIN",cost:"Rs1000 for one",location:"Naidupeta",offer:"29%"},
 // ]
 
+//recomended is a array of food item objects which are displayed in the recomended section of Menu page.
+
 const recomended = [
-    {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
-    {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
-    {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
-    {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali",cost:"80",description:"serves 1",type:"veg"},
-    {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
-    {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"}
+    {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
+    {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
+    {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
+    {id:"F0004",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali",cost:"80",description:"serves 1",type:"veg"},
+    {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
+    {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"}
+]
+
+// Menu is a array of food category objects where each object consits of category name and array of food item objects.
+
+const MenuItems = [
+    {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg",quantity:'0'},
+    {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg",quantity:'0'},
+    {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg",quantity:'0'},
+    {id:"F0004",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali",cost:"80",description:"serves 1",type:"veg",quantity:'0'},
+    {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg",quantity:'0'},
+    {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg",quantity:'0'},
+    {id:"F0007",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice",cost:"60",description:"serves 1",type:"nonveg",quantity:'0'},
+    {id:"F0008",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes",cost:"120",description:"serves 4",type:"nonveg",quantity:'0'},
+    {id:"F0009",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls",cost:"10",description:"serves 1",type:"veg",quantity:'0'},
 ]
 
 const Menu = [
     {
         categoryName : "Chicken",
         items : [
-            {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
-            {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
-            {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice",cost:"60",description:"serves 1",type:"nonveg"},
+            {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
+            {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
+            {id:"F0007",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice",cost:"60",description:"serves 1",type:"nonveg"},
         ]
     },
 
     {
         categoryName : "Bakery",
         items : [
-            {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes",cost:"120",description:"serves 4",type:"nonveg"},
-            {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"},
-            {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls",cost:"10",description:"serves 1",type:"veg"},
+            {id:"F0008",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes",cost:"120",description:"serves 4",type:"nonveg"},
+            {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"},
+            {id:"F0009",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls",cost:"10",description:"serves 1",type:"veg"},
         ]
     },
 
     {
         categoryName : "Pizza",
         items : [
-            {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
-            {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
+            {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
+            {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
         ]
     }
 ]
@@ -228,6 +244,8 @@ const banners = [
     {image:"/Food_Donation/images/banner5.jpg"},
 ]
 
+
+
 // *** GET Routes - display pages ***
 // Root Route
 
@@ -255,6 +273,7 @@ app.get('/helpAndSupport', function(req, res) {
     const pageTitle = "Help & Support";
     res.render('pages/helpAndSupport', {pageTitle: pageTitle,currentUser:currentUser});
 });
+
 app.get('/About', function (req, res) {
     const pageTitle = "About Us";
     res.render('pages/About',{pageTitle : pageTitle});
@@ -315,16 +334,21 @@ app.post('/Registration', function (req, res){
                     throw err;
                 }
                 else{
-                    console.log("row inserted");
+                    console.log("Registration Successful!");
+                    currentUser={
+                        mobileNumber:mobileNumber,
+                        name:name,
+                        email:email,
+                        gender:gender,
+                        password:password
+                    };
                     res.redirect('/');
                 }
             });
         }
        
        
-      });
-
-   
+    });
   
 });
 
@@ -340,7 +364,8 @@ app.get('/Menu', function (req, res) {
         if(restaurant.restaurantID==Rid)R=restaurant;
     });
     const pageTitle = "Menu-"+R.name;
-    res.render('pages/Restuarant_Menu',{Restuarant: R,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle});
+    const menuItems = JSON.stringify( MenuItems ).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
+    res.render('pages/Restuarant_Menu',{Restuarant: R,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle,MenuItems:menuItems});
 });
 
 app.get('/Recipes', function (req, res) {
@@ -350,7 +375,7 @@ app.get('/Recipes', function (req, res) {
 
 app.get('/View_Recipe', function (req, res) {
     const pageTitle = "Recipe Blog";
-    res.render('pages/View_Recipe',{foodItem :chickenRecipes[2],currentUser:currentUser,pageTitle:pageTitle});
+    res.render('pages/View_Recipe',{foodItem :chickenRecipes[1],currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/Account', function (req, res) {
