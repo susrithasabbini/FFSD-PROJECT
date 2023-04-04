@@ -2,8 +2,9 @@
 
     <link rel="stylesheet" href="/CUSTOMER/Home.css">
     <script src="/CUSTOMER/Home.js" defer></script>
+    <script src="CUSTOMER/customer.js" defer></script> 
 </head>
-<body>
+<body onclick="closeMenu()">
     <%- include('../partials/navbar.ejs') %>
 
     <div class="section1 mt-5">
@@ -26,7 +27,5 @@
     </div>
 
     <%- include('../partials/footer.ejs') %>
-
-    <script src="CUSTOMER/customer.js"></script> 
 </body>
 </html>

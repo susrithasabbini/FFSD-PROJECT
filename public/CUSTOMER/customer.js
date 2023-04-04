@@ -12,18 +12,20 @@ function toggleMenu() {
   submenu.classList.toggle("open-menu");
 }
 
+function closeMenu() {
+  submenu.classList.remove("open-menu");
+}
+
 function openNav() {
   cart.classList.toggle("open-cart");
 }
 
 document.addEventListener("DOMContentLoaded", function(){
 
-  el_autohide = document.querySelector('.autohide');
+  let el_autohide = document.querySelector('.autohide');
   
   // add padding-top to bady (if necessary)
-  navbar_height = document.querySelector('.header').offsetHeight;
   
-
   if(el_autohide){
     var last_scroll_top = 0;
     window.addEventListener('scroll', function() {
