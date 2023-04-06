@@ -383,6 +383,16 @@ app.get('/Account', function (req, res) {
     res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
 });
 
+app.get('/Admin', function (req, res) {
+    const pageTitle = "Admin";
+    res.render('pages/Admin_Restaurants',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:Restaurants,Restaurants:Restaurants});
+});
+
+app.get('/Add_Recipe', function (req, res) {
+    const pageTitle = "Admin";
+    res.render('pages/Admin_AddRecipe',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:Restaurants});
+});
+
 app.get('/Donate_Food', function (req, res) {
     const pageTitle = "Donate Food";
     res.render('pages/Donate_Food',{banners : banners,pageTitle:pageTitle});

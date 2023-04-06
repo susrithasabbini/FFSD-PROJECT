@@ -1,0 +1,69 @@
+<header class="header autohide">
+
+    <a href="/" class="logo navbar-items">Hun<span class="theme">g</span>rezy</a>
+
+    <nav class="navbar">
+       
+        <a href="/Admin" class="navbar-items">Verify Restaurants</a>
+        <a href="/Add_Recipe" class="navbar-items">Add Recipes</a>
+        <a href="/Settings" class="navbar-items">Settings</a>
+        <% if(currentUser){ %>
+        <a href="/logout" class="login-btn navbar-items">Logout</a>
+        <%}else{ %>
+            <a href="/login" class="login-btn navbar-items">Login</a>
+        <%}%>
+    </nav>
+
+    <div class="profile">
+        <img src="/CUSTOMER/images/user.png" alt="" height="30px" class="user-pic" onmouseover="toggleMenu()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       
+    </div>
+
+    <div class="hamburger">
+        <img src="/CUSTOMER/images/nav.png" alt="">
+    </div>
+
+    <div class="sub-menu-wrap" id="submenu">
+        <div class="sub-menu">
+            <div class="user-info">
+                <img src="/CUSTOMER/images/user.png" alt="">
+                <% if(currentUser){ %>
+                <h3><%=currentUser.name%></h3>
+                <%}else{ %>
+                <h3>User</h3>
+                <%}%>
+            </div>
+            <hr>
+
+            <a href="#" class="sub-menu-link">
+                <img src="/CUSTOMER/images/profile.png" alt="">
+                <p>Edit Profile</p>
+                <span>></span>
+            </a>
+
+
+            <a href="#" class="sub-menu-link">
+                <img src="/CUSTOMER/images/settings.png" alt="">
+                <p>Settings & Privacy</p>
+                <span>></span>
+            </a>
+
+           
+            <%if(currentUser){%>
+                <a href="/logout" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/logout.png" alt="">
+                    <p>Log out</p>
+                    <span>></span>
+                </a>
+            <% } else { %>
+                <a href="/login" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/logout.png" alt="">
+                    <p>Log In</p>
+                    <span>></span>
+                </a>
+            <%}%>
+            
+        </div>
+    </div>
+
+</header>

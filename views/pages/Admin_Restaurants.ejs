@@ -1,0 +1,52 @@
+<%- include('../partials/head.ejs') %>
+<link rel="stylesheet" href="/ADMIN/Admin_Restaurants.css">
+
+</head>
+
+<body onclick="closeMenu()">
+    <%- include('../partials/Admin_Navbar.ejs') %>
+
+    <div class="main-body">
+
+        <div class="pending-verifications">
+
+            <h3 class="mb-4"> Pending Restaurant Approvals</h3>
+            <% pendingVerifications.map((restaurant)=>{%>
+                <div class="verification-card">
+                    <div class="restaurant-details">
+                        <h4><%=restaurant.name%></h4>
+                        <p><%=restaurant.type%></p>
+                        <p><%=restaurant.time%> Min</p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="#" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
+                        <a href="#" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
+                    </div>
+                </div>
+            <%});%>
+        </div>
+
+        <div class="approved-restaurants">
+            <h3 class="mb-4">Approved Restaurants</h3>
+            <% Restaurants.map((restaurant)=>{%>
+                <div class="verification-card">
+                    <div class="restaurant-details">
+                        <h4><%=restaurant.name%></h4>
+                        <p><%=restaurant.type%></p>
+                        <p><%=restaurant.time%> Min</p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="#" ><i class="fa-solid fa-circle-xmark me-2"></i>Suspend</a>
+                    </div>
+                </div>
+            <%});%>
+        </div>
+
+    </div>
+   
+
+
+
+    <%- include('../partials/footer.ejs') %>
+    <script src="/CUSTOMER/customer.js"></script>
+</body>
