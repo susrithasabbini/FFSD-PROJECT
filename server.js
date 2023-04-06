@@ -50,20 +50,22 @@ async function main(){
 
 main().catch(console.error);
 
+
 async function createUser(client, user){
     const result = await client.db("hungrezy").collection("users").insertOne(user);
     console.log(`New user created with the following id: ${result.insertedId}`);
 }
 
+
 async function getUser(client, id) {
-    const result = await client.db("sample_airbnb").collection("listingsAndReviews").findOne({ _id: id });
+    const result = await client.db("hungrezy").collection("users").findOne({ _id: id });
 
     if (result) {
         console.log(`Found a user in the collection with the name '${id}':`);
         console.log(result);
         return result
     } else {
-        console.log(`No user found with the name '${id}'`);
+        console.log(`No user found with the id '${id}'`);
     }
 }
 
@@ -335,31 +337,25 @@ app.get('/About', function (req, res) {
 
 
 
-app.post('/login', function (req, res){
+app.post('/login', async function (req, res){
    
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
 
-
+    const user = await  getUser(client,mobileNumber);
     
     
-    query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
+    // query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
 
-    db.each(query, 
-    (error, row) => {
-    /*gets called for every row our query returns*/
+    // db.each(query, 
+    // (error, row) => {
+    // /*gets called for every row our query returns*/
 
-    bcrypt.compare(password, row.PASSWORD, function(err, result) {
+    bcrypt.compare(password, user.password, function(err, result) {
         
         if (result) {
           // log in
-          currentUser={
-            mobileNumber:row.MOBILE,
-            name:row.NAME,
-            email:row.EMAIL,
-            gender:row.GENDER,
-            password:password
-        };
+          currentUser=user;
          
           res.redirect('/');
         }
@@ -368,7 +364,8 @@ app.post('/login', function (req, res){
           res.redirect('/login');
         }
       });
-    });
+
+    // });
 
 });
 
