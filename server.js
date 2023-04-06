@@ -2,6 +2,7 @@
 var express = require('express');
 const ejs = require('ejs');
 const bcrypt = require ('bcrypt');
+const {MongoClient} = require('mongodb');
 const saltRounds = 10;
 // Initialise Express
 var app = express();
@@ -20,6 +21,59 @@ app.set('views', 'views')
 app.listen(8080, () => {
     console.log("Your server is running on port 8080.");
 });
+
+
+//<---------------------------Mongodb-------------------------------->
+
+const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+ 
+
+async function main(){
+    /**
+     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+     */
+    
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
+ 
+       
+    } catch (e) {
+        console.error(e);
+    }
+    //  finally {
+    //     await client.close();
+    // }
+}
+
+main().catch(console.error);
+
+async function createUser(client, user){
+    const result = await client.db("hungrezy").collection("users").insertOne(user);
+    console.log(`New user created with the following id: ${result.insertedId}`);
+}
+
+async function getUser(client, id) {
+    const result = await client.db("sample_airbnb").collection("listingsAndReviews").findOne({ _id: id });
+
+    if (result) {
+        console.log(`Found a user in the collection with the name '${id}':`);
+        console.log(result);
+        return result
+    } else {
+        console.log(`No user found with the name '${id}'`);
+    }
+}
+
+
+
+
+
+
+
+//<---------------------------Mongodb-------------------------------->
 
 
 
@@ -92,7 +146,7 @@ db.all(query, [], (err, rows) => {
        let restaurant = {
         image:row.image,name:row.name,type:row.type,rating:row.rating,time:row.time,cost:row.cost,location:row.location,offer:row.offer,restaurantID:row.restaurantid,menuID:row.menuid
        }
-       console.log(restaurant);
+       //console.log(restaurant);
        Restaurants.push(restaurant);
    })
   });
@@ -109,7 +163,7 @@ db.all(query, [], (err, rows) => {
       throw err;
     }
    rows.forEach((row)=>{
-    console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
+   // console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
         let user={
             mobileNumber : row.MOBILE,
             password : row.PASSWORD,
@@ -285,6 +339,9 @@ app.post('/login', function (req, res){
    
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
+
+
+    
     
     query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
 
@@ -322,29 +379,38 @@ app.post('/Registration', function (req, res){
     let password = req.body.password;
     let gender = req.body.gender;
     let email = req.body.email;
+
     
-    bcrypt.hash(password, saltRounds, function(err, hash) {
+    
+    bcrypt.hash(password, saltRounds, async function(err, hash) {
         if(err)throw err;
         else{
-            query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${hash}')`;
-            db.run(query, [], (err, rows) => {
-                if (err) {
-                   
-                    res.redirect('Registration')
-                    throw err;
-                }
-                else{
-                    console.log("Registration Successful!");
-                    currentUser={
-                        mobileNumber:mobileNumber,
-                        name:name,
-                        email:email,
-                        gender:gender,
-                        password:password
-                    };
-                    res.redirect('/');
-                }
-            });
+                const user={
+                    _id:mobileNumber,
+                    mobileNumber:mobileNumber,
+                    name:name,
+                    email:email,
+                    gender:gender,
+                    password:hash
+                };
+
+                await createUser(client,user);
+                currentUser = user;
+                res.redirect('/');
+
+                // query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${hash}')`;
+                // db.run(query, [], (err, rows) => {
+                //     if (err) {
+                    
+                //         res.redirect('Registration')
+                //         throw err;
+                //     }
+                //     else{
+                //         console.log("Registration Successful!");
+                //         currentUser = user;
+                //         res.redirect('/');
+                //     }
+                // });
         }
        
        
