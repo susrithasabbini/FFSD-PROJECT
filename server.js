@@ -25,6 +25,7 @@ app.listen(8080, () => {
 
 //<---------------------------Mongodb-------------------------------->
 
+
 const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
  
@@ -61,11 +62,25 @@ async function getUser(client, id) {
     const result = await client.db("hungrezy").collection("users").findOne({ _id: id });
 
     if (result) {
-        console.log(`Found a user in the collection with the name '${id}':`);
+        console.log(`Found a user in the collection with the mobile '${id}':`);
         console.log(result);
         return result
     } else {
         console.log(`No user found with the id '${id}'`);
+        return null;
+    }
+}
+
+async function getAdmin(client, id) {
+    const result = await client.db("hungrezy").collection("Admins").findOne({ _id: id });
+
+    if (result) {
+        console.log(`Found a Admin in the collection with the email '${id}':`);
+        console.log(result);
+        return result
+    } else {
+        console.log(`No user found with the id '${id}'`);
+        return null;
     }
 }
 
@@ -320,6 +335,11 @@ app.get('/login', function (req, res) {
     res.render('pages/login',{pageTitle : pageTitle});
 });
 
+app.get('/Admin_Login', function (req, res) {
+    const pageTitle = "Admin-Login";
+    res.render('pages/Admin_Login',{pageTitle : pageTitle});
+});
+
 app.get('/logout', function (req, res) {
    currentUser=null;
     res.redirect('/');
@@ -366,6 +386,38 @@ app.post('/login', async function (req, res){
       });
 
     // });
+
+});
+
+app.post('/Admin_Login', async function (req, res){
+   
+    let email = req.body.email;
+    let password = req.body.password;
+
+    const user = await  getAdmin(client,email);
+    if(user){
+        if(user.password==password){
+            currentUser=user;
+            res.redirect("/Admin");
+        }
+        else{
+            console.log("Wrong Credentials");
+            res.redirect("/Admin_Login");
+        }
+    }
+    else{
+        res.redirect("/Admin_Login");
+    }
+
+});
+
+app.post('/Restaurant_Registration',function(req,res){
+    let restaurantName = req.body.restaurantName;
+    let restaurantEmail = req.body.restaurantEmail;
+    let restaurantType = req.body.restaurantType;
+    let deliveryTime = req.body.deliveryTime;
+    let cost = req.body.cost;
+    let location = req.body.location; 
 
 });
 
@@ -418,6 +470,11 @@ app.post('/Registration', function (req, res){
 app.get('/Registration', function (req, res) {
     const pageTitle = "Registration";
     res.render('pages/registration',{pageTitle:pageTitle});
+});
+
+app.get('/Restaurant_Registration', function (req, res) {
+    const pageTitle = "Restaurant-Registration";
+    res.render('pages/Restaurant_Registration',{pageTitle:pageTitle});
 });
 
 app.get('/Menu', function (req, res) {
