@@ -14,13 +14,13 @@
             <% pendingVerifications.map((restaurant)=>{%>
                 <div class="verification-card">
                     <div class="restaurant-details">
-                        <h4><%=restaurant.name%></h4>
-                        <p><%=restaurant.type%></p>
-                        <p><%=restaurant.time%> Min</p>
+                        <h4><%=restaurant.restaurantName%></h4>
+                        <p><%=restaurant.restaurantType%></p>
+                        <p><%=restaurant.deliveryTime%> Min ,&nbsp; <%=restaurant.location%></p>
                     </div>
                     <div class="verification-options">
-                        <a href="#" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
-                        <a href="#" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
+                        <a href="/Reject_Restaurant?email=<%=restaurant.restaurantEmail%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
+                        <a href="/Approve_Restaurant?email=<%=restaurant.restaurantEmail%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
                     </div>
                 </div>
             <%});%>
@@ -31,12 +31,28 @@
             <% Restaurants.map((restaurant)=>{%>
                 <div class="verification-card">
                     <div class="restaurant-details">
-                        <h4><%=restaurant.name%></h4>
-                        <p><%=restaurant.type%></p>
-                        <p><%=restaurant.time%> Min</p>
+                        <h4><%=restaurant.restaurantName%></h4>
+                        <p><%=restaurant.restaurantType%></p>
+                        <p><%=restaurant.deliveryTime%> Min ,&nbsp; <%=restaurant.location%></p>
                     </div>
                     <div class="verification-options">
-                        <a href="#" ><i class="fa-solid fa-circle-xmark me-2"></i>Suspend</a>
+                        <a href="/Suspend_Restaurant?email=<%=restaurant.restaurantEmail%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Suspend</a>
+                    </div>
+                </div>
+            <%});%>
+        </div>
+
+        <div class="suspended-restaurants">
+            <h3 class="mb-4">Suspended Restaurants</h3>
+            <% suspendedRestaurants.map((restaurant)=>{%>
+                <div class="verification-card">
+                    <div class="restaurant-details">
+                        <h4><%=restaurant.restaurantName%></h4>
+                        <p><%=restaurant.restaurantType%></p>
+                        <p><%=restaurant.deliveryTime%> Min ,&nbsp; <%=restaurant.location%></p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="/Approve_Restaurant?email=<%=restaurant.restaurantEmail%>" class="bg-success" ><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
                     </div>
                 </div>
             <%});%>
