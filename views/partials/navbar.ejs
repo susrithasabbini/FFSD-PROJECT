@@ -36,18 +36,34 @@
             </div>
             <hr>
 
-            <a href="#" class="sub-menu-link">
-                <img src="/CUSTOMER/images/profile.png" alt="">
-                <p>Edit Profile</p>
-                <span>></span>
-            </a>
+            <% if(currentUser) { %>
+                <a href="#" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/profile.png" alt="">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+            <% } else { %>
+                <a href="/login" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/profile.png" alt="">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+            <% } %>
 
-
-            <a href="#" class="sub-menu-link">
-                <img src="/CUSTOMER/images/settings.png" alt="">
-                <p>Settings & Privacy</p>
-                <span>></span>
-            </a>
+            <% if(currentUser) { %>
+                <a href="#" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/settings.png" alt="">
+                    <p>Settings & Privacy</p>
+                    <span>></span>
+                </a>
+            <% } else { %>
+                <a href="/login" class="sub-menu-link">
+                    <img src="/CUSTOMER/images/settings.png" alt="">
+                    <p>Settings & Privacy</p>
+                    <span>></span>
+                </a>
+            <% } %>
+            
 
             <a href="/helpAndSupport" class="sub-menu-link">
                 <img src="/CUSTOMER/images/help.png" alt="">

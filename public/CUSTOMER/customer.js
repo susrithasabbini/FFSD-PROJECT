@@ -9,7 +9,7 @@ const submenu = document.getElementById("submenu");
 const cart = document.getElementById("cart");
 
 function toggleMenu() {
-  submenu.classList.toggle("open-menu");
+  submenu.classList.add("open-menu");
 }
 
 function closeMenu() {
