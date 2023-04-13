@@ -6,6 +6,7 @@
 
 body{
     background-color:  #FFD8A9;
+    
 }
 
 .main-body{
@@ -13,6 +14,7 @@ body{
     margin: auto;
     margin-top: 7rem;
     margin-bottom: 5rem;
+    min-height: 100vh;
 }
 
 .verification-card{
@@ -46,5 +48,9 @@ body{
 }
 
 .approved-restaurants{
+    margin-top: 100px;
+}
+
+.suspended-restaurants{
     margin-top: 100px;
 }

@@ -57,6 +57,11 @@ async function createUser(client, user){
     console.log(`New user created with the following id: ${result.insertedId}`);
 }
 
+async function createRestaurant(client, restaurant){
+    const result = await client.db("hungrezy").collection("restaurants").insertOne(restaurant);
+    console.log(`New restaurant registered with the following id: ${result.insertedId}`);
+}
+
 
 async function getUser(client, id) {
     const result = await client.db("hungrezy").collection("users").findOne({ _id: id });
@@ -85,6 +90,22 @@ async function getAdmin(client, id) {
 }
 
 
+async function getRestaurantsByStatus(client,status){
+   const cursor = client.db("hungrezy").collection("restaurants").find({status:status});
+   const results = await cursor.toArray();
+   return results;
+}
+
+async function getRestaurantByEmail(client,email){
+    const result = client.db("hungrezy").collection("restaurants").findOne({restaurantEmail:email});
+    
+    return result;
+ }
+
+async function updateRestaurantStatus(client,email,status) {
+    const result = await client.db("hungrezy").collection("restaurants")
+                        .updateOne({ restaurantEmail:email }, { $set: {status:status} });
+}
 
 
 
@@ -325,9 +346,10 @@ app.get('/', function (req, res) {
     res.render('pages/Home',{pageTitle : pageTitle,currentUser:currentUser});
 });
 
-app.get('/Restaurants', function (req, res) {
+app.get('/Restaurants', async function (req, res) {
     const pageTitle = "Restaurants";
-    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : Restaurants,pageTitle : pageTitle,currentUser:currentUser});
+    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
+    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : approvedRestaurants,pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.get('/login', function (req, res) {
@@ -411,13 +433,34 @@ app.post('/Admin_Login', async function (req, res){
 
 });
 
-app.post('/Restaurant_Registration',function(req,res){
-    let restaurantName = req.body.restaurantName;
-    let restaurantEmail = req.body.restaurantEmail;
-    let restaurantType = req.body.restaurantType;
-    let deliveryTime = req.body.deliveryTime;
-    let cost = req.body.cost;
-    let location = req.body.location; 
+app.post('/Register_Restaurant',function(req,res){
+   
+    bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+        if(err)throw err;
+        else{
+            const restaurantObj = {
+                _id : req.body.restaurantEmail,
+                restaurantName : req.body.restaurantName,
+                restaurantEmail : req.body.restaurantEmail,
+                password : hash,
+                restaurantType : req.body.restaurantType,
+                deliveryTime : req.body.deliveryTime,
+                cost : req.body.cost,
+                location : req.body.location, 
+                image : "/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg",
+                rating : Math.random() * (5 - 3) + 3 ,
+                offer : 50,
+                status : 'pending',
+                menuId : null
+            }
+
+            await createRestaurant(client,restaurantObj);
+            res.redirect('/Restaurant_Registration');
+        }
+       
+       
+    });
+   
 
 });
 
@@ -428,8 +471,6 @@ app.post('/Registration', function (req, res){
     let password = req.body.password;
     let gender = req.body.gender;
     let email = req.body.email;
-
-    
     
     bcrypt.hash(password, saltRounds, async function(err, hash) {
         if(err)throw err;
@@ -503,14 +544,40 @@ app.get('/Account', function (req, res) {
     res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
 });
 
-app.get('/Admin', function (req, res) {
+app.get('/Admin', async function (req, res) {
     const pageTitle = "Admin";
-    res.render('pages/Admin_Restaurants',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:Restaurants,Restaurants:Restaurants});
+    const pendingRestaurants = await getRestaurantsByStatus(client,"pending");
+    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
+    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended")
+    res.render('pages/Admin_Restaurants',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
 });
 
-app.get('/Add_Recipe', function (req, res) {
+app.get('/Approve_Restaurant', async function (req, res) {
+    let email = req.query.email;
+    await updateRestaurantStatus(client,email,"approved");
+    res.redirect('/Admin');
+  
+});
+
+
+app.get('/Reject_Restaurant', async function (req, res) {
+    let email = req.query.email;
+    await updateRestaurantStatus(client,email,"rejected");
+    res.redirect('/Admin');
+  
+});
+
+app.get('/Suspend_Restaurant', async function (req, res) {
+    let email = req.query.email;
+    await updateRestaurantStatus(client,email,"suspended");
+    res.redirect('/Admin');
+  
+});
+
+app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
-    res.render('pages/Admin_AddRecipe',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:Restaurants});
+    
+    res.render('pages/Admin_AddRecipe',{currentUser:currentUser,pageTitle:pageTitle});
 });
 
 app.get('/Donate_Food', function (req, res) {
