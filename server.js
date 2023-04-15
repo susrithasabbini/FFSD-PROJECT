@@ -4,8 +4,15 @@ const ejs = require('ejs');
 const bcrypt = require ('bcrypt');
 const {MongoClient} = require('mongodb');
 const saltRounds = 10;
+
+const mongoose = require("mongoose");
+const multer = require("multer");
+
 // Initialise Express
 var app = express();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const bodyParser = require('body-parser'); 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,31 +33,44 @@ app.listen(8080, () => {
 //<---------------------------Mongodb-------------------------------->
 
 
-const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri);
+const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/Images?retryWrites=true&w=majority";
+// const client = new MongoClient(uri);
  
 
-async function main(){
-    /**
-     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-     */
+// async function main(){
+//     /**
+//      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+//      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+//      */
     
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
+//     try {
+//         // Connect to the MongoDB cluster
+//         await client.connect();
  
-       
-    } catch (e) {
-        console.error(e);
-    }
-    //  finally {
-    //     await client.close();
-    // }
+//        console.log("Connected to mongodb atlas");
+//     } catch (e) {
+//         console.error(e);
+//     }
+//     //  finally {
+//     //     await client.close();
+//     // }
+// }
+
+// main().catch(console.error);
+
+const client = mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+if(client) {
+    console.log("Connected to mongodb atlas");
 }
+// Define a Mongoose schema for the image data
+const imageSchema = new mongoose.Schema({
+    name: String,
+    data: Buffer,
+    contentType: String
+  });
 
-main().catch(console.error);
-
+  const FoodItem = mongoose.model('FoodItem', imageSchema);
 
 async function createUser(client, user){
     const result = await client.db("hungrezy").collection("users").insertOne(user);
@@ -103,8 +123,7 @@ async function getRestaurantByEmail(client,email){
  }
 
 async function updateRestaurantStatus(client,email,status) {
-    const result = await client.db("hungrezy").collection("restaurants")
-                        .updateOne({ restaurantEmail:email }, { $set: {status:status} });
+    const result = await client.db("hungrezy").collection("restaurants").updateOne({ restaurantEmail:email }, { $set: {status:status} });
 }
 
 
@@ -217,18 +236,7 @@ db.all(query, [], (err, rows) => {
 
 
 
-//<------------------------------temparory static data for food items----------------------------------------------------->
-const foodItems=[
-    {image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani"},
-    {image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza"},
-    {image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken"},
-    {image:"/CUSTOMER/Order_Food/images/rolls.jpeg",name:"Rolls"},
-    {image:"/CUSTOMER/Order_Food/images/cakes.jpeg",name:"Cakes"},
-    {image:"/CUSTOMER/Order_Food/images/friedrice.jpeg",name:"Fried Rice"},
-    {image:"/CUSTOMER/Order_Food/images/thali.jpeg",name:"Thali"},
-    {image:"/CUSTOMER/Order_Food/images/burger.jpeg",name:"Burger"},
-    {image:"/CUSTOMER/Order_Food/images/icecream.jpeg",name:"Ice Cream"}
-]
+
 //<------------------------------temparory static data for food items----------------------------------------------------->
 //<------------------------------temporary static data for restuarants----------------------------------------------------->
 // const restuarants=[
@@ -348,8 +356,13 @@ app.get('/', function (req, res) {
 
 app.get('/Restaurants', async function (req, res) {
     const pageTitle = "Restaurants";
-    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
-    res.render('pages/Explore_Restuarants',{foodItems : foodItems,restuarants : approvedRestaurants,pageTitle : pageTitle,currentUser:currentUser});
+    try {
+        const fooditems = await FoodItem.find({});
+        res.render('pages/Explore_Restuarants',{foodItems : fooditems,restuarants : fooditems,pageTitle : pageTitle,currentUser:currentUser});
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 });
 
 app.get('/login', function (req, res) {

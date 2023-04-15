@@ -52,14 +52,14 @@
             <div class="slide-content">
                 <div class="swiper-wrapper" id="sw">
                 
-                        <% foodItems.map((food)=>{ %>
+                        <% for (let i = 0; i < foodItems.length; i++) { %>
 
                             <div class="card swiper-slide">
-                                <img class="card-img-top" src= "<%=food.image%>"  alt="Card image" width="100px" height="150px">
-                                <h5 class="card-title"><%= food.name %></h5>
+                                <img class="card-img-top" src= "data:<%=foodItems[i].contentType %>;base64,<%= foodItems[i].data.toString('base64') %>"  alt="<%= foodItems[i].name %>" width="100px" height="150px">
+                                <h5 class="card-title"><%= foodItems[i].name %></h5>
                             </div>
                             
-                        <% }) %>
+                        <% } %>
                     
                 </div>
                 <div class="swiper-button-next btn-swipe"></div>
