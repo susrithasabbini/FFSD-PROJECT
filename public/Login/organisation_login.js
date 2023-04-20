@@ -59,7 +59,7 @@ function passwordValidation(){
 // }
 
 loginForm.addEventListener('submit',(e)=>{
-    if(!organisationIDValidation() || !passwordValidation())
+    if( !passwordValidation())
     e.preventDefault();
 });
 

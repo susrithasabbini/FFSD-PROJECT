@@ -11,7 +11,7 @@
         </div>
         <div class="main-body">
             <h2>Register Your Restaurant</h2>
-            <form action="/Register_Restaurant" method="post">
+            <form action="/Register_Restaurant" method="post" enctype="multipart/form-data">
                 <div class="form-floating mt-3 mb-3">
                     <input type="text" class="form-control" id="restaurant-name" name="restaurantName">
                     <label for="restaurant-name" class="form-label">Restaurant Name</label>
@@ -42,11 +42,10 @@
                     <label for="location" class="form-label">Location</label>
                 </div>
     
-                <!-- <div class=" mt-3 mb-3">
+                <div class=" mt-3 mb-3">
                     <label for="restaurant-image" class="form-label">Restaurant Image</label>
-                    <input type="file" class="form-control form-control-lg" id="restaurant-image"  accept="image/*" name="restaurantImage">
-                    
-                </div> -->
+                    <input type="file" class="form-control form-control-lg" id="restaurant-image"  accept="image/*" name="image"> 
+                </div>
                 <div class="mt-4 mb-3">
                     <button type="submit">Register</button>
                 </div>

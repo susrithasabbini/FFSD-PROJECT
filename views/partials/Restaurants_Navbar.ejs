@@ -4,13 +4,14 @@
 
     <nav class="navbar">
        
-        <a href="/Admin" class="navbar-items">Verify Restaurants</a>
-        <a href="/Add_Recipe" class="navbar-items">Add Recipes</a>
+        <a href="/Restaurants_Home" class="navbar-items">Orders</a>
+        <a href="/Add_Menu" class="navbar-items">Menu</a>
+        <a href="/Donate_Food" class="navbar-items">Donate Food</a>
         <a href="/Settings" class="navbar-items">Settings</a>
         <% if(currentUser){ %>
-        <a href="/Admin_Login" class="login-btn navbar-items">Logout</a>
+        <a href="#" class="login-btn navbar-items">Logout</a>
         <%}else{ %>
-            <a href="/Admin_Login" class="login-btn navbar-items">Login</a>
+            <a href="#" class="login-btn navbar-items">Login</a>
         <%}%>
     </nav>
 

@@ -22,6 +22,10 @@ app.listen(8080, () => {
     console.log("Your server is running on port 8080.");
 });
 
+let currentUser=null;
+let currentRestaurant = null;
+let currentAdmin = null;
+
 
 //<---------------------------Mongodb-------------------------------->
 
@@ -96,17 +100,27 @@ async function getRestaurantsByStatus(client,status){
    return results;
 }
 
+async function getRestaurantOrders(client,email){
+    const cursor = client.db("RestaurantOrders").collection(email).find();
+    const results = await cursor.toArray();
+    return results;
+ }
+
 async function getRestaurantByEmail(client,email){
-    const result = client.db("hungrezy").collection("restaurants").findOne({restaurantEmail:email});
+    const result = client.db("hungrezy").collection("restaurants").findOne({email:email});
     
     return result;
  }
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants")
-                        .updateOne({ restaurantEmail:email }, { $set: {status:status} });
+                        .updateOne({ email:email }, { $set: {status:status} });
 }
 
+async function addFoodItem(client,restaurantID,foodItem){
+    const result = await client.db("Menu").collection(restaurantID).insertOne(foodItem);
+    console.log(`New food item added with the following id: ${result.insertedId}`);
+}
 
 
 
@@ -194,7 +208,7 @@ db.all(query, [], (err, rows) => {
 
 query = 'SELECT * FROM USERS';
 const users=[];
-let currentUser=null;
+
 
 db.all(query, [], (err, rows) => {
     if (err) {
@@ -357,6 +371,11 @@ app.get('/login', function (req, res) {
     res.render('pages/login',{pageTitle : pageTitle});
 });
 
+app.get('/Restaurant_Login', function (req, res) {
+    const pageTitle = "Restaurant Login";
+    res.render('pages/Restaurant_Login',{pageTitle : pageTitle});
+});
+
 app.get('/Admin_Login', function (req, res) {
     const pageTitle = "Admin-Login";
     res.render('pages/Admin_Login',{pageTitle : pageTitle});
@@ -419,7 +438,7 @@ app.post('/Admin_Login', async function (req, res){
     const user = await  getAdmin(client,email);
     if(user){
         if(user.password==password){
-            currentUser=user;
+            currentAdmin=user;
             res.redirect("/Admin");
         }
         else{
@@ -433,6 +452,30 @@ app.post('/Admin_Login', async function (req, res){
 
 });
 
+app.post('/Restaurant_Login', async function (req, res){
+   
+    let email = req.body.email;
+    let password = req.body.password;
+
+   const restaurant = await getRestaurantByEmail(client,email);
+
+   bcrypt.compare(password, restaurant.password, function(err, result) {
+        
+    if (result) {
+      // log in
+      currentRestaurant=restaurant;
+     
+      res.redirect('/Restaurants_Home');
+    }
+    else {
+      // access denied
+      res.redirect('/login');
+    }
+  });
+   
+
+});
+
 app.post('/Register_Restaurant',function(req,res){
    
     bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
@@ -440,11 +483,11 @@ app.post('/Register_Restaurant',function(req,res){
         else{
             const restaurantObj = {
                 _id : req.body.restaurantEmail,
-                restaurantName : req.body.restaurantName,
-                restaurantEmail : req.body.restaurantEmail,
+                name : req.body.restaurantName,
+                email : req.body.restaurantEmail,
                 password : hash,
-                restaurantType : req.body.restaurantType,
-                deliveryTime : req.body.deliveryTime,
+                type : req.body.restaurantType,
+                time : req.body.deliveryTime,
                 cost : req.body.cost,
                 location : req.body.location, 
                 image : "/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg",
@@ -455,14 +498,32 @@ app.post('/Register_Restaurant',function(req,res){
             }
 
             await createRestaurant(client,restaurantObj);
-            res.redirect('/Restaurant_Registration');
+            currentRestaurant = restaurantObj;
+            res.redirect('/Restaurants_Home');
         }
        
        
     });
-   
-
 });
+
+app.post('/Add_FoodItem',async function(req,res){
+    const email = req.query.email;
+   const foodItem = {
+        name : req.body.name,
+        cost : req.body.cost,
+        description : req.body.description,
+        type : req.body.type,
+        category : req.body.category,
+        image : "/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg",
+        rating : 5
+   }
+
+   await addFoodItem(client,email,foodItem);
+   res.redirect('/Add_Menu');
+  
+});
+
+
 
 app.post('/Registration', function (req, res){
 
@@ -549,7 +610,7 @@ app.get('/Admin', async function (req, res) {
     const pendingRestaurants = await getRestaurantsByStatus(client,"pending");
     const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
     const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended")
-    res.render('pages/Admin_Restaurants',{currentUser:currentUser,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+    res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {
@@ -578,6 +639,21 @@ app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
     
     res.render('pages/Admin_AddRecipe',{currentUser:currentUser,pageTitle:pageTitle});
+});
+
+app.get('/Restaurants_Home',async function(req,res){
+    const pageTitle = "Restaurant Home";
+    let restaurantOrders=[];
+    if(currentRestaurant){
+        restaurantOrders = await getRestaurantOrders(client,currentRestaurant.email)
+    }
+    res.render('pages/Restaurants_Home',{pageTitle:pageTitle,currentUser:currentRestaurant,Orders:restaurantOrders});
+});
+
+
+app.get('/Add_Menu',function(req,res){
+    const pageTitle = "Add Menu";
+    res.render('pages/Add_Menu',{pageTitle:pageTitle,currentUser:currentRestaurant});
 });
 
 app.get('/Donate_Food', function (req, res) {

@@ -77,7 +77,7 @@
 
                 <%restuarants.map((restuarant)=>{%>
 
-                <a href="/Menu?id=<%=restuarant.restaurantID %>" >
+                <a href="/Menu?id=<%=restuarant._id %>" >
                     <div class="card" style="width:300px;">
                         <div class="card-body">
                             <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
@@ -85,12 +85,12 @@
                                 <p class="offers">Flat <%=restuarant.offer%>% OFF</p>
                             </div>
                             <div class="restuarant-data">
-                                <h4 class="card-title mt-1"><%=restuarant.restaurantName%></h4>
-                                <p><%=restuarant.restaurantType%></p>
+                                <h4 class="card-title mt-1"><%=restuarant.name%></h4>
+                                <p><%=restuarant.type%></p>
                                 <hr>
                                 <div class="data">
                                     <p class="badge bg-success"><%=restuarant.rating%><i class="fa fa-star fa-xs"></i></p>
-                                    <p class="badge"><%=restuarant.deliveryTime%> MIN</p>
+                                    <p class="badge"><%=restuarant.time%> MIN</p>
                                     <p class="badge">Rs <%=restuarant.cost%></p>
                                 </div>
                             </div>
