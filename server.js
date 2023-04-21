@@ -51,8 +51,9 @@ let currentAdmin = null;
 
 
 const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/Images?retryWrites=true&w=majority";
-const client = new MongoClient(uri);
-const client = new MongoClient(uri);
+const uri2 = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri2);
+
  
 
 async function main(){
@@ -74,7 +75,7 @@ async function main(){
     // }
 }
 
-// main().catch(console.error);
+ main().catch(console.error);
 
 const mongooseClient = mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -110,6 +111,11 @@ async function createRestaurant(client, restaurant){
 async function addFoodItem(client, email,foodItem){
     const result = await client.db("Menu").collection(email).insertOne(foodItem);
     console.log(`New food item  added with the following id: ${result.insertedId}`);
+}
+
+async function addOrder(client,order){
+    const result = await client.db("Orders").collection(order.restaurandID).insertOne(order);
+    console.log(`New order placed with the following id: ${result.insertedId}`);
 }
 
 
@@ -328,7 +334,7 @@ const banners = [
 
 app.get('/', function (req, res) {
     const pageTitle = "Hungrezy";
-    let currentUser = null;
+    
     if (req.cookies.mobileNumber) {
         const mobileNumber = req.cookies.mobileNumber;
         // Get user information from database using mobileNumber
@@ -410,13 +416,6 @@ app.post('/login', async function (req, res){
     let password = req.body.password;
 
     const user = await  getUser(client,mobileNumber);
-    
-    
-    // query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
-
-    // db.each(query, 
-    // (error, row) => {
-    // /*gets called for every row our query returns*/
 
     bcrypt.compare(password, user.password, function(err, result) {
         
@@ -607,37 +606,6 @@ app.post('/Add_FoodItem', upload.single('image'),async function(req,res){
 
 
 
-app.post('/Registration', function (req, res){
-
-    let name = req.body.fname;
-    let mobileNumber = req.body.mobileNumber;
-    let password = req.body.password;
-    let gender = req.body.gender;
-    let email = req.body.email;
-    
-    bcrypt.hash(password, saltRounds, async function(err, hash) {
-        if(err)throw err;
-        else{
-                const user={
-                    _id:mobileNumber,
-                    mobileNumber:mobileNumber,
-                    name:name,
-                    email:email,
-                    gender:gender,
-                    password:hash
-                };
-
-                await createUser(client,user);
-                currentUser = user;
-                res.redirect('/');
-
-        }
-       
-       
-    });
-  
-});
-
 app.get('/Registration', function (req, res) {
     const pageTitle = "Registration";
     res.render('pages/registration',{pageTitle:pageTitle});
@@ -675,6 +643,22 @@ app.get('/Menu', async function (req, res) {
     const menuItems = JSON.stringify( MenuItems ).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
     res.render('pages/Restuarant_Menu',{Restuarant: restaurant,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle,MenuItems:menuItems});
 });
+
+app.post('/order', async function (req, res){
+        const order = {
+            restaurandID : req.query.rid,
+            customerID : req.query.cid,
+            cart : JSON.parse(req.query.cart),
+            paymentDetails : {payment:req.query.pay,method:req.query.method}
+        }
+
+        await addOrder(client,order)
+        console.log(order);
+        res.redirect('/Restaurants');
+   
+
+});
+
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";

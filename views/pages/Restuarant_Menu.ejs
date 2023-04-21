@@ -154,7 +154,9 @@
                                 <label for="cash">Cash</label>
                             </div>
                             <div class="place-order mt-3">
-                                <button type="button"  data-bs-dismiss="modal" onclick="location.reload()">Place Order</button>
+                                <form action="" method="post" id="order-form">
+                                    <button type="button"  data-bs-dismiss="modal" onclick="placeOrder()">Place Order</button>
+                                </form>
                             </div>
                        </div>
                     </div>
@@ -177,9 +179,19 @@
     <script>
         var cartItemsCount = 0;
         const cartMessage = document.getElementById("cart-message");
-        const cartItems= [];
+        const cartItems= [],cartItems2= [];
         const quantities = new Map();
         const menuItems = JSON.parse("<%- MenuItems %>");
+        let subtotal=0,deliveryFee=40,gst,grandTotal,method="POD";
+       
+        const orderForm = document.getElementById('order-form');
+        function placeOrder(){
+            let postString = `/order?cid=${"<%- currentUser.email %>"}&rid=${"<%- Restuarant.email %>"}&cart=${JSON.stringify( cartItems2 )}&pay=${grandTotal}&method=${method}`;
+            orderForm.setAttribute("action",postString);
+            console.log("hello");
+            orderForm.submit();
+        }
+
     
         function addToCart(id){
             var count = 1;
@@ -238,11 +250,15 @@
        
 
         function displayCart(){
+            cartItems2=[];
+            cartItems.map(item=>{
+                cartItems2.push({foodItem : item.name,quantity : quantities.get(item._id)})
+            })
          
             cartContainer.innerHTML = cartItems.map(item=>`
                                 <div class="cart-item-card mb-3">
                                     <div class="item-left">
-                                        <h4>${item.name}</h4>
+                                        <h5>${item.name}</h5>
                                         <p>Rs ${item.cost} <br>quantity : ${quantities.get(item._id)}</p>  
                                     </div>
                                     <div class="item-right">
@@ -253,12 +269,16 @@
             `
             ).join('');
 
-            let subtotal=0,deliveryFee=40,gst,grandTotal;
+           
             cartItems.forEach(item=>{
                 subtotal=subtotal+(item.cost*quantities.get(item._id));
             })
             gst= 0.18*subtotal;
             grandTotal = subtotal+gst+deliveryFee;
+
+           
+
+
             billContainer.innerHTML=`
                             <table>
                                 <tr>
@@ -281,7 +301,12 @@
                                     <td><h5>Grand Total &nbsp;</h5></td>
                                     <td><h5> :&nbsp;&nbsp; Rs ${grandTotal}</h5></td>
                                 </tr>
-                            </table>`
+                            </table>` 
+                            
+                            
+           
+
+            
         }
 
         var removeCartItem = function(id){
