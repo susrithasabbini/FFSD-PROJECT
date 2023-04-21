@@ -48,7 +48,7 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 1rem 7%;
+    padding: 0.4rem 6%;
     height: 5rem;
     background: #FDEEDC;
     display: flex;
@@ -241,6 +241,8 @@
 }
 
 .sub-menu-link p {
+    font-weight: 500;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -258,7 +260,12 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.sub-menu-link:hover {
+    color: #E38B29;
+}
+
 .sub-menu-link:hover span {
+    color: #E38B29;
     transform: translateX(5px);
 }
 
