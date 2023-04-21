@@ -4,12 +4,25 @@ const ejs = require('ejs');
 const bcrypt = require ('bcrypt');
 const {MongoClient} = require('mongodb');
 const saltRounds = 10;
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 
 const mongoose = require("mongoose");
 const multer = require("multer");
 
 // Initialise Express
 var app = express();
+
+app.use(cookieParser());
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // you can set secure to true if you're using HTTPS
+}));
+
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -39,6 +52,7 @@ let currentAdmin = null;
 
 const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/Images?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
+const client = new MongoClient(uri);
  
 
 async function main(){
@@ -60,11 +74,11 @@ async function main(){
     // }
 }
 
-main().catch(console.error);
+// main().catch(console.error);
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongooseClient = mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-if(client) {
+if(mongooseClient) {
     console.log("Connected to mongodb atlas");
 }
 // Define a Mongoose schema for the image data
@@ -314,8 +328,22 @@ const banners = [
 
 app.get('/', function (req, res) {
     const pageTitle = "Hungrezy";
-    res.render('pages/Home',{pageTitle : pageTitle,currentUser:currentUser});
+    let currentUser = null;
+    if (req.cookies.mobileNumber) {
+        const mobileNumber = req.cookies.mobileNumber;
+        // Get user information from database using mobileNumber
+        getUser(client, mobileNumber).then(user => {
+            currentUser = user;
+            res.render('pages/Home', { pageTitle: pageTitle, currentUser:currentUser });
+        }).catch(err => {
+            console.log(err);
+            res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
+        });
+    } else {
+        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
+    }
 });
+
 
 app.get('/Restaurants', async function (req, res) {
     const pageTitle = "Restaurants";
@@ -351,9 +379,20 @@ app.get('/Admin_Login', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-   currentUser=null;
+    // Clear the currentUser variable
+    currentUser = null;
+
+    // Set the expiration time of the mobileNumber cookie to 0 to delete it
+    res.cookie('mobileNumber', '', {
+        expires: new Date(0),
+        sameSite: true
+    });
+
+    // Redirect to the login page
     res.redirect('/');
 });
+
+  
 
 app.get('/helpAndSupport', function(req, res) {
     const pageTitle = "Help & Support";
@@ -365,32 +404,76 @@ app.get('/About', function (req, res) {
     res.render('pages/About',{pageTitle : pageTitle});
 });
 
-
-
 app.post('/login', async function (req, res){
    
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
 
     const user = await  getUser(client,mobileNumber);
+    
+    
+    // query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
+
+    // db.each(query, 
+    // (error, row) => {
+    // /*gets called for every row our query returns*/
 
     bcrypt.compare(password, user.password, function(err, result) {
         
         if (result) {
-          // log in
-          currentUser=user;
-         
-          res.redirect('/');
+            // Set the mobileNumber cookie with an expires value of 0 and sameSite value of true
+            // res.cookie('mobileNumber', user.mobileNumber, { 
+            //     expires: 0,
+            //     sameSite: true
+            // });
+            const expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
+            res.cookie('mobileNumber', user.mobileNumber, { 
+                expires: expirationDate,
+                sameSite: true
+            });
+          
+            // Set the currentUser variable to the logged in user
+            currentUser = user;
+
+            // Redirect to the home page
+            res.redirect('/');
         }
         else {
-          // access denied
-          res.redirect('/login');
+            // If login fails, redirect back to the login page
+            res.redirect('/login');
         }
-      });
-
-    // });
-
+    });
 });
+
+  
+app.post('/registration', function (req, res) {
+    let name = req.body.fname;
+    let mobileNumber = req.body.mobileNumber;
+    let password = req.body.password;
+    let gender = req.body.gender;
+    let email = req.body.email;
+  
+    bcrypt.hash(password, saltRounds, async function (err, hash) {
+      if (err) throw err;
+      else {
+        const user = {
+          _id: mobileNumber,
+          mobileNumber: mobileNumber,
+          name: name,
+          email: email,
+          gender: gender,
+          password: hash
+        };
+  
+        await createUser(client, user);
+        req.session.user = user;
+        currentUser = user;
+        res.redirect('/');
+      }
+    });
+});
+  
 
 app.post('/Admin_Login', async function (req, res){
    
