@@ -130,6 +130,7 @@ body{
     padding: 3rem;
     background-color: #F1A661;
     max-width: 1250px;
+    border-radius: 20px;
 }
 
 .swiper-slide .card-title{
