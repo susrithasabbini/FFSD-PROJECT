@@ -172,8 +172,7 @@ async function getRestaurantByEmail(client,email){
  }
 
 async function updateRestaurantStatus(client,email,status) {
-    const result = await client.db("hungrezy").collection("restaurants")
-                        .updateOne({ email:email }, { $set: {status:status} });
+    const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
 }
 
 
@@ -398,6 +397,19 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/Admin_Logout', function (req, res) {
+    // Clear the currentUser variable
+    currentAdmin = null;
+
+    // Set the expiration time of the email cookie to 0 to delete it
+    res.cookie('email', '', {
+        expires: new Date(0),
+        sameSite: true
+    });
+
+    // Redirect to the login page
+    res.redirect('/Admin_Login');
+});
   
 
 app.get('/helpAndSupport', function(req, res) {
@@ -482,6 +494,12 @@ app.post('/Admin_Login', async function (req, res){
     const user = await  getAdmin(client,email);
     if(user){
         if(user.password==password){
+            const expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (4 * 60 * 60 * 1000)); // 4 hours in milliseconds
+            res.cookie('email', user.email, { 
+                expires: expirationDate,
+                sameSite: true
+            });
             currentAdmin=user;
             res.redirect("/Admin");
         }
@@ -679,8 +697,13 @@ app.get('/Admin', async function (req, res) {
     const pageTitle = "Admin";
     const pendingRestaurants = await getRestaurantsByStatus(client,"pending");
     const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
-    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended")
-    res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended");
+    if(currentAdmin==null) {
+        res.redirect('/Admin_Login');
+    }
+    else {
+        res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+    }
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {
