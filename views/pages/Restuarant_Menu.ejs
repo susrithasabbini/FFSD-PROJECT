@@ -179,7 +179,7 @@
     <script>
         var cartItemsCount = 0;
         const cartMessage = document.getElementById("cart-message");
-        const cartItems= [],cartItems2= [];
+        const cartItems= [];let cartItems2= [];
         const quantities = new Map();
         const menuItems = JSON.parse("<%- MenuItems %>");
         let subtotal=0,deliveryFee=40,gst,grandTotal,method="POD";
@@ -188,7 +188,6 @@
         function placeOrder(){
             let postString = `/order?cid=${"<%- currentUser.email %>"}&rid=${"<%- Restuarant.email %>"}&cart=${JSON.stringify( cartItems2 )}&pay=${grandTotal}&method=${method}`;
             orderForm.setAttribute("action",postString);
-            console.log("hello");
             orderForm.submit();
         }
 
