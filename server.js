@@ -38,31 +38,31 @@ let currentAdmin = null;
 
 
 const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/Images?retryWrites=true&w=majority";
-// const client = new MongoClient(uri);
+const client = new MongoClient(uri);
  
 
-// async function main(){
-//     /**
-//      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-//      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-//      */
+async function main(){
+    /**
+     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+     */
     
-//     try {
-//         // Connect to the MongoDB cluster
-//         await client.connect();
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
  
-//        console.log("Connected to mongodb atlas");
-//     } catch (e) {
-//         console.error(e);
-//     }
-//     //  finally {
-//     //     await client.close();
-//     // }
-// }
+       console.log("Connected to mongodb atlas");
+    } catch (e) {
+        console.error(e);
+    }
+    //  finally {
+    //     await client.close();
+    // }
+}
 
-// main().catch(console.error);
+main().catch(console.error);
 
-const client = mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 if(client) {
     console.log("Connected to mongodb atlas");
@@ -72,9 +72,16 @@ const imageSchema = new mongoose.Schema({
     name: String,
     data: Buffer,
     contentType: String
-  });
+});
 
-  const FoodItem = mongoose.model('FoodItem', imageSchema);
+const imageSchema2 = new mongoose.Schema({
+    _id: String,
+    data: Buffer,
+    contentType: String
+});
+
+const FoodItem = mongoose.model('FoodItem', imageSchema);
+
 
 async function createUser(client, user){
     const result = await client.db("hungrezy").collection("users").insertOne(user);
@@ -85,6 +92,12 @@ async function createRestaurant(client, restaurant){
     const result = await client.db("hungrezy").collection("restaurants").insertOne(restaurant);
     console.log(`New restaurant registered with the following id: ${result.insertedId}`);
 }
+
+async function addFoodItem(client, email,foodItem){
+    const result = await client.db("Menu").collection(email).insertOne(foodItem);
+    console.log(`New food item  added with the following id: ${result.insertedId}`);
+}
+
 
 
 async function getUser(client, id) {
@@ -124,7 +137,13 @@ async function getRestaurantOrders(client,email){
     const cursor = client.db("RestaurantOrders").collection(email).find();
     const results = await cursor.toArray();
     return results;
- }
+}
+
+ async function getRestaurantMenu(client,email){
+    const cursor = client.db("Menu").collection(email).find();
+    const results = await cursor.toArray();
+    return results;
+}
 
 async function getRestaurantByEmail(client,email){
     const result = client.db("hungrezy").collection("restaurants").findOne({email:email});
@@ -247,75 +266,9 @@ db.all(query, [], (err, rows) => {
 
 
 
-//<------------------------------temparory static data for food items----------------------------------------------------->
-//<------------------------------temporary static data for restuarants----------------------------------------------------->
-// const restuarants=[
-//   {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Rajadhani",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"15 MIN",cost:"Rs100 for one",location:"Sricity",offer:"30%",restaurantID:'R0001',menuID:'M0001'},
-//   {image:"/CUSTOMER/Order_Food/images/chickenshawarma.jpeg",name:"Hotel MG Grand",type:"Biryani, Chinese ,Fast Food",rating:"4.8",time:"21 MIN",cost:"Rs200 for one",location:"Chennai",offer:"20%"},
-//   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Abhiruchi",type:"Biryani, Chinese ,Fast Food",rating:"4.6",time:"19 MIN",cost:"Rs300 for one",location:"Tada",offer:"25%"},
-//   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Manasa",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"18 MIN",cost:"Rs190 for one",location:"Sullurpeta",offer:"35%"},
-//   {image:"/CUSTOMER/Order_Food/images/fishfry.jpeg",name:"The Indian Grill",type:"Biryani, Chinese ,Fast Food",rating:"4",time:"17 MIN",cost:"Rs320 for one",location:"Akkampeta",offer:"10%"},
-//   {image:"/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",name:"Hotel Paradise",type:"Biryani, Chinese ,Fast Food",rating:"3.8",time:"27 MIN",cost:"Rs176 for one",location:"Gummadipundi",offer:"25%"},
-//   {image:"/CUSTOMER/Order_Food/images/chickenshawarma.jpeg",name:"Hotel Bawarchi",type:"Biryani, Chinese ,Fast Food",rating:"5",time:"31 MIN",cost:"Rs450 for one",location:"Ponneri",offer:"20%"},
-//   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Platform 65",type:"Biryani, Chinese ,Fast Food",rating:"3.9",time:"35 MIN",cost:"Rs210 for one",location:"Arambakam",offer:"29%"},
-//   {image:"/CUSTOMER/Order_Food/images/chickenmandibiriyani.jpeg",name:"Hotel Sweet Magic",type:"Biryani, Chinese ,Fast Food",rating:"4.9",time:"16 MIN",cost:"Rs199 for one",location:"Tirupati",offer:"32%"},
-//   {image:"/CUSTOMER/Order_Food/images/fishfry.jpeg",name:"Hotel 7 Hills",type:"Biryani, Chinese ,Fast Food",rating:"4.2",time:"41 MIN",cost:"Rs299 for one",location:"Kalahasti",offer:"25%"},
-//   {image:"/CUSTOMER/Order_Food/images/chickentandoori.jpeg",name:"Hotel Spice Gardens",type:"Biryani, Chinese ,Fast Food",rating:"4",time:"23 MIN",cost:"Rs399 for one",location:"Gudur",offer:"32%"},
-//   {image:"/CUSTOMER/Order_Food/images/muttoncurry.jpeg",name:"Hotel Swarnamukhi",type:"Biryani, Chinese ,Fast Food",rating:"4.2",time:"51 MIN",cost:"Rs1000 for one",location:"Naidupeta",offer:"29%"},
-// ]
 
-//recomended is a array of food item objects which are displayed in the recomended section of Menu page.
 
-const recomended = [
-    {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
-    {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
-    {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
-    {id:"F0004",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali",cost:"80",description:"serves 1",type:"veg"},
-    {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
-    {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"}
-]
 
-// Menu is a array of food category objects where each object consits of category name and array of food item objects.
-
-const MenuItems = [
-    {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg",quantity:'0'},
-    {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg",quantity:'0'},
-    {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg",quantity:'0'},
-    {id:"F0004",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Thali",cost:"80",description:"serves 1",type:"veg",quantity:'0'},
-    {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg",quantity:'0'},
-    {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg",quantity:'0'},
-    {id:"F0007",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice",cost:"60",description:"serves 1",type:"nonveg",quantity:'0'},
-    {id:"F0008",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes",cost:"120",description:"serves 4",type:"nonveg",quantity:'0'},
-    {id:"F0009",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls",cost:"10",description:"serves 1",type:"veg",quantity:'0'},
-]
-
-const Menu = [
-    {
-        categoryName : "Chicken",
-        items : [
-            {id:"F0003",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Chicken",cost:"100",description:"serves 2",type:"nonveg"},
-            {id:"F0001",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Biryani",cost:"100",description:"serves 1",type:"nonveg"},
-            {id:"F0007",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Fried Rice",cost:"60",description:"serves 1",type:"nonveg"},
-        ]
-    },
-
-    {
-        categoryName : "Bakery",
-        items : [
-            {id:"F0008",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Cakes",cost:"120",description:"serves 4",type:"nonveg"},
-            {id:"F0006",image:"/CUSTOMER/Order_Food/images/chicken.jpeg",name:"Ice Cream",cost:"20",description:"serves 1",type:"veg"},
-            {id:"F0009",image:"/CUSTOMER/Order_Food/images/biryani.jpeg",name:"Rolls",cost:"10",description:"serves 1",type:"veg"},
-        ]
-    },
-
-    {
-        categoryName : "Pizza",
-        items : [
-            {id:"F0002",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Pizza",cost:"50",description:"serves 1",type:"veg"},
-            {id:"F0005",image:"/CUSTOMER/Order_Food/images/pizza.jpeg",name:"Burger",cost:"40",description:"serves 1",type:"veg"},
-        ]
-    }
-]
 
 const chickenRecipes = [
     {name : "Chicken",image: "/CUSTOMER/Order_Food/images/chickencurry.jpeg",description : "Crispy & flavorful Chilli Chicken, made with chicken marinated in chinese sauces, fried till crispy, sautéed with onions, peppers&sauces."},
@@ -366,9 +319,16 @@ app.get('/', function (req, res) {
 
 app.get('/Restaurants', async function (req, res) {
     const pageTitle = "Restaurants";
+    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
+    const Restaurants = [];
+    approvedRestaurants.forEach(async (restaurant)=>{
+        let FoodImage = mongoose.model(restaurant.email,imageSchema2);
+        let  foodItemImage = await FoodImage.findOne({_id : restaurant.email});
+        Restaurants.push({restaurant:restaurant,image:foodItemImage});
+    });
     try {
         const fooditems = await FoodItem.find({});
-        res.render('pages/Explore_Restuarants',{foodItems : fooditems,restuarants : fooditems,pageTitle : pageTitle,currentUser:currentUser});
+        res.render('pages/Explore_Restuarants',{foodItems : fooditems,restuarants : Restaurants ,pageTitle : pageTitle,currentUser:currentUser});
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
@@ -413,13 +373,6 @@ app.post('/login', async function (req, res){
     let password = req.body.password;
 
     const user = await  getUser(client,mobileNumber);
-    
-    
-    // query = `SELECT * FROM USERS WHERE MOBILE = '${mobileNumber}'`;
-
-    // db.each(query, 
-    // (error, row) => {
-    // /*gets called for every row our query returns*/
 
     bcrypt.compare(password, user.password, function(err, result) {
         
@@ -485,7 +438,18 @@ app.post('/Restaurant_Login', async function (req, res){
 
 });
 
-app.post('/Register_Restaurant',function(req,res){
+app.post('/Register_Restaurant', upload.single('image'),function(req,res){
+    function getOffer() {
+        let offer = Math.floor(Math.random() * (60 - 10 + 1) + 10);
+        while(offer % 5 !== 0) {
+            offer = Math.floor(Math.random() * (60 - 10 + 1) + 10);
+        }
+        return offer;
+    }
+
+    const offer = getOffer();
+
+    
    
     bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
         if(err)throw err;
@@ -499,36 +463,62 @@ app.post('/Register_Restaurant',function(req,res){
                 time : req.body.deliveryTime,
                 cost : req.body.cost,
                 location : req.body.location, 
-                image : "/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg",
-                rating : Math.random() * (5 - 3) + 3 ,
-                offer : 50,
+                rating :Math.round(((Math.random() * (5 - 3) + 3)) *10)/10,
+                offer : offer,
                 status : 'pending',
-                menuId : null
+              
             }
 
             await createRestaurant(client,restaurantObj);
             currentRestaurant = restaurantObj;
-            res.redirect('/Restaurants_Home');
+            const FoodImage = mongoose.model(req.body.restaurantEmail,imageSchema2);
+            const foodimage = new FoodImage({
+                _id: req.body.restaurantEmail,
+                data: req.file.buffer,
+                contentType: req.file.mimetype
+              });
+              try {
+                await foodimage.save();
+                res.redirect('/Restaurants_Home');
+              } catch (err) {
+                console.error(err);
+                res.sendStatus(500);
+              }
+           
         }
        
        
     });
 });
 
-app.post('/Add_FoodItem',async function(req,res){
+app.post('/Add_FoodItem', upload.single('image'),async function(req,res){
     const email = req.query.email;
+    const FoodImage = mongoose.model(email,imageSchema2);
+    const foodimage = new FoodImage({
+        _id: req.body.name,
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      });
    const foodItem = {
         name : req.body.name,
         cost : req.body.cost,
         description : req.body.description,
         type : req.body.type,
         category : req.body.category,
-        image : "/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg",
-        rating : 5
+        image: '/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg',
+        rating : Math.round(((Math.random() * (5 - 3) + 3)) *10)/10
    }
 
-   await addFoodItem(client,email,foodItem);
-   res.redirect('/Add_Menu');
+   try {
+    await foodimage.save();
+    await addFoodItem(client,email,foodItem);
+    res.redirect('/Add_Menu');
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+
+  
   
 });
 
@@ -558,19 +548,6 @@ app.post('/Registration', function (req, res){
                 currentUser = user;
                 res.redirect('/');
 
-                // query = `INSERT INTO USERS VALUES('${mobileNumber}','${name}','${gender}','${email}','${hash}')`;
-                // db.run(query, [], (err, rows) => {
-                //     if (err) {
-                    
-                //         res.redirect('Registration')
-                //         throw err;
-                //     }
-                //     else{
-                //         console.log("Registration Successful!");
-                //         currentUser = user;
-                //         res.redirect('/');
-                //     }
-                // });
         }
        
        
@@ -588,15 +565,32 @@ app.get('/Restaurant_Registration', function (req, res) {
     res.render('pages/Restaurant_Registration',{pageTitle:pageTitle});
 });
 
-app.get('/Menu', function (req, res) {
-    let Rid = req.query.id;
-    let R=Restaurants[0];
-    Restaurants.forEach((restaurant)=>{
-        if(restaurant.restaurantID==Rid)R=restaurant;
-    });
-    const pageTitle = "Menu-"+R.name;
+app.get('/Menu', async function (req, res) {
+    const restaurant = await getRestaurantByEmail(client,req.query.id)
+    let MenuItems = await getRestaurantMenu(client,restaurant._id);
+    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes"];
+    const Menu = [],recomended=[];
+    let FoodImage = mongoose.model(restaurant.email,imageSchema2);
+    let  foodItemImages = await FoodImage.find({});
+    categoryNames.map((name)=>{
+        let array = [];
+        MenuItems.map((item)=>{
+            if(name==item.category){
+                let foodItemImage
+                foodItemImages.map(image=>{
+                    if(image._id==item.name)
+                        foodItemImage=image;
+                })
+                array.push({item:item,image:foodItemImage});
+                if(name=="Recomended")recomended.push({item:item,image:foodItemImage});
+            }
+        })
+        if(name!="Recomended" && array.length>0)Menu.push({categoryName:name,items:array});
+    })
+   
+    const pageTitle = "Menu-"+restaurant.name;
     const menuItems = JSON.stringify( MenuItems ).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
-    res.render('pages/Restuarant_Menu',{Restuarant: R,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle,MenuItems:menuItems});
+    res.render('pages/Restuarant_Menu',{Restuarant: restaurant,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle,MenuItems:menuItems});
 });
 
 app.get('/Recipes', function (req, res) {

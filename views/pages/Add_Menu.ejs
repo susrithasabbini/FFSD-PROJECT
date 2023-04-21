@@ -8,7 +8,7 @@
 
     <div class="main-body">
         <h2>Menu Item</h2>
-        <form action="/Add_FoodItem?email=<%=currentUser.email%>" method="post">
+        <form action="/Add_FoodItem?email=<%=currentUser.email%>" method="post"  enctype="multipart/form-data">
             <div class="form-floating mb-4 mt-4">
                 <input type="text" class="form-control" id="food-item-name" placeholder="Enter Food Item Name" name="name">
                 <label for="food-item-name" class="form-label">Food Item Name</label>
@@ -33,21 +33,21 @@
             <div class="mb-4">
                 <select class="form-select" id="type" name="category" style="height: 60px;">
                     <option value="0">--Select Food Item Category--</option>
-                    <option>Biryani and Rice</option>
-                    <option>Chicken</option>
+                    <option>Recomended</option>
+                    <option>Biryani-Rice</option>
+                    <option>Curries</option>
                     <option>Bakery</option>
-                    <option>Pizza & Burger</option>
-                    <option>Soft Drinks</option>
+                    <option>Pizza-Burger</option>
+                    <option>Soft-Drinks</option>
                     <option>Sweets</option>
-                    <option>Lassi & Shakes</option>
-                    <option>Special Items</option>
+                    <option>Lassi-Shakes</option>
                 </select>
             </div>
 
             <div class="image-div mt-3 mb-3">
                
                 <input type="file" class="form-control form-control-lg" id="food-image"  accept="image/*" name="image"> 
-                <label for="food-image" class="form-label ms-3">Restaurant Image</label>
+                <label for="food-image" class="form-label ms-3">Food Item Image</label>
             </div>
            <button type="submit">Add Food Item</button>
 

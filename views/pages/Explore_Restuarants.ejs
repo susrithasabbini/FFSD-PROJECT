@@ -77,21 +77,21 @@
 
                 <%restuarants.map((restuarant)=>{%>
 
-                <a href="/Menu?id=<%=restuarant._id %>" >
+                <a href="/Menu?id=<%=restuarant.restaurant._id %>" >
                     <div class="card" style="width:300px;">
                         <div class="card-body">
-                            <img class="card-img-top" src="<%=restuarant.image%>" alt="Card image" height="180px">
+                            <img class="card-img-top" src="data:<%=restuarant.image.contentType %>;base64,<%= restuarant.image.data.toString('base64') %>" alt="Card image" height="180px">
                             <div class="card-img-overlay">
-                                <p class="offers">Flat <%=restuarant.offer%>% OFF</p>
+                                <p class="offers">Flat <%=restuarant.restaurant.offer%>% OFF</p>
                             </div>
                             <div class="restuarant-data">
-                                <h4 class="card-title mt-1"><%=restuarant.name%></h4>
-                                <p><%=restuarant.type%></p>
+                                <h4 class="card-title mt-1"><%=restuarant.restaurant.name%></h4>
+                                <p><%=restuarant.restaurant.type%></p>
                                 <hr>
                                 <div class="data">
-                                    <p class="badge bg-success"><%=restuarant.rating%><i class="fa fa-star fa-xs"></i></p>
-                                    <p class="badge"><%=restuarant.time%> MIN</p>
-                                    <p class="badge">Rs <%=restuarant.cost%></p>
+                                    <p class="badge bg-success"><%=restuarant.restaurant.rating%><i class="fa fa-star fa-xs"></i></p>
+                                    <p class="badge"><%=restuarant.restaurant.time%> MIN</p>
+                                    <p class="badge">Rs <%=restuarant.restaurant.cost%></p>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
 
 <%- include('../partials/footer.ejs') %>
 
-<script src="CUSTOMER/customer.js"></script> 
+<script src="/CUSTOMER/customer.js"></script> 
    
 </body>
 </html>

@@ -57,7 +57,7 @@
                                 <p class="food-description"><%=food.description%></p>
                             </div>
                             
-                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text ms-2 me-2" id="<%=food.id%>" onclick="addToCart(id)"> Add </p><i class="fa-solid fa-plus"></i></button>
+                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text ms-2 me-2" id="<%=food._id%>" onclick="addToCart(id)"> Add </p><i class="fa-solid fa-plus"></i></button>
 
                         </div>
                     
@@ -85,17 +85,17 @@
 
                         <div class="card-body">
                         
-                            <img src="<%=food.image%>" alt="Card image" height="120px" width="120px">
+                            <img src="data:<%=food.image.contentType %>;base64,<%= food.image.data.toString('base64') %>" alt="Card image" height="120px" width="120px">
                         
                             <div class="fooditem-data">
-                                <span class="<%=food.type%>"><i class="fa-regular fa-square-o"></i></span>
+                                <span class="<%=food.item.type%>"><i class="fa-regular fa-square-o"></i></span>
                                 <span style="color: #E38B29;font-size:small;"><strong>bestseller</strong></span>
-                                <h5 class="card-title mt-1"><%=food.name%></h5>
-                                <p>Rs <%=food.cost%></p>
-                                <p class="food-description"><%=food.description%></p>
+                                <h5 class="card-title mt-1"><%=food.item.name%></h5>
+                                <p>Rs <%=food.item.cost%></p>
+                                <p class="food-description"><%=food.item.description%></p>
                             </div>
                             
-                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text ms-2 me-2" id="<%=food.id%>" onclick="addToCart(id)"> Add </p><i class="fa-solid fa-plus"></i></button>
+                            <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text ms-2 me-2" id="<%=food.item._id%>" onclick="addToCart(id)"> Add </p><i class="fa-solid fa-plus"></i></button>
 
                         </div>
                     
@@ -186,7 +186,7 @@
             cartItemsCount++;
             const mid = document.getElementById(id);
             menuItems.forEach(element => {
-                if(element.id == id){
+                if(element._id == id){
                     cartItems.push(element);
                 }
             });
@@ -243,11 +243,11 @@
                                 <div class="cart-item-card mb-3">
                                     <div class="item-left">
                                         <h4>${item.name}</h4>
-                                        <p>Rs ${item.cost} <br>quantity : ${quantities.get(item.id)}</p>  
+                                        <p>Rs ${item.cost} <br>quantity : ${quantities.get(item._id)}</p>  
                                     </div>
                                     <div class="item-right">
-                                        <button onclick='removeCartItem("${item.id}")'>Remove <i class="fa-solid fa-xmark"></i></button>
-                                        <span style="color: #E38B29;" class="mt-2"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;${item.cost*quantities.get(item.id)}</span>
+                                        <button onclick='removeCartItem("${item._id}")'>Remove <i class="fa-solid fa-xmark"></i></button>
+                                        <span style="color: #E38B29;" class="mt-2"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;${item.cost*quantities.get(item._id)}</span>
                                     </div>
                                 </div>
             `
@@ -255,7 +255,7 @@
 
             let subtotal=0,deliveryFee=40,gst,grandTotal;
             cartItems.forEach(item=>{
-                subtotal=subtotal+(item.cost*quantities.get(item.id));
+                subtotal=subtotal+(item.cost*quantities.get(item._id));
             })
             gst= 0.18*subtotal;
             grandTotal = subtotal+gst+deliveryFee;
@@ -286,7 +286,7 @@
 
         var removeCartItem = function(id){
             for(let i=0;i<cartItems.length;i++){
-                if(cartItems[i]?.id==id){
+                if(cartItems[i]?._id==id){
                     delete cartItems[i];
                 }
             }
@@ -315,6 +315,6 @@
            
         }
     </script>
-     <script src="CUSTOMER/customer.js"></script>
+     <script src="/CUSTOMER/customer.js"></script>
 </body>
 </html>
