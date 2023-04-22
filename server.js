@@ -178,13 +178,11 @@ async function getRestaurantByEmail(client,email){
  }
 
 async function updateRestaurantStatus(client,email,status) {
-    const result = await client.db("hungrezy").collection("restaurants")
-                        .updateOne({ email:email }, { $set: {status:status} });
+    const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
 }
 
 async function updateOrderStatus(client,email,id) {
-    const result = await client.db("Orders").collection(email)
-                        .updateOne({ _id:id }, { $set: {orderStatus:"Delivery Completed"} });
+    const result = await client.db("Orders").collection(email).updateOne({ _id:id }, { $set: {orderStatus:"Delivery Completed"} });
 }
 
 
@@ -343,26 +341,30 @@ const banners = [
 // *** GET Routes - display pages ***
 // Root Route
 
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
     const pageTitle = "Hungrezy";
-    
-    if (req.cookies.mobileNumber) {
-        const mobileNumber = req.cookies.mobileNumber;
-        // Get user information from database using mobileNumber
-        getUser(client, mobileNumber).then(user => {
-            currentUser = user;
-            res.render('pages/Home', { pageTitle: pageTitle, currentUser:currentUser });
-        }).catch(err => {
-            console.log(err);
-            res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
-        });
-    } else {
-        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+        res.render('pages/Home',{pageTitle : pageTitle, currentUser: currentUser});
+    }
+    else {
+        const currentUser = await getUser(client, req.cookies.mobileNumber);
+        if (currentUser !== null) { // check if user is logged in
+            res.cookie('mobileNumber', currentUser.mobileNumber, { 
+                expires: new Date(Date.now() + 8 * 60 * 60 * 1000), // 8 hours in milliseconds
+                sameSite: true
+            });
+        }
+        res.render('pages/Home',{pageTitle : pageTitle, currentUser: currentUser});
     }
 });
 
 
+
 app.get('/Restaurants', async function (req, res) {
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+    }
     const pageTitle = "Restaurants";
     const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
     const Restaurants = [];
@@ -409,15 +411,47 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-  
+app.get('/Admin_Logout', function (req, res) {
+    // Clear the currentUser variable
+    currentAdmin = null;
+
+    // Set the expiration time of the email cookie to 0 to delete it
+    res.cookie('email', '', {
+        expires: new Date(0),
+        sameSite: true
+    });
+
+    // Redirect to the login page
+    res.redirect('/Admin_Login');
+});
+
+app.get('/Restaurant_Logout', function (req, res) {
+    // Clear the currentUser variable
+    currentRestaurant = null;
+
+    // Set the expiration time of the email cookie to 0 to delete it
+    res.cookie('restaurantEmail', '', {
+        expires: new Date(0),
+        sameSite: true
+    });
+
+    // Redirect to the login page
+    res.redirect('/Restaurant_Login');
+});
 
 app.get('/helpAndSupport', function(req, res) {
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+    }
     const pageTitle = "Help & Support";
     res.render('pages/helpAndSupport', {pageTitle: pageTitle,currentUser:currentUser});
 });
 
 app.get('/About', function (req, res) {
     const pageTitle = "About Us";
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+    }
     res.render('pages/About',{pageTitle : pageTitle});
 });
 
@@ -426,16 +460,12 @@ app.post('/login', async function (req, res){
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
 
-    const user = await  getUser(client,mobileNumber);
+    const user = await getUser(client,mobileNumber);
 
     bcrypt.compare(password, user.password, function(err, result) {
         
         if (result) {
             // Set the mobileNumber cookie with an expires value of 0 and sameSite value of true
-            // res.cookie('mobileNumber', user.mobileNumber, { 
-            //     expires: 0,
-            //     sameSite: true
-            // });
             const expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
             res.cookie('mobileNumber', user.mobileNumber, { 
@@ -493,6 +523,12 @@ app.post('/Admin_Login', async function (req, res){
     const user = await  getAdmin(client,email);
     if(user){
         if(user.password==password){
+            const expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (4 * 60 * 60 * 1000)); // 4 hours in milliseconds
+            res.cookie('email', user.email, { 
+                expires: expirationDate,
+                sameSite: true
+            });
             currentAdmin=user;
             res.redirect("/Admin");
         }
@@ -507,29 +543,37 @@ app.post('/Admin_Login', async function (req, res){
 
 });
 
+
 app.post('/Restaurant_Login', async function (req, res){
    
     let email = req.body.email;
     let password = req.body.password;
 
-   const restaurant = await getRestaurantByEmail(client,email);
+    const restaurant = await getRestaurantByEmail(client,email);
 
-   bcrypt.compare(password, restaurant.password, function(err, result) {
+    bcrypt.compare(password, restaurant.password, function(err, result) {
         
-    if (result) {
-      // log in
-      currentRestaurant=restaurant;
-     
-      res.redirect('/Restaurants_Home');
-    }
-    else {
-      // access denied
-      res.redirect('/login');
-    }
-  });
-   
+        if (result) {
+            // Set the email cookie with an expires value of 8 hours and sameSite value of true
+            const expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
+            res.cookie('restaurantEmail', restaurant.email, { 
+                expires: expirationDate,
+                sameSite: true
+            });
 
+            // log in
+            currentRestaurant=restaurant;
+     
+            res.redirect('/Restaurants_Home');
+        }
+        else {
+            // access denied
+            res.redirect('/login');
+        }
+    });
 });
+
 
 app.post('/Register_Restaurant', upload.single('image'),function(req,res){
     function getOffer() {
@@ -673,6 +717,9 @@ app.post('/order', async function (req, res){
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+    }
     res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes,currentUser:currentUser,pageTitle:pageTitle});
 });
 
@@ -682,6 +729,9 @@ app.get('/View_Recipe', function (req, res) {
 });
 
 app.get('/Account', function (req, res) {
+    if(req.cookies.mobileNumber==null) {
+        currentUser = null;
+    }
     const pageTitle = "Account";
     res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
 });
@@ -690,8 +740,13 @@ app.get('/Admin', async function (req, res) {
     const pageTitle = "Admin";
     const pendingRestaurants = await getRestaurantsByStatus(client,"pending");
     const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
-    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended")
-    res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended");
+    if(req.cookies.email==null) {
+        res.redirect('/Admin_Login');
+    }
+    else {
+        res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingVerifications:pendingRestaurants,Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+    }
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {
@@ -718,14 +773,17 @@ app.get('/Suspend_Restaurant', async function (req, res) {
 
 app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
-    
-    res.render('pages/Admin_AddRecipe',{currentUser:currentUser,pageTitle:pageTitle});
+    if(req.cookies.restaurantEmail != null){
+    res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
+    } else {
+        res.redirect('/Restaurant_Login');
+    }
 });
 
 app.get('/Restaurants_Home', function(req,res){
     const pageTitle = "Restaurant Home";
     let restaurantOrders=[], Orders = [];
-    if(currentRestaurant){
+    if(req.cookies.restaurantEmail != null){
        getUsers(client).then(users=>{
             getRestaurantOrders(client,currentRestaurant._id).then(restaurantOrders=>{
                 restaurantOrders.map(order=>{
@@ -737,15 +795,27 @@ app.get('/Restaurants_Home', function(req,res){
             })
        })  
     }else{
-        res.redirect('/Restaurant_Login');
-    } 
-   
+        res.redirect('/Restaurant_Login');; 
+       
+    }
 });
 
 
 app.get('/Add_Menu',function(req,res){
     const pageTitle = "Add Menu";
-    res.render('pages/Add_Menu',{pageTitle:pageTitle,currentUser:currentRestaurant});
+    if(req.cookies.restaurantEmail != null){
+        res.render('pages/Add_Menu',{pageTitle:pageTitle,currentUser:currentRestaurant});
+    } else {
+        res.redirect('/Restaurant_Login');
+    }
+});
+
+app.get('/orderStatus',async function(req,res){
+    let orderID = req.query.order;
+    let email = req.query.rid;
+    console.log(orderID,email);
+    await updateOrderStatus(client,email,orderID);
+    res.redirect('/Restaurants_Home')
 });
 
 app.get('/orderStatus',async function(req,res){
@@ -758,7 +828,11 @@ app.get('/orderStatus',async function(req,res){
 
 app.get('/Donate_Food', function (req, res) {
     const pageTitle = "Donate Food";
-    res.render('pages/Donate_Food',{banners : banners,pageTitle:pageTitle});
+    if(req.cookies.restaurantEmail != null){
+        res.render('pages/Donate_Food',{banners : banners,pageTitle:pageTitle});
+    } else {
+        res.redirect('/Restaurant_Login');
+    }
 });
 
 app.get("/magic", function (req, res) {

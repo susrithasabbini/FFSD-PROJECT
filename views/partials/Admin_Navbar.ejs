@@ -8,7 +8,7 @@
         <a href="/Add_Recipe" class="navbar-items">Add Recipes</a>
         <a href="/Settings" class="navbar-items">Settings</a>
         <% if(currentUser){ %>
-        <a href="/Admin_Login" class="login-btn navbar-items">Logout</a>
+        <a href="/Admin_Logout" class="login-btn navbar-items">Logout</a>
         <%}else{ %>
             <a href="/Admin_Login" class="login-btn navbar-items">Login</a>
         <%}%>
@@ -50,7 +50,7 @@
 
            
             <%if(currentUser){%>
-                <a href="/logout" class="sub-menu-link">
+                <a href="/Admin_Logout" class="sub-menu-link">
                     <img src="/CUSTOMER/images/logout.png" alt="">
                     <p>Log out</p>
                     <span>></span>
