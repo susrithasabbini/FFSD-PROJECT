@@ -113,8 +113,8 @@ async function addFoodItem(client, email,foodItem){
     console.log(`New food item  added with the following id: ${result.insertedId}`);
 }
 
-async function addOrder(client,order){
-    const result = await client.db("Orders").collection(order.restaurandID).insertOne(order);
+async function addOrder(client,email,order){
+    const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
 
@@ -153,8 +153,14 @@ async function getRestaurantsByStatus(client,status){
    return results;
 }
 
+async function getUsers(client){
+    const cursor = client.db("hungrezy").collection("users").find();
+    const results = await cursor.toArray();
+    return results;
+ }
+
 async function getRestaurantOrders(client,email){
-    const cursor = client.db("RestaurantOrders").collection(email).find();
+    const cursor = client.db("Orders").collection(email).find();
     const results = await cursor.toArray();
     return results;
 }
@@ -173,6 +179,10 @@ async function getRestaurantByEmail(client,email){
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
+}
+
+async function updateOrderStatus(client,email,id) {
+    const result = await client.db("Orders").collection(email).updateOne({ _id:id }, { $set: {orderStatus:"Delivery Completed"} });
 }
 
 
@@ -691,16 +701,16 @@ app.get('/Menu', async function (req, res) {
 
 app.post('/order', async function (req, res){
         const order = {
-            restaurandID : req.query.rid,
+            restaurantID : req.query.rid,
             customerID : req.query.cid,
             cart : JSON.parse(req.query.cart),
-            paymentDetails : {payment:req.query.pay,method:req.query.method}
+            paymentDetails : {payment:req.query.pay,method:req.query.method},
+            orderStatus : "Delivery Pending"
         }
 
-        await addOrder(client,order)
+        await addOrder(client,order.restaurantID,order)
         console.log(order);
         res.redirect('/Restaurants');
-   
 
 });
 
@@ -770,14 +780,23 @@ app.get('/Add_Recipe', async function (req, res) {
     }
 });
 
-app.get('/Restaurants_Home',async function(req,res){
+app.get('/Restaurants_Home', function(req,res){
     const pageTitle = "Restaurant Home";
-    let restaurantOrders=[];
+    let restaurantOrders=[], Orders = [];
     if(req.cookies.restaurantEmail != null){
-        restaurantOrders = await getRestaurantOrders(client,currentRestaurant.email);
-        res.render('pages/Restaurants_Home',{pageTitle:pageTitle,currentUser:currentRestaurant,Orders:restaurantOrders});
-    } else {
-        res.redirect('/Restaurant_Login');
+       getUsers(client).then(users=>{
+            getRestaurantOrders(client,currentRestaurant._id).then(restaurantOrders=>{
+                restaurantOrders.map(order=>{
+                    users.map(user=>{
+                        if(order.customerID==user._id)Orders.push({order:order,user:user});
+                    })
+                })
+                res.render('pages/Restaurants_Home',{pageTitle:pageTitle,currentUser:currentRestaurant,Orders:Orders});
+            })
+       })  
+    }else{
+        res.redirect('/Restaurant_Login');; 
+       
     }
 });
 
@@ -789,6 +808,22 @@ app.get('/Add_Menu',function(req,res){
     } else {
         res.redirect('/Restaurant_Login');
     }
+});
+
+app.get('/orderStatus',async function(req,res){
+    let orderID = req.query.order;
+    let email = req.query.rid;
+    console.log(orderID,email);
+    await updateOrderStatus(client,email,orderID);
+    res.redirect('/Restaurants_Home')
+});
+
+app.get('/orderStatus',async function(req,res){
+    let orderID = req.query.order;
+    let email = req.query.rid;
+    console.log(orderID,email);
+    await updateOrderStatus(client,email,orderID);
+    res.redirect('/Restaurants_Home')
 });
 
 app.get('/Donate_Food', function (req, res) {

@@ -47,14 +47,14 @@
 
                         <div class="card-body">
                         
-                            <img src="<%=food.image%>" alt="Card image" height="120px" width="120px">
+                            <img src="data:<%=food.image.contentType %>;base64,<%= food.image.data.toString('base64') %>" alt="Card image" height="120px" width="120px">
                         
                             <div class="fooditem-data">
                                 <span class="<%=food.type%>"><i class="fa-regular fa-square-o"></i></span>
                                 <span style="color: #E38B29;font-size:small;"><strong>bestseller</strong></span>
-                                <h5 class="card-title mt-1"><%=food.name%></h5>
-                                <p>Rs <%=food.cost%></p>
-                                <p class="food-description"><%=food.description%></p>
+                                <h5 class="card-title mt-1"><%=food.item.name%></h5>
+                                <p>Rs <%=food.item.cost%></p>
+                                <p class="food-description"><%=food.item.description%></p>
                             </div>
                             
                             <button class="add"><i class="fa-solid fa-minus"></i><p class="add-text ms-2 me-2" id="<%=food._id%>" onclick="addToCart(id)"> Add </p><i class="fa-solid fa-plus"></i></button>
@@ -183,12 +183,20 @@
         const quantities = new Map();
         const menuItems = JSON.parse("<%- MenuItems %>");
         let subtotal=0,deliveryFee=40,gst,grandTotal,method="POD";
-       
         const orderForm = document.getElementById('order-form');
         function placeOrder(){
-            let postString = `/order?cid=${"<%- currentUser.email %>"}&rid=${"<%- Restuarant.email %>"}&cart=${JSON.stringify( cartItems2 )}&pay=${grandTotal}&method=${method}`;
-            orderForm.setAttribute("action",postString);
-            orderForm.submit();
+            if("<%- currentUser %>"){
+                console.log("<%- currentUser %>",1)
+                let postString = `/order?cid=${"<%- currentUser._id %>"}&rid=${"<%- Restuarant.email %>"}&cart=${JSON.stringify( cartItems2 )}&pay=${grandTotal}&method=${method}`;
+                orderForm.setAttribute("action",postString);
+                orderForm.submit();
+            }else{
+                let postString = '/Login';
+                orderForm.setAttribute("action",postString);
+                orderForm.setAttribute("method","get");
+                orderForm.submit();
+            }
+           
         }
 
     
@@ -327,14 +335,14 @@
             if(tabno==0){
                 menuContainer.style.display="block";
                 tableBooking.style.display="none";
-                tabLinks[0].style.backgroundColor = "#FFD8A9";
-                tabLinks[1].style.backgroundColor = "#FDEEDC";
+                tabLinks[0].style.backgroundColor = "#FDEEDC";
+                tabLinks[1].style.backgroundColor = "#FFD8A9";
             }
             else if(tabno==1){
                 menuContainer.style.display="none";
                 tableBooking.style.display="block";
-                tabLinks[1].style.backgroundColor = "#FFD8A9";
-                tabLinks[0].style.backgroundColor = "#FDEEDC";
+                tabLinks[1].style.backgroundColor = "#FDEEDC";
+                tabLinks[0].style.backgroundColor = "#FFD8A9";
             }
            
         }
