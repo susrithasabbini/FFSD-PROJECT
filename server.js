@@ -118,6 +118,11 @@ async function addOrder(client,email,order){
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
 
+async function addUserFeedback(client,userid,feedback){
+    const result = await client.db("hungrezy").collection("Feedbacks").insertOne({customerID:userid,feedback:feedback});
+    console.log(`New Feedback Registered with the following id: ${result.insertedId}`);
+}
+
 
 
 async function getUser(client, id) {
@@ -472,7 +477,7 @@ app.get('/About', function (req, res) {
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    res.render('pages/About',{pageTitle : pageTitle});
+    res.render('pages/About',{pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.post('/login', async function (req, res){
@@ -554,6 +559,18 @@ let addressDetails = {
     res.redirect('/Login');
   }
 });
+
+app.post('/submitUserFeedback',  async function (req, res) {
+    let feedback = req.body.feedback
+     
+      if(currentUser){
+        await addUserFeedback(client,currentUser._id,feedback);
+        res.redirect("/About");
+      }else{
+        res.redirect('/Login');
+      }
+});
+    
 
 app.post('/updateUserProfile',  async function (req, res) {
    

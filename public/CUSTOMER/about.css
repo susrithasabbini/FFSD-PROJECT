@@ -68,3 +68,37 @@ text-align: center;
     align-items: center;  
 }
 
+.feed-btn{
+    display: flex;
+    justify-content: center;
+}
+
+ .btn{
+    background-color: #E38B29;
+    color: white;
+    border: none;
+}
+
+.btn:hover{
+    color: white;
+    background-color: #E38B29;
+}
+
+textarea{
+    resize: none;
+}
+
+.feed-submit{
+    display: flex;
+    justify-content: center;
+}
+
+.modal-body{
+    min-height: 300px;
+    padding: 15px 60px;
+}
+
+.modal-content{
+    background-color:#FFD8A9;
+}
+
