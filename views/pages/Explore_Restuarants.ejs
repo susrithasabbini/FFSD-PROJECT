@@ -56,7 +56,7 @@
 
                             <div class="card swiper-slide">
                                 <img class="card-img-top" src= "data:<%=foodItems[i].contentType %>;base64,<%= foodItems[i].data.toString('base64') %>"  alt="<%= foodItems[i].name %>" width="100px" height="150px">
-                                <h5 class="card-title"><%= foodItems[i].name.replace(/\.[^/.]+$/, ""); %></h5>
+                                <h5 class="card-title"><%= foodItems[i].name.replace(/\.[^/.]+$/, "")[0].toUpperCase() + foodItems[i].name.replace(/\.[^/.]+$/, "").slice(1); %></h5>
                             </div>
                             
                         <% } %>

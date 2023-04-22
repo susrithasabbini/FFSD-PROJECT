@@ -569,7 +569,7 @@ app.post('/Restaurant_Login', async function (req, res){
         }
         else {
             // access denied
-            res.redirect('/login');
+            res.redirect('/Restaurant_Login');
         }
     });
 });
