@@ -118,6 +118,11 @@ async function addOrder(client,email,order){
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
 
+async function addUserFeedback(client,userid,feedback){
+    const result = await client.db("hungrezy").collection("Feedbacks").insertOne({customerID:userid,feedback:feedback});
+    console.log(`New Feedback Registered with the following id: ${result.insertedId}`);
+}
+
 
 
 async function getUser(client, id) {
@@ -179,6 +184,26 @@ async function getRestaurantByEmail(client,email){
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
+}
+
+async function updateUserAddress(client,currentUser,address) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:currentUser.mobileNumber }, { $set: {address:address.address,pincode:address.pincode,state:address.state,country:address.country} });
+}
+
+async function updateUserName(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {name:value} });
+}
+
+async function updateUserEmail(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {email:value} });
+}
+
+async function updateUserGender(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {gender:value} });
+}
+
+async function updateUserPassword(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {password:value} });
 }
 
 async function updateOrderStatus(client,email,ID) {
@@ -452,7 +477,7 @@ app.get('/About', function (req, res) {
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    res.render('pages/About',{pageTitle : pageTitle});
+    res.render('pages/About',{pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.post('/login', async function (req, res){
@@ -503,7 +528,11 @@ app.post('/registration', function (req, res) {
           name: name,
           email: email,
           gender: gender,
-          password: hash
+          password: hash,
+          address : req.body.address,
+          pincode : req.body.pincode,
+          state : req.body.state,
+          country : req.body.country
         };
   
         await createUser(client, user);
@@ -513,6 +542,68 @@ app.post('/registration', function (req, res) {
       }
     });
 });
+
+app.post('/updateCustomerAddress',  function (req, res) {
+let addressDetails = {
+     address : req.body.address,
+     pincode : req.body.pincode,
+     state : req.body.state,
+     country : req.body.country,
+}
+ 
+  if(currentUser){
+    updateUserAddress(client,currentUser,addressDetails).then(()=>{
+        res.redirect('/Account');
+    })
+  }else{
+    res.redirect('/Login');
+  }
+});
+
+app.post('/submitUserFeedback',  async function (req, res) {
+    let feedback = req.body.feedback
+     
+      if(currentUser){
+        await addUserFeedback(client,currentUser._id,feedback);
+        res.redirect("/About");
+      }else{
+        res.redirect('/Login');
+      }
+});
+    
+
+app.post('/updateUserProfile',  async function (req, res) {
+   
+       let  name = req.body.name
+        let email = req.body.email
+        let gender = req.body.gender
+        let password = req.body.password
+    
+
+    
+     
+      if(currentUser){
+        if(name!='' && name.length>0 && name!=currentUser.name)await updateUserName(client,currentUser.mobileNumber,name);
+        if(email!='' && email.length>0 && email!=currentUser.email)await updateUserEmail(client,currentUser.mobileNumber,email);
+        if(gender!='' && gender.length>0 && gender!=currentUser.gender)await updateUserGender(client,currentUser.mobileNumber,gender);
+        if(name!='' && password.length>0){
+            bcrypt.hash(password, saltRounds, async function (err, hash) {
+                if (err) throw err;
+                else {
+                    await updateUserPassword(client,currentUser.mobileNumber,hash);
+                }
+              });
+        }
+        currentUser = await getUser(client,currentUser.mobileNumber);
+        res.redirect('/Account');
+        
+      }else{
+        res.redirect('/Login');
+      }
+    });
+
+
+
   
 
 app.post('/Admin_Login', async function (req, res){
