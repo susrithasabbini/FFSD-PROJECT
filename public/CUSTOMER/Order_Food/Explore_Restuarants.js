@@ -49,3 +49,27 @@ var swiper = new Swiper(".slide-content", {
       },
   });
 //<--------------------------------swiper-------------------------------------------------------------------------------->
+
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', filterRestaurants);
+
+function filterRestaurants() {
+  // Get the search query
+  const query = searchInput.value.trim().toLowerCase();
+
+  // Get all restaurant cards
+  const cards = document.querySelectorAll('.restuarants-wrapper .card');
+
+  // Loop through each card and check if it matches the search query
+  cards.forEach((card) => {
+    const name = card.querySelector('.card-title').textContent.toLowerCase();
+    const type = card.querySelector('p').textContent.toLowerCase();
+    if (name.includes(query) || type.includes(query)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+filterRestaurants();
