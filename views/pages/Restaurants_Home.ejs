@@ -5,10 +5,43 @@
 
 <body onclick="closeMenu()">
     <%- include('../partials/Restaurants_Navbar.ejs') %>
-
+    <h4 class="ms-4">Welcome, <%=currentUser.name%>!</h4>
     <div class="main-body">
+       
         
-        
+        <h4 >Orders Recieved</h4>
+
+        <% Orders.map(order=>{%>
+            <div class="order-card">
+                <h5>Order Id <%=order.order._id%></h5>
+                <hr>
+                <div class="order-card-body">
+                    <div>
+                        <h6>Customer Details</h6>
+                        <p><%=order.user.name%><br>
+                            <%=order.user._id%><br>
+                            Address : none</p>
+                        <p>Order status : <%=order.order.orderStatus%></p>
+                    </div>
+                    <div>
+                        <h6>Order Details</h6>
+                        <% order.order.cart.forEach(item=>{%>
+                            <span><%=item.quantity%> X <%=item.foodItem%></span><br>
+                        <%});%>
+                        <p>Payable Amount : Rs <%=order.order.paymentDetails.payment%><br>Payment Method : <%=order.order.paymentDetails.method%></p>
+                        
+                    </div>
+                </div>
+                <% if(order.order.orderStatus=="Delivery Pending"){%>
+                <div class="link-div">
+                    <a href="/orderStatus?order=<%=order.order._id%>&rid=<%=currentUser._id%>" class="btn btn-success">Mark Delivered</a>
+                </div>
+                <%}%>
+                
+            </div>
+           
+        <%});%>
+            
 
     </div>
 

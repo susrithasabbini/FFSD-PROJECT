@@ -1,8 +1,42 @@
 
 body{
     background-color: #FFD8A9;
+    padding-top: 7rem;
 }
 
 .main-body{
     min-height: 100vh;
+    width: 50%;
+    margin: auto;
+   
+}
+
+.order-card{
+    width: 100%;
+    background-color:  #FDEEDC;
+    padding: 20px 40px;
+    margin: 20px 0px;
+    border-radius: 10px;
+ 
+}
+
+.order-card-body{
+    display: flex;
+    flex-direction: row;
+}
+
+.order-card-body div{
+    width: 50%;
+    padding: 10px 40px;
+}
+
+.link-div{
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.link-div a{
+    text-decoration: none;
+    
 }
