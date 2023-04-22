@@ -36,10 +36,10 @@
         <div class="filter mt-3">
         <button type="button" class="btn"><i class="fa fa-filter"></i> Filter</button>
         <div style="display: inline-flex;">
-            <button type="button" class=" filters"  id="f1" onclick="filter('f1')"><i class="fa-solid fa-leaf"></i> Pure Veg <i class="fa-solid fa-xmark fm ms-1"></i></button>
-            <button type="button" class=" filters" id="f2" onclick="filter('f2')"><i class="fa-solid fa-motorcycle"></i> Fast Delivery <i class="fa-solid fa-xmark fm ms-1"></i></button>
-            <button type="button" class=" filters" id="f3" onclick="filter('f3')">Rating 4<i class="fa fa-star fa-xs"></i>+ <i class="fa-solid fa-xmark fm ms-1"></i></button>
-            <button type="button" class=" filters" id="f4" onclick="filter('f4')">POD <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters"  id="f1"><i class="fa-solid fa-leaf"></i> Pure Veg <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f2"><i class="fa-solid fa-motorcycle"></i> Fast Delivery <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f3">Rating 4<i class="fa fa-star fa-xs"></i>+ <i class="fa-solid fa-xmark fm ms-1"></i></button>
+            <button type="button" class=" filters" id="f4">POD <i class="fa-solid fa-xmark fm ms-1"></i></button>
         </div>
         </div>
     <!--------------------filter buttons---------------------------------------->      
@@ -86,11 +86,11 @@
                             </div>
                             <div class="restuarant-data">
                                 <h4 class="card-title mt-1"><%=restuarant.restaurant.name%></h4>
-                                <p><%=restuarant.restaurant.type%></p>
+                                <p id="type"><%=restuarant.restaurant.type%></p>
                                 <hr>
                                 <div class="data">
-                                    <p class="badge bg-success"><%=restuarant.restaurant.rating%><i class="fa fa-star fa-xs"></i></p>
-                                    <p class="badge"><%=restuarant.restaurant.time%> MIN</p>
+                                    <p class="badge bg-success" id="rating"><%=restuarant.restaurant.rating%><i class="fa fa-star fa-xs"></i></p>
+                                    <p class="badge" id="time"><%=restuarant.restaurant.time%> MIN</p>
                                     <p class="badge">Rs <%=restuarant.restaurant.cost%></p>
                                 </div>
                             </div>

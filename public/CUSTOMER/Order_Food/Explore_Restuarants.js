@@ -1,17 +1,4 @@
 
-
-//<------------------------------function for onclick changes for filter buttons----------------------------------------------------->
-function filter(id){
-  let element = document.getElementById(id);
-  if(element.className==" filters"){
-    element.className=" selected";
-    element.lastChild.style.display="inline-block";
-  }
-  else if(element.className==" selected"){
-    element.className=" filters";
-    element.lastChild.style.display="none";
-  }
-}
 //<------------------------------function for onclick changes for filter buttons----------------------------------------------------->
 
 
@@ -63,7 +50,7 @@ function filterRestaurants() {
   // Loop through each card and check if it matches the search query
   cards.forEach((card) => {
     const name = card.querySelector('.card-title').textContent.toLowerCase();
-    const type = card.querySelector('p').textContent.toLowerCase();
+    const type = card.querySelector('#type').textContent.toLowerCase();
     if (name.includes(query) || type.includes(query)) {
       card.style.display = 'block';
     } else {
@@ -73,3 +60,79 @@ function filterRestaurants() {
 }
 
 filterRestaurants();
+
+//<---------------------------------function for onclick changes for filter buttons----------------------------------------------------->
+// Get the Pure Veg filter button element
+
+
+const cardsWrapper = document.querySelector('.restuarants-wrapper');
+const originalCards = cardsWrapper.querySelectorAll('.card');
+
+let vegCards = Array.from(originalCards);
+let sortedCards = Array.from(originalCards);
+let ratingCards = Array.from(originalCards);
+
+const f1 = document.getElementById('f1');
+
+f1.addEventListener('click', () => {
+  if(f1.className==" filters"){
+    f1.className=" selected";
+    f1.lastChild.style.display="inline-block";
+    vegCards = Array.from(originalCards).filter((card) => {
+      const type = card.querySelector('#type').textContent.toLowerCase();
+      return type.includes("veg");
+    });
+  }
+  else if(f1.className==" selected"){
+    f1.className=" filters";
+    f1.lastChild.style.display="none";
+    vegCards = Array.from(originalCards);
+  }
+  displayCards();
+});
+
+const f2 = document.getElementById('f2');
+
+f2.addEventListener('click', () => {
+  if (f2.className === " filters") {
+    f2.className = " selected";
+    f2.lastChild.style.display = "inline-block";
+    sortedCards = Array.from(originalCards).sort((a, b) => {
+      const timeA = parseInt(a.querySelector('#time').textContent);
+      const timeB = parseInt(b.querySelector('#time').textContent);
+      return timeA - timeB;
+    });
+  } else if (f2.className === " selected") {
+    f2.className = " filters";
+    f2.lastChild.style.display = "none";
+    sortedCards = Array.from(originalCards);
+  }
+  displayCards();
+});
+
+const f3 = document.getElementById('f3');
+
+f3.addEventListener('click', () => {
+  if(f3.className==" filters"){
+    f3.className=" selected";
+    f3.lastChild.style.display="inline-block";
+    ratingCards = Array.from(originalCards).filter((card) => {
+      const rating = parseFloat(card.querySelector('#rating').textContent);
+      return rating > 4;
+    });
+  }
+  else if(f3.className==" selected"){
+    f3.className=" filters";
+    f3.lastChild.style.display="none";
+    ratingCards = Array.from(originalCards);
+  }
+  displayCards();
+});
+
+function displayCards() {
+  let displayCards = vegCards.filter((card) => sortedCards.includes(card) && ratingCards.includes(card));
+  cardsWrapper.innerHTML = '';
+  displayCards.forEach((card) => {
+    cardsWrapper.appendChild(card);
+  });
+}
