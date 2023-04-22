@@ -181,8 +181,8 @@ async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
 }
 
-async function updateOrderStatus(client,email,id) {
-    const result = await client.db("Orders").collection(email).updateOne({ _id:id }, { $set: {orderStatus:"Delivery Completed"} });
+async function updateOrderStatus(client,email,ID) {
+    const result = await client.db("Orders").collection(email).updateOne({ orderID:ID }, { $set: {orderStatus:"Delivery Completed"} });
 }
 
 
@@ -701,6 +701,7 @@ app.get('/Menu', async function (req, res) {
 
 app.post('/order', async function (req, res){
         const order = {
+            orderID : req.query.rid+req.query.cid+ new Date().getTime(),
             restaurantID : req.query.rid,
             customerID : req.query.cid,
             cart : JSON.parse(req.query.cart),
@@ -710,7 +711,7 @@ app.post('/order', async function (req, res){
 
         await addOrder(client,order.restaurantID,order)
         console.log(order);
-        res.redirect('/Restaurants');
+        res.redirect('/');
 
 });
 
@@ -780,10 +781,11 @@ app.get('/Add_Recipe', async function (req, res) {
     }
 });
 
-app.get('/Restaurants_Home', function(req,res){
+app.get('/Restaurants_Home', async function(req,res){
     const pageTitle = "Restaurant Home";
     let restaurantOrders=[], Orders = [];
     if(req.cookies.restaurantEmail != null){
+        currentRestaurant = await getRestaurantByEmail(client,req.cookies.restaurantEmail);
        getUsers(client).then(users=>{
             getRestaurantOrders(client,currentRestaurant._id).then(restaurantOrders=>{
                 restaurantOrders.map(order=>{
@@ -810,18 +812,10 @@ app.get('/Add_Menu',function(req,res){
     }
 });
 
-app.get('/orderStatus',async function(req,res){
-    let orderID = req.query.order;
-    let email = req.query.rid;
-    console.log(orderID,email);
-    await updateOrderStatus(client,email,orderID);
-    res.redirect('/Restaurants_Home')
-});
 
 app.get('/orderStatus',async function(req,res){
     let orderID = req.query.order;
     let email = req.query.rid;
-    console.log(orderID,email);
     await updateOrderStatus(client,email,orderID);
     res.redirect('/Restaurants_Home')
 });

@@ -34,7 +34,7 @@
                 </div>
                 <% if(order.order.orderStatus=="Delivery Pending"){%>
                 <div class="link-div">
-                    <a href="/orderStatus?order=<%=order.order._id%>&rid=<%=currentUser._id%>" class="btn btn-success">Mark Delivered</a>
+                    <a href="/orderStatus?order=<%=order.order.orderID%>&rid=<%=currentUser._id%>" class="btn btn-success">Mark Delivered</a>
                 </div>
                 <%}%>
                 
