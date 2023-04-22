@@ -108,6 +108,10 @@ body{
     border-radius: 5px;
 }
 
+.drop{
+    cursor: pointer;
+}
+
 .add i{
     display: none;
     color: white;
