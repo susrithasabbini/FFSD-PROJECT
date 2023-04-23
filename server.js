@@ -793,6 +793,7 @@ app.get('/Restaurant_Registration', function (req, res) {
 });
 
 app.get('/Menu', async function (req, res) {
+    if(currentUser==null)res.redirect('/login');
     const restaurant = await getRestaurantByEmail(client,req.query.id)
     let MenuItems = await getRestaurantMenu(client,restaurant._id);
     const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes","Tiffins"];
