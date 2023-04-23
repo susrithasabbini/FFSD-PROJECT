@@ -27,40 +27,21 @@
                         <h1 class="heading ms-4">Recipes</h1>
                         <div class="recipes-wrapper mt-4">
 
-                            <%chickenRecipes.forEach((item)=>{ %>
+                            <%FoodRecipes.forEach((item)=>{ %>
                                
-                                <div class="food-card swiper-slide fc2" style="background-image: url(<%=item.image%>);">
+                                <div class="food-card swiper-slide fc2">
+                                    <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
                                     <div class="food-content middle">
-                                        <h1><strong><%=item.name%></strong></h1>
-                                        <p><%=item.description%></p>
-                                        <a href="/View_Recipe"><button>View Recipe</button></a> 
+                                        <h1><strong><%=item.recipe.name%></strong></h1>
+                                        <p><%=item.recipe.description%></p>
+                                        <a href="/View_Recipe?id=<%=item.recipe.recipeID%>" ><button>View Recipe</button></a> 
                                     </div>
                                 </div>
                             <%})%>
 
-                            <%snacksRecipes.forEach((item)=>{ %>
-                               
-                                <div class="food-card swiper-slide fc2" style="background-image: url(<%=item.image%>);">
-                                    <div class="food-content middle">
-                                        <h1><strong><%=item.name%></strong></h1>
-                                        <p><%=item.description%></p>
-                                        <a href="/View_Recipe"><button>View Recipe</button></a> 
-                                        
-                                    </div>
-                                </div>
-                            <%})%>
+                           
 
-                            <%tiffinRecipes.forEach((item)=>{ %>
-                               
-                                <div class="food-card swiper-slide fc2" style="background-image: url(<%=item.image%>);">
-                                    <div class="food-content middle">
-                                        <h1><strong><%=item.name%></strong></h1>
-                                        <p><%=item.description%></p>
-                                        <a href="/View_Recipe"><button>View Recipe</button></a> 
-                                      
-                                    </div>
-                                </div>
-                            <%})%>
+                            
 
                         </div>
                     </div>
@@ -72,20 +53,23 @@
             <div class="container-2">
                 <section id="2">
                     <div class="slide-container swiper ">
-                        <h1 class="heading"><strong>Spicy Chicken</strong></h1>
+                        <h1 class="heading"><strong>Non Vegetarian</strong></h1>
                         <div class="slide-content mt-4">
                             <div class="swiper-wrapper">
 
-                                <%chickenRecipes.forEach((item)=>{ %>
+                                <%nonVegRecipes.forEach((item)=>{ %>
+                                  
                                
-                                    <div class="food-card swiper-slide" style="background-image: url(<%=item.image%>);">
-                                        <div class="food-content middle">
-                                            <h1><strong><%=item.name%></strong></h1>
-                                            <p><%=item.description%></p>
-                                            <a href="/View_Recipe"><button>View Recipe</button></a> 
-                                           
+                                        <div class="food-card swiper-slide">
+                                            <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
+                                            <div class="food-content middle">
+                                                <h1><strong><%=item.recipe.name%></strong></h1>
+                                                <p><%=item.recipe.description%></p>
+                                                <a href="/View_Recipe"><button>View Recipe</button></a> 
+                                            
+                                            </div>
                                         </div>
-                                    </div>
+                                  
                                 <%})%>
                                                                  
                             </div>
@@ -95,23 +79,27 @@
                         </div>
                     </div>
                 </section>
+
 
                 <section>
                     <div class="slide-container swiper ">
-                        <h1 class="heading"><strong>Tiffins</strong></h1>
+                        <h1 class="heading"><strong>Vegetarian</strong></h1>
                         <div class="slide-content mt-4">
                             <div class="swiper-wrapper">
 
-                                <%tiffinRecipes.forEach((item)=>{ %>
+                                <%VegRecipes.forEach((item)=>{ %>
+                                   
                                
-                                    <div class="food-card swiper-slide" style="background-image: url(<%=item.image%>);">
-                                        <div class="food-content middle">
-                                            <h1><strong><%=item.name%></strong></h1>
-                                            <p><%=item.description%></p>
-                                            <a href="/View_Recipe"><button>View Recipe</button></a> 
-                                           
+                                        <div class="food-card swiper-slide">
+                                            <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
+                                            <div class="food-content middle">
+                                                <h1><strong><%=item.recipe.name%></strong></h1>
+                                                <p><%=item.recipe.description%></p>
+                                                <a href="/View_Recipe"><button>View Recipe</button></a> 
+                                            
+                                            </div>
                                         </div>
-                                    </div>
+                                   
                                 <%})%>
                                                                  
                             </div>
@@ -121,32 +109,7 @@
                         </div>
                     </div>
                 </section>
-
-                <section>
-                    <div class="slide-container swiper ">
-                        <h1 class="heading"><strong>Snacks</strong></h1>
-                        <div class="slide-content mt-4">
-                            <div class="swiper-wrapper">
-
-                                <%snacksRecipes.forEach((item)=>{ %>
-                               
-                                    <div class="food-card swiper-slide" style="background-image: url(<%=item.image%>);">
-                                        <div class="food-content middle">
-                                            <h1><strong><%=item.name%></strong></h1>
-                                            <p><%=item.description%></p>
-                                            <a href="/View_Recipe"><button>View Recipe</button></a> 
-                                           
-                                        </div>
-                                    </div>
-                                <%})%>
-                                                                 
-                            </div>
-                            <div class="swiper-button-next btn-swipe"></div>
-                            <div class="swiper-button-prev btn-swipe"></div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div>
-                </section>
+            
 
             </div>
         </section>  

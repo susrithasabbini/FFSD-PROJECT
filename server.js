@@ -113,11 +113,26 @@ async function addFoodItem(client, email,foodItem){
     console.log(`New food item  added with the following id: ${result.insertedId}`);
 }
 
+
+async function addFoodRecipe(client,foodRecipe){
+    const result = await client.db("hungrezy").collection("FoodRecipes").insertOne(foodRecipe);
+    console.log(`New food Recipe added with the following id: ${result.insertedId}`);
+}
+
 async function addOrder(client,email,order){
     const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
 
+async function addUserFeedback(client,userid,feedback){
+    const result = await client.db("hungrezy").collection("Feedbacks").insertOne({customerID:userid,feedback:feedback});
+    console.log(`New Feedback Registered with the following id: ${result.insertedId}`);
+}
+
+
+async function deleteUser(client,userid){
+    const result = await client.db("hungrezy").collection("users").deleteOne({_id:userid});
+}
 
 
 async function getUser(client, id) {
@@ -165,6 +180,17 @@ async function getRestaurantOrders(client,email){
     return results;
 }
 
+async function getFoodRecipes(client){
+    const cursor = client.db("hungrezy").collection("FoodRecipes").find();
+    const results = await cursor.toArray();
+    return results;
+}
+
+async function getFoodRecipeByID(client,id){
+    const result = client.db("hungrezy").collection("FoodRecipes").findOne({recipeID:id});
+    return result;
+}
+
  async function getRestaurantMenu(client,email){
     const cursor = client.db("Menu").collection(email).find();
     const results = await cursor.toArray();
@@ -179,6 +205,26 @@ async function getRestaurantByEmail(client,email){
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
+}
+
+async function updateUserAddress(client,currentUser,address) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:currentUser.mobileNumber }, { $set: {address:address.address,pincode:address.pincode,state:address.state,country:address.country} });
+}
+
+async function updateUserName(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {name:value} });
+}
+
+async function updateUserEmail(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {email:value} });
+}
+
+async function updateUserGender(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {gender:value} });
+}
+
+async function updateUserPassword(client,id,value) {
+    const result = await client.db("hungrezy").collection("users").updateOne({ mobileNumber:id }, { $set: {password:value} });
 }
 
 async function updateOrderStatus(client,email,ID) {
@@ -296,48 +342,6 @@ db.all(query, [], (err, rows) => {
 
 
 
-
-
-
-const chickenRecipes = [
-    {name : "Chicken",image: "/CUSTOMER/Order_Food/images/chickencurry.jpeg",description : "Crispy & flavorful Chilli Chicken, made with chicken marinated in chinese sauces, fried till crispy, sautéed with onions, peppers&sauces."},
-    {name : "Tandoori",image: "/CUSTOMER/Order_Food/images/chickentandoori.jpeg",description : "Skinless legs and thighs are marinated in a tenderizing mixture of yogurt, lemon juice, and spices and the meat is slashed to the bone in several places helping the marinade penetrate and the chicken cook more quickly."},
-    {name : "Kebab",image: "/CUSTOMER/Order_Food/images/chickenkebab.jpeg",description : "a dish consisting of small pieces of meat, tomatoes, onions, etc, threaded onto skewers and grilled, generally over charcoal. Also called: shish kebab, kabob, cabob."},
-    {name : "Chicken",image: "/CUSTOMER/Order_Food/images/chickencurry.jpeg",description : "Crispy & flavorful Chilli Chicken, made with chicken marinated in chinese sauces, fried till crispy, sautéed with onions, peppers&sauces."},
-    {name : "Tandoori",image: "/CUSTOMER/Order_Food/images/chickentandoori.jpeg",description : "Skinless legs and thighs are marinated in a tenderizing mixture of yogurt, lemon juice, and spices and the meat is slashed to the bone in several places helping the marinade penetrate and the chicken cook more quickly."},
-    {name : "Kebab",image: "/CUSTOMER/Order_Food/images/chickenkebab.jpeg",description : "a dish consisting of small pieces of meat, tomatoes, onions, etc, threaded onto skewers and grilled, generally over charcoal. Also called: shish kebab, kabob, cabob."},
-
-]
-
-const tiffinRecipes = [
-    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa  is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
-    {name : "Idli",image:"/CUSTOMER/Order_Food/images/idli.jpeg",description:"Idli is a soft, pillowy steamed savory cake made from fermented rice and lentil batter.It is naturally vegetarian, vegan, gluten-free and makes for one of the healthiest breakfast options served with Sambar and Coconut Chutney."},
-    {name : "Chapathi",image:"/CUSTOMER/Order_Food/images/chapati.jpeg",description:"a round flat unleavened bread of India that is usually made of whole wheat flour and cooked on a griddle."},
-    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
-    {name : "Idli",image:"/CUSTOMER/Order_Food/images/idli.jpeg",description:"Idli is a soft, pillowy steamed savory cake made from fermented rice and lentil batter.It is naturally vegetarian, vegan, gluten-free and makes for one of the healthiest breakfast options served with Sambar and Coconut Chutney."},
-    {name : "Chapathi",image:"/CUSTOMER/Order_Food/images/chapati.jpeg",description:"a round flat unleavened bread of India that is usually made of whole wheat flour and cooked on a griddle."}
-]
-
-const snacksRecipes = [
-    {name : "Samosa",image:"/CUSTOMER/Order_Food/images/samosa.jpeg",description:"Flaky and crunchy fried samosa are one of the most popular street food snack in North Indian cuisine. They feature a pastry-like crust but are filled with savory and spiced potato and green peas for a hearty, delicious snack."},
-    {name : "Chat",image:"/CUSTOMER/Order_Food/images/chat.jpeg",description:"Aloo Chaat is a popular Indian street food snack made with potatoes, sweet sour spicy chutneys, sev and coriander leaves. Aloo is a Hindi word for potatoes"},
-    {name : "Panipuri",image:"/CUSTOMER/Order_Food/images/panipuri.jpeg",description:"Panipuri consists of a round hollow puri (a deep-fried crisp flatbread), filled with a mixture of flavored water (known as imli pani), tamarind chutney, chili powder, chaat masala, potato mash, onion, or chickpeas."},
-    {name : "Samosa",image:"/CUSTOMER/Order_Food/images/samosa.jpeg",description:"Flaky and crunchy fried samosa are one of the most popular street food snack in North Indian cuisine. They feature a pastry-like crust but are filled with savory and spiced potato and green peas for a hearty, delicious snack."},
-    {name : "Chat",image:"/CUSTOMER/Order_Food/images/chat.jpeg",description:"Aloo Chaat is a popular Indian street food snack made with potatoes, sweet sour spicy chutneys, sev and coriander leaves. Aloo is a Hindi word for potatoes"},
-    {name : "Panipuri",image:"/CUSTOMER/Order_Food/images/panipuri.jpeg",description:"Panipuri consists of a round hollow puri (a deep-fried crisp flatbread), filled with a mixture of flavored water (known as imli pani), tamarind chutney, chili powder, chaat masala, potato mash, onion, or chickpeas."},
-    
-]
-
-const banners = [
-    {image:"/Food_Donation/images/banner1.jpg"},
-    {image:"/Food_Donation/images/banner2.jpg"},
-    {image:"/Food_Donation/images/banner3.jpg"},
-    {image:"/Food_Donation/images/banner4.jpg"},
-    {image:"/Food_Donation/images/banner5.jpg"},
-]
-
-
-
 // *** GET Routes - display pages ***
 // Root Route
 
@@ -411,6 +415,17 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/deleteUserAccount', async function (req, res) {
+   if(currentUser==null){
+        res.redirect('login');
+   }else{
+        await deleteUser(client,currentUser._id);
+        currentUser=null;
+        res.redirect('/');
+   }
+   
+});
+
 app.get('/Admin_Logout', function (req, res) {
     // Clear the currentUser variable
     currentAdmin = null;
@@ -436,7 +451,7 @@ app.get('/Restaurant_Logout', function (req, res) {
     });
 
     // Redirect to the login page
-    res.redirect('/Restaurant_Login');
+    res.redirect('/login');
 });
 
 app.get('/helpAndSupport', function(req, res) {
@@ -452,7 +467,7 @@ app.get('/About', function (req, res) {
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    res.render('pages/About',{pageTitle : pageTitle});
+    res.render('pages/About',{pageTitle : pageTitle,currentUser:currentUser});
 });
 
 app.post('/login', async function (req, res){
@@ -461,6 +476,8 @@ app.post('/login', async function (req, res){
     let password = req.body.password;
 
     const user = await getUser(client,mobileNumber);
+
+    if(user==null)res.redirect('/login');
 
     bcrypt.compare(password, user.password, function(err, result) {
         
@@ -503,7 +520,11 @@ app.post('/registration', function (req, res) {
           name: name,
           email: email,
           gender: gender,
-          password: hash
+          password: hash,
+          address : req.body.address,
+          pincode : req.body.pincode,
+          state : req.body.state,
+          country : req.body.country
         };
   
         await createUser(client, user);
@@ -513,6 +534,68 @@ app.post('/registration', function (req, res) {
       }
     });
 });
+
+app.post('/updateCustomerAddress',  function (req, res) {
+let addressDetails = {
+     address : req.body.address,
+     pincode : req.body.pincode,
+     state : req.body.state,
+     country : req.body.country,
+}
+ 
+  if(currentUser){
+    updateUserAddress(client,currentUser,addressDetails).then(()=>{
+        res.redirect('/Account');
+    })
+  }else{
+    res.redirect('/Login');
+  }
+});
+
+app.post('/submitUserFeedback',  async function (req, res) {
+    let feedback = req.body.feedback
+     
+      if(currentUser){
+        await addUserFeedback(client,currentUser._id,feedback);
+        res.redirect("/About");
+      }else{
+        res.redirect('/Login');
+      }
+});
+    
+
+app.post('/updateUserProfile',  async function (req, res) {
+   
+       let  name = req.body.name
+        let email = req.body.email
+        let gender = req.body.gender
+        let password = req.body.password
+    
+
+    
+     
+      if(currentUser){
+        if(name!='' && name.length>0 && name!=currentUser.name)await updateUserName(client,currentUser.mobileNumber,name);
+        if(email!='' && email.length>0 && email!=currentUser.email)await updateUserEmail(client,currentUser.mobileNumber,email);
+        if(gender!='' && gender.length>0 && gender!=currentUser.gender)await updateUserGender(client,currentUser.mobileNumber,gender);
+        if(name!='' && password.length>0){
+            bcrypt.hash(password, saltRounds, async function (err, hash) {
+                if (err) throw err;
+                else {
+                    await updateUserPassword(client,currentUser.mobileNumber,hash);
+                }
+              });
+        }
+        currentUser = await getUser(client,currentUser.mobileNumber);
+        res.redirect('/Account');
+        
+      }else{
+        res.redirect('/Login');
+      }
+    });
+
+
+
   
 
 app.post('/Admin_Login', async function (req, res){
@@ -521,6 +604,7 @@ app.post('/Admin_Login', async function (req, res){
     let password = req.body.password;
 
     const user = await  getAdmin(client,email);
+    
     if(user){
         if(user.password==password){
             const expirationDate = new Date();
@@ -550,6 +634,7 @@ app.post('/Restaurant_Login', async function (req, res){
     let password = req.body.password;
 
     const restaurant = await getRestaurantByEmail(client,email);
+    if(restaurant==null)res.redirect('/Restaurant_Login');
 
     bcrypt.compare(password, restaurant.password, function(err, result) {
         
@@ -654,8 +739,44 @@ app.post('/Add_FoodItem', upload.single('image'),async function(req,res){
     console.error(err);
     res.sendStatus(500);
   }
+});
 
-  
+
+
+app.post('/addRecipe', upload.single('image'),async function(req,res){
+    if(true){
+        const FoodImage = mongoose.model("foodRecipes",imageSchema2);
+        const foodimage = new FoodImage({
+            _id: req.body.name,
+            data: req.file.buffer,
+            contentType: req.file.mimetype
+          });
+       const foodRecipe = {
+            recipeID : req.body.name.trim()+new Date().getTime(),
+            name : req.body.name,
+            category:req.body.category,
+            time : req.body.time,
+            description : req.body.description,
+            serves : req.body.serves,
+            ingredients : req.body.ingredients,
+            step1 : req.body.para1,
+            step2 : req.body.para2,
+            step3 : req.body.para3,
+            rating : Math.round(((Math.random() * (5 - 3) + 3)) *10)/10
+       }
+    
+       try {
+        await foodimage.save();
+        await addFoodRecipe(client,foodRecipe);
+        res.redirect('/Add_Recipe');
+      } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+      }
+    }else{
+        res.redirect('/Admin_Login');
+    }
+   
   
 });
 
@@ -718,15 +839,41 @@ app.post('/order', async function (req, res){
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
+    const FoodRecipes = [],Veg=[],nonVeg=[];
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes,currentUser:currentUser,pageTitle:pageTitle});
-});
+    getFoodRecipes(client).then( recipes=>{
+        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
+        FoodImage.find().then(foodimages=>{
+            recipes.map(recipe=>{
+                foodimages.map(foodimage=>{
+                    if(recipe.name==foodimage._id)FoodRecipes.push({recipe,foodimage});
+                })
+               
+            })
+            FoodRecipes.forEach(recipe=>{
+                if(recipe.recipe.category=="Vegetarian")Veg.push(recipe);
+                else nonVeg.push(recipe);
+            })
+            res.render('pages/Food_Recipes',{FoodRecipes : FoodRecipes,VegRecipes:Veg,nonVegRecipes:nonVeg,currentUser:currentUser,pageTitle:pageTitle});
+        })
+       
+    });
+    })
+   
 
 app.get('/View_Recipe', function (req, res) {
     const pageTitle = "Recipe Blog";
-    res.render('pages/View_Recipe',{foodItem :chickenRecipes[1],currentUser:currentUser,pageTitle:pageTitle});
+    const id = req.query.id;
+    
+    getFoodRecipeByID(client,id).then(recipe=>{
+        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
+        FoodImage.findOne({_id:recipe.name}).then(image=>{
+            res.render('pages/View_Recipe',{foodItem :recipe,image:image,currentUser:currentUser,pageTitle:pageTitle});
+        })
+    })
+    
 });
 
 app.get('/Account', function (req, res) {
@@ -774,10 +921,11 @@ app.get('/Suspend_Restaurant', async function (req, res) {
 
 app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
-    if(req.cookies.restaurantEmail != null){
+    if(req.cookies.email!=null){
     res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
     } else {
-        res.redirect('/Restaurant_Login');
+        res.redirect('/login');
+        res.redirect('/Admin_Login');
     }
 });
 

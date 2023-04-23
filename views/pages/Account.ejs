@@ -13,26 +13,34 @@
             <div id="sub1">
                 <h2>Personal Info </h2><hr>
                 <% if(currentUser){ %>
-                    <input type="text" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.name%>" disabled><br>
-                    <input type="text" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.gender%>" disabled>
-                    <input type="tel" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.mobileNumber%>" disabled>
-                    <input type="email" class="form-control fc2 form-control-lg" placeholder="<%=currentUser.email%>" disabled>
-                    <input type="text" class="form-control fc1 form-control-lg" placeholder="************"><label class="ms-2">Change Password</label>
+                    <form action="/updateUserProfile" method="post">
+                        <input type="text" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.name%>" name="name" ><br>
+                        <input type="text" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.gender%>" name="gender" >
+                        <input type="tel" class="form-control fc1 form-control-lg" placeholder="<%=currentUser.mobileNumber%>" disabled>
+                        <input type="email" class="form-control fc2 form-control-lg" placeholder="<%=currentUser.email%>" name="email" >
+                        <input type="text" class="form-control fc1 form-control-lg" placeholder="************" name="password" ><br>
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                    
                 <%}else{%>
                 <input type="text" class="form-control fc1 form-control-lg" placeholder="User Name" disabled><br>
                 <input type="text" class="form-control fc1 form-control-lg" placeholder="Gender" disabled>
                 <input type="tel" class="form-control fc1 form-control-lg" placeholder="Mobile Number" disabled>
                 <input type="email" class="form-control fc2 form-control-lg" placeholder="Email" disabled>
-                <input type="text" class="form-control fc1 form-control-lg" placeholder="**********"><label class="ms-2">Change Password</label>
+                <input type="text" class="form-control fc1 form-control-lg" placeholder="**********">
+                
                 <%}%>
             </div>
             <div id="sub2">
                 <h2>Address Book</h2><hr>
-                <textarea type="text" class="form-control fc2 form-control-lg" placeholder="Address"></textarea>
-                <input type="text" class="form-control fc1 form-control-lg" placeholder="State">
-                <input type="number" class="form-control fc1 form-control-lg" placeholder="Pin Code">
-                <input type="text" class="form-control fc1 form-control-lg" placeholder="Country"><br>
-                <button type="button" class="btn">Update</button>
+                <form action=<%if(currentUser){%>"/updateCustomerAddress"<%}else{%>"/Login"<%}%> method="post">
+                    <textarea type="text" class="form-control fc2 form-control-lg" placeholder="Address" name="address" required></textarea>
+                    <input type="text" class="form-control fc1 form-control-lg" placeholder="State" name="state" required>
+                    <input type="number" class="form-control fc1 form-control-lg" placeholder="Pin Code" name="pincode" required>
+                    <input type="text" class="form-control fc1 form-control-lg" placeholder="Country"  name="country" required><br>
+                    <button type="submit" class="btn">Update</button>
+                </form>
+                
             </div>
             <div id="sub3">
                 <h2>Your Orders</h2><hr>
@@ -41,7 +49,8 @@
                 <h2>Settings</h2><br><br>
                 <a href="/About" class="ms-3">About</a><hr>
                 <a  href="/helpAndSupport" class="ms-3">Help & Support</a><hr>
-                <a href="" class="ms-3">Logout</a><hr>
+                <a  href="/deleteUserAccount" class="ms-3">Delete Account</a><hr>
+                <a href="/logout" class="ms-3">Logout</a><hr>
             </div>
         </div>
         <div class="container-3">

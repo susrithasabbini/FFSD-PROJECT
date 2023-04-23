@@ -93,13 +93,20 @@ body{
     cursor: pointer;
 }
 
-#sub2 .btn{
+ .btn{
     margin-left: 40%;
-    margin-top: 8%;
+    margin-top: 5%;
     color: white;
     background-color: #E38B29;
     padding: 10px;
     font-size: larger;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn:hover{
+    background-color: #E38B29;
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .container-2 h2{
