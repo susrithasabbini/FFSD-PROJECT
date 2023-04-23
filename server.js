@@ -131,7 +131,12 @@ async function addFoodRecipe(client,foodRecipe){
     console.log(`New food Recipe added with the following id: ${result.insertedId}`);
 }
 
-async function addOrder(client,email,order){
+async function addRestaurantOrder(client,email,order){
+    const result = await client.db("Orders").collection(email).insertOne(order);
+    console.log(`New order placed with the following id: ${result.insertedId}`);
+}
+
+async function addCustomerOrder(client,email,order){
     const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
@@ -141,6 +146,10 @@ async function addUserFeedback(client,userid,feedback){
     console.log(`New Feedback Registered with the following id: ${result.insertedId}`);
 }
 
+
+async function deleteUser(client,userid){
+    const result = await client.db("hungrezy").collection("users").deleteOne({_id:userid});
+}
 
 
 async function getUser(client, id) {
@@ -169,6 +178,13 @@ async function getAdmin(client, id) {
     }
 }
 
+async function getUserOrders(client,cid){
+   
+    const cursor = client.db("Orders").collection(cid).find();
+    const results = await cursor.toArray();
+    return results;
+    
+}
 
 async function getRestaurantsByStatus(client,status){
    const cursor = client.db("hungrezy").collection("restaurants").find({status:status});
@@ -384,48 +400,6 @@ db.all(query, [], (err, rows) => {
 
 
 
-
-
-
-const chickenRecipes = [
-    {name : "Chicken",image: "/CUSTOMER/Order_Food/images/chickencurry.jpeg",description : "Crispy & flavorful Chilli Chicken, made with chicken marinated in chinese sauces, fried till crispy, sautéed with onions, peppers&sauces."},
-    {name : "Tandoori",image: "/CUSTOMER/Order_Food/images/chickentandoori.jpeg",description : "Skinless legs and thighs are marinated in a tenderizing mixture of yogurt, lemon juice, and spices and the meat is slashed to the bone in several places helping the marinade penetrate and the chicken cook more quickly."},
-    {name : "Kebab",image: "/CUSTOMER/Order_Food/images/chickenkebab.jpeg",description : "a dish consisting of small pieces of meat, tomatoes, onions, etc, threaded onto skewers and grilled, generally over charcoal. Also called: shish kebab, kabob, cabob."},
-    {name : "Chicken",image: "/CUSTOMER/Order_Food/images/chickencurry.jpeg",description : "Crispy & flavorful Chilli Chicken, made with chicken marinated in chinese sauces, fried till crispy, sautéed with onions, peppers&sauces."},
-    {name : "Tandoori",image: "/CUSTOMER/Order_Food/images/chickentandoori.jpeg",description : "Skinless legs and thighs are marinated in a tenderizing mixture of yogurt, lemon juice, and spices and the meat is slashed to the bone in several places helping the marinade penetrate and the chicken cook more quickly."},
-    {name : "Kebab",image: "/CUSTOMER/Order_Food/images/chickenkebab.jpeg",description : "a dish consisting of small pieces of meat, tomatoes, onions, etc, threaded onto skewers and grilled, generally over charcoal. Also called: shish kebab, kabob, cabob."},
-
-]
-
-const tiffinRecipes = [
-    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa  is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
-    {name : "Idli",image:"/CUSTOMER/Order_Food/images/idli.jpeg",description:"Idli is a soft, pillowy steamed savory cake made from fermented rice and lentil batter.It is naturally vegetarian, vegan, gluten-free and makes for one of the healthiest breakfast options served with Sambar and Coconut Chutney."},
-    {name : "Chapathi",image:"/CUSTOMER/Order_Food/images/chapati.jpeg",description:"a round flat unleavened bread of India that is usually made of whole wheat flour and cooked on a griddle."},
-    {name : "Dosa",image: "/CUSTOMER/Order_Food/images/dosa.jpeg",description: "dosa is crispy and crepe-like and is a very popular street food in India. Dosa is famous for its simple ingredients and savory, slightly bitter flavor. It can be eaten as a snack, breakfast, or anytime you’re in the mood for a delicious, savory meal!"},
-    {name : "Idli",image:"/CUSTOMER/Order_Food/images/idli.jpeg",description:"Idli is a soft, pillowy steamed savory cake made from fermented rice and lentil batter.It is naturally vegetarian, vegan, gluten-free and makes for one of the healthiest breakfast options served with Sambar and Coconut Chutney."},
-    {name : "Chapathi",image:"/CUSTOMER/Order_Food/images/chapati.jpeg",description:"a round flat unleavened bread of India that is usually made of whole wheat flour and cooked on a griddle."}
-]
-
-const snacksRecipes = [
-    {name : "Samosa",image:"/CUSTOMER/Order_Food/images/samosa.jpeg",description:"Flaky and crunchy fried samosa are one of the most popular street food snack in North Indian cuisine. They feature a pastry-like crust but are filled with savory and spiced potato and green peas for a hearty, delicious snack."},
-    {name : "Chat",image:"/CUSTOMER/Order_Food/images/chat.jpeg",description:"Aloo Chaat is a popular Indian street food snack made with potatoes, sweet sour spicy chutneys, sev and coriander leaves. Aloo is a Hindi word for potatoes"},
-    {name : "Panipuri",image:"/CUSTOMER/Order_Food/images/panipuri.jpeg",description:"Panipuri consists of a round hollow puri (a deep-fried crisp flatbread), filled with a mixture of flavored water (known as imli pani), tamarind chutney, chili powder, chaat masala, potato mash, onion, or chickpeas."},
-    {name : "Samosa",image:"/CUSTOMER/Order_Food/images/samosa.jpeg",description:"Flaky and crunchy fried samosa are one of the most popular street food snack in North Indian cuisine. They feature a pastry-like crust but are filled with savory and spiced potato and green peas for a hearty, delicious snack."},
-    {name : "Chat",image:"/CUSTOMER/Order_Food/images/chat.jpeg",description:"Aloo Chaat is a popular Indian street food snack made with potatoes, sweet sour spicy chutneys, sev and coriander leaves. Aloo is a Hindi word for potatoes"},
-    {name : "Panipuri",image:"/CUSTOMER/Order_Food/images/panipuri.jpeg",description:"Panipuri consists of a round hollow puri (a deep-fried crisp flatbread), filled with a mixture of flavored water (known as imli pani), tamarind chutney, chili powder, chaat masala, potato mash, onion, or chickpeas."},
-    
-]
-
-const banners = [
-    {image:"/Food_Donation/images/banner1.jpg"},
-    {image:"/Food_Donation/images/banner2.jpg"},
-    {image:"/Food_Donation/images/banner3.jpg"},
-    {image:"/Food_Donation/images/banner4.jpg"},
-    {image:"/Food_Donation/images/banner5.jpg"},
-]
-
-
-
 // *** GET Routes - display pages ***
 // Root Route
 
@@ -504,6 +478,17 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/deleteUserAccount', async function (req, res) {
+   if(currentUser==null){
+        res.redirect('login');
+   }else{
+        await deleteUser(client,currentUser._id);
+        currentUser=null;
+        res.redirect('/');
+   }
+   
+});
+
 app.get('/Admin_Logout', function (req, res) {
     // Clear the currentUser variable
     currentAdmin = null;
@@ -568,6 +553,8 @@ app.post('/login', async function (req, res){
     let password = req.body.password;
 
     const user = await getUser(client,mobileNumber);
+
+    if(user==null)res.redirect('/login');
 
     bcrypt.compare(password, user.password, function(err, result) {
         
@@ -694,6 +681,7 @@ app.post('/Admin_Login', async function (req, res){
     let password = req.body.password;
 
     const user = await  getAdmin(client,email);
+    
     if(user){
         if(user.password==password){
             const expirationDate = new Date();
@@ -750,6 +738,7 @@ app.post('/Restaurant_Login', async function (req, res){
     let password = req.body.password;
 
     const restaurant = await getRestaurantByEmail(client,email);
+    if(restaurant==null)res.redirect('/Restaurant_Login');
 
     bcrypt.compare(password, restaurant.password, function(err, result) {
         
@@ -938,9 +927,10 @@ app.get('/Restaurant_Registration', function (req, res) {
 });
 
 app.get('/Menu', async function (req, res) {
+    if(currentUser==null)res.redirect('/login');
     const restaurant = await getRestaurantByEmail(client,req.query.id)
     let MenuItems = await getRestaurantMenu(client,restaurant._id);
-    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes"];
+    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes","Tiffins"];
     const Menu = [],recomended=[];
     let FoodImage = mongoose.model(restaurant.email,imageSchema2);
     let  foodItemImages = await FoodImage.find({});
@@ -975,7 +965,8 @@ app.post('/order', async function (req, res){
             orderStatus : "Delivery Pending"
         }
 
-        await addOrder(client,order.restaurantID,order)
+        await addRestaurantOrder(client,order.restaurantID,order)
+        await addCustomerOrder(client,order.customerID,order)
         console.log(order);
         res.redirect('/');
 
@@ -984,7 +975,7 @@ app.post('/order', async function (req, res){
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
-    const FoodRecipes = [];
+    const FoodRecipes = [],Veg=[],nonVeg=[];
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
@@ -997,7 +988,11 @@ app.get('/Recipes', function (req, res) {
                 })
                
             })
-            res.render('pages/Food_Recipes',{FoodRecipes : FoodRecipes,currentUser:currentUser,pageTitle:pageTitle});
+            FoodRecipes.forEach(recipe=>{
+                if(recipe.recipe.category=="Vegetarian")Veg.push(recipe);
+                else nonVeg.push(recipe);
+            })
+            res.render('pages/Food_Recipes',{FoodRecipes : FoodRecipes,VegRecipes:Veg,nonVegRecipes:nonVeg,currentUser:currentUser,pageTitle:pageTitle});
         })
        
     });
@@ -1017,12 +1012,30 @@ app.get('/View_Recipe', function (req, res) {
     
 });
 
-app.get('/Account', function (req, res) {
+app.get('/Account',  async function (req, res) {
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    const pageTitle = "Account";
-    res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
+    const pageTitle="Account";
+    const Orders=[];
+    if(currentUser){
+        getRestaurantsByStatus(client,"approved").then(restaurants=>{
+
+            getUserOrders(client,currentUser._id).then(userOrders=>{
+                userOrders.map(order=>{
+                    restaurants.map(restaurant=>{
+                        if(order.restaurantID==restaurant._id)Orders.push({order:order,restaurant:restaurant});
+                    })
+                })
+                res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+            })
+       }) 
+    }else{
+        res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+    }
+  
+    
+   
 });
 
 app.get('/Admin', async function (req, res) {

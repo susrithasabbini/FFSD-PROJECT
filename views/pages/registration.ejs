@@ -144,13 +144,13 @@
                 
                 <div class="form-floating mb-3 mt-3">
                     
-                    <textarea type="Address" class="form-control" id="addr" placeholder="Address"></textarea>
+                    <textarea type="Address" class="form-control" id="addr" placeholder="Address" name="address" required></textarea>
                     <label for="addr" class="form-label">Address</label>
                 </div>
 
                 <div class="form-floating mb-3">
                     
-                  <input type="text" class="form-control" id="pincode" placeholder="Pincode" name="pincode">
+                  <input type="number" class="form-control" id="pincode" placeholder="Pincode" name="pincode" required>
                   <label for="pincode" class="form-label">Pincode</label>
                  
               </div>
@@ -202,7 +202,7 @@
     
                  <div class="mb-3">
                     
-                    <select class="form-select" id="cont" name="cont" disabled>
+                    <select class="form-select" id="cont" name="country" value="India" disabled>
                         <option>India</option>
                       </select>
                      

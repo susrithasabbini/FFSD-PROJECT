@@ -29,7 +29,8 @@
 
                             <%FoodRecipes.forEach((item)=>{ %>
                                
-                                <div class="food-card swiper-slide fc2" style="background-image:url('/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg');">
+                                <div class="food-card swiper-slide fc2">
+                                    <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
                                     <div class="food-content middle">
                                         <h1><strong><%=item.recipe.name%></strong></h1>
                                         <p><%=item.recipe.description%></p>
@@ -56,10 +57,11 @@
                         <div class="slide-content mt-4">
                             <div class="swiper-wrapper">
 
-                                <%FoodRecipes.forEach((item)=>{ %>
-                                    <% if(item.category=="Non-Vegetarian"){ %>
+                                <%nonVegRecipes.forEach((item)=>{ %>
+                                  
                                
-                                        <div class="food-card swiper-slide" style="background-image:url('/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg');" >
+                                        <div class="food-card swiper-slide">
+                                            <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
                                             <div class="food-content middle">
                                                 <h1><strong><%=item.recipe.name%></strong></h1>
                                                 <p><%=item.recipe.description%></p>
@@ -67,7 +69,7 @@
                                             
                                             </div>
                                         </div>
-                                    <%}%>
+                                  
                                 <%})%>
                                                                  
                             </div>
@@ -85,18 +87,19 @@
                         <div class="slide-content mt-4">
                             <div class="swiper-wrapper">
 
-                                <%FoodRecipes.forEach((item)=>{ %>
-                                    <% if(item.category=="Vegetarian"){ %>
+                                <%VegRecipes.forEach((item)=>{ %>
+                                   
                                
-                                        <div class="food-card swiper-slide" style="background-image: url(<%=item.image%>);">
+                                        <div class="food-card swiper-slide">
+                                            <img src="data:<%=item.foodimage.contentType %>;base64,<%= item.foodimage.data.toString('base64') %>" alt="">
                                             <div class="food-content middle">
-                                                <h1><strong><%=item.name%></strong></h1>
-                                                <p><%=item.description%></p>
+                                                <h1><strong><%=item.recipe.name%></strong></h1>
+                                                <p><%=item.recipe.description%></p>
                                                 <a href="/View_Recipe"><button>View Recipe</button></a> 
                                             
                                             </div>
                                         </div>
-                                    <%}%>
+                                   
                                 <%})%>
                                                                  
                             </div>
