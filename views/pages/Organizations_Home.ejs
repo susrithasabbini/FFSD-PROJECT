@@ -1,0 +1,40 @@
+<%- include('../partials/head.ejs') %>
+<link rel="stylesheet" href="/ORGANIZATIONS/Organizations_Home.css">
+<link rel="stylesheet" href="/ADMIN/Admin_Restaurants.css">
+
+</head>
+
+<body onclick="closeMenu()">
+    <%- include('../partials/Organizations_Navbar.ejs') %>
+    <h4 class="ms-4">Welcome, <%=currentUser.name%>!</h4>
+    <div class="main-body">
+       
+
+        <div class="pending-verifications">
+
+            <h3 class="mb-4"> Donations Received</h3>
+            <% donations.map((d)=>{ %>
+                <div class="verification-card">
+                    <div class="restaurant-details">
+                        <h4><%=d.restaurant%></h4>
+                        <p><%=d.food%></p>
+                        <p><%=d.serves%></p>
+                        <p><%=d.timeslot%></p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="/Reject_Donation?donationId=<%=d._id%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
+                        <a href="/Accept_Donation?donationId=<%=d._id%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Accept</a>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+            
+
+    </div>
+
+
+
+
+    <%- include('../partials/footer.ejs') %>
+    <script src="/CUSTOMER/customer.js"></script>
+</body>

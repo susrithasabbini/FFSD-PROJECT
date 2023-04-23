@@ -7,16 +7,12 @@
 <body onclick="closeMenu()">
     <%- include('../partials/Admin_Navbar.ejs') %>
 
-    <div class="preloader">
-        <img src="/Login/images/preloader.gif" alt="">
-    </div>
-
     <div class="main-body">
 
         <div class="pending-verifications">
 
             <h3 class="mb-4"> Pending Restaurant Approvals</h3>
-            <% pendingVerifications.map((restaurant)=>{%>
+            <% pendingRestaurantVerifications.map((restaurant)=>{%>
                 <div class="verification-card">
                     <div class="restaurant-details">
                         <h4><%=restaurant.name%></h4>
@@ -26,6 +22,19 @@
                     <div class="verification-options">
                         <a href="/Reject_Restaurant?email=<%=restaurant.email%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
                         <a href="/Approve_Restaurant?email=<%=restaurant.email%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
+                    </div>
+                </div>
+            <%});%>
+            <h3 class="mb-4"> Pending Organization Approvals</h3>
+            <% pendingOrganizationVerifications.map((organization)=>{%>
+                <div class="verification-card">
+                    <div class="organization-details">
+                        <h4><%=organization.name%></h4>
+                        <p><%=organization.location%></p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="/Reject_Organization?email=<%=organization.email%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
+                        <a href="/Approve_Organization?email=<%=organization.email%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
                     </div>
                 </div>
             <%});%>
@@ -45,6 +54,18 @@
                     </div>
                 </div>
             <%});%>
+            <h3 class="mb-4">Approved Organizations</h3>
+            <% Organizations.map((organization)=>{%>
+                <div class="verification-card">
+                    <div class="organization-details">
+                        <h4><%=organization.name%></h4>
+                        <p><%=organization.location%></p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="/Suspend_Organization?email=<%=organization.email%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Suspend</a>
+                    </div>
+                </div>
+            <%});%>
         </div>
 
         <div class="suspended-restaurants">
@@ -58,6 +79,18 @@
                     </div>
                     <div class="verification-options">
                         <a href="/Approve_Restaurant?email=<%=restaurant.email%>" class="bg-success" ><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
+                    </div>
+                </div>
+            <%});%>
+            <h3 class="mb-4">Suspended Organizations</h3>
+            <% suspendedOrganizations.map((organization)=>{%>
+                <div class="verification-card">
+                    <div class="organization-details">
+                        <h4><%=organization.name%></h4>
+                        <p><%=organization.location%></p>
+                    </div>
+                    <div class="verification-options">
+                        <a href="/Approve_Organization?email=<%=organization.email%>" class="bg-success" ><i class="fa-solid fa-badge-check me-2"></i>Approve</a>
                     </div>
                 </div>
             <%});%>

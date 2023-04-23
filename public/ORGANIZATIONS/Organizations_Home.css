@@ -1,0 +1,12 @@
+
+body{
+    background-color: #FFD8A9;
+    padding-top: 7rem;
+}
+
+.main-body{
+    min-height: 100vh;
+    width: 50%;
+    margin: auto;
+   
+}

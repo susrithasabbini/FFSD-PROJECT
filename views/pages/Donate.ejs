@@ -1,0 +1,54 @@
+<%- include('../partials/head.ejs') %>
+<link rel="stylesheet" href="/Restaurants/Restaurants_Home.css">
+<link rel="stylesheet" href="/Restaurants/Donate.css">
+
+</head>
+
+<body onclick="closeMenu()">
+    <%- include('../partials/Restaurants_Navbar.ejs') %>
+    <h4 class="ms-4">Welcome, <%=currentUser.name%>!</h4>
+    
+
+    <div class="main-body">
+        <h2>Donate Food</h2>
+        <form action="/Donate" method="post" class="donate">
+            <div class="mb-4">
+                <select class="form-select" id="type" name="timeslot" style="height: 60px;">
+                    <option value="0">--Donation time slot--</option>
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Snack</option>
+                    <option>Dinner</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <select class="form-select" id="type" name="food" style="height: 60px;">
+                    <option value="0">--Select Food Item to Donate--</option>
+                    <% MenuItems.map((menu) => { %>
+                        <option><%=menu.name%></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-floating mb-4 mt-4">
+                <input type="text" class="form-control" id="food-item-serve" placeholder="Enter number of serves" name="serves">
+                <label for="food-item-serve" class="form-label">Number of Serves</label>
+            </div>
+            <div class="mb-4">
+                <select class="form-select" id="type" name="organization" style="height: 60px;">
+                    <option value="0">--Select Organization to Donate--</option>
+                    <% Organization.map((org) => { %>
+                        <option><%=org.name%></option>
+                    <% }) %>
+                </select>
+            </div>
+
+           <button type="submit">Donate</button>
+
+        </form>
+
+    </div>
+
+
+    <%- include('../partials/footer.ejs') %>
+    <script src="/CUSTOMER/customer.js"></script>
+</body>

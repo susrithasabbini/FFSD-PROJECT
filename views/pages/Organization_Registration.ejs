@@ -1,0 +1,41 @@
+<%- include('../partials/head.ejs') %>
+
+<link rel="stylesheet" href="/Registration/Organization_Registration.css">
+<script src="/Registration/Organization_Registration.js" defer></script>
+
+</head>
+
+<body>
+    <div class="container-1">
+        <div class="image-container">
+            <img src="/ORGANIZATIONS/images/organization.avif" alt="">
+        </div>
+        <div class="main-body">
+            <h2>Register Your Organization</h2>
+            <form action="/Register_Organization" method="post">
+                <div class="form-floating mt-3 mb-3">
+                    <input type="text" class="form-control" id="organization-name" name="organizationName">
+                    <label for="organization-name" class="form-label">Organization Name</label>
+                </div>
+                <div class="form-floating mt-3 mb-3">
+                    <input type="email" class="form-control" id="organization-email" name="organizationEmail">
+                    <label for="organization-email" class="form-label">Organization Email</label>
+                </div>
+                <div class="form-floating mt-3 mb-3">
+                    <input type="password" class="form-control" id="password" name="password">
+                    <label for="password" class="form-label">Password</label>
+                </div>
+               
+                <div class="form-floating mt-3 mb-3">
+                    <input type="text" class="form-control" id="location" name="location">
+                    <label for="location" class="form-label">Address</label>
+                </div>
+    
+                <div class="mt-4 mb-3">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</body>

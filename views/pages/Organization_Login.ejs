@@ -1,0 +1,27 @@
+<%- include('../partials/head.ejs') %>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gloock">
+    <link rel="stylesheet" href="/Login/Organization_Login.css">
+    <script src="/Login/Organization_Login.js" defer></script>
+</head>
+
+<body>
+    <div class="preloader">
+        <img src="/Login/images/preloader.gif" alt="">
+      </div>
+    <div class="login-container">
+        <h2 ><i class="fa-solid fa-unlock-keyhole me-3"></i>Organization Login</h2>
+        <form action="/Organization_Login" method="post">
+            <div class="form-floating mb-4 mt-4">
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                <label for="email" class="form-label">Email</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" >
+                <label for="password" class="form-label">Password</label>
+            </div>
+
+            <button type="submit"  id="login-btn">Login</button>
+        </form>
+    </div>
+</body>

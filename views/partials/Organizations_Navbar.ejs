@@ -4,12 +4,10 @@
 
     <nav class="navbar">
        
-        <a href="/Restaurants_Home" class="navbar-items">Orders</a>
-        <a href="/Add_Menu" class="navbar-items">Menu</a>
-        <a href="/Donate" class="navbar-items">Donate Food</a>
+        <a href="/Organizations_Home" class="navbar-items">Donations</a>
         <a href="/Settings" class="navbar-items">Settings</a>
         <% if(currentUser){ %>
-        <a href="/Restaurant_Logout" class="login-btn navbar-items">Logout</a>
+        <a href="/Organization_Logout" class="login-btn navbar-items">Logout</a>
         <%}else{ %>
             <a href="/login" class="login-btn navbar-items">Login</a>
         <%}%>
@@ -51,7 +49,7 @@
 
            
             <%if(currentUser){%>
-                <a href="/Restaurant_Logout" class="sub-menu-link">
+                <a href="/Organization_Logout" class="sub-menu-link">
                     <img src="/CUSTOMER/images/logout.png" alt="">
                     <p>Log out</p>
                     <span>></span>
