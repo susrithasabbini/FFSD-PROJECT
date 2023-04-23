@@ -81,6 +81,7 @@ body{
 
 #sub3{
     display: none;
+    overflow-y: auto;
 }
 
 #sub4{
@@ -113,4 +114,12 @@ body{
     color: #E38B29;
     font-weight: bolder;
     margin-left: 8px;
+}
+
+.order-btn{
+    width: 100%;
+    height: fit-content;
+    border: none;
+    font-size: large;
+    padding: 10px;
 }

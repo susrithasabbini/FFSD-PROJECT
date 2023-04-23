@@ -26,7 +26,7 @@
                     <div>
                         <h6>Order Details</h6>
                         <% order.order.cart.forEach(item=>{%>
-                            <span><%=item.quantity%> X <%=item.foodItem%></span><br>
+                            <span><%=item.quantity%> x <%=item.foodItem%></span><br>
                         <%});%>
                         <p>Payable Amount : Rs <%=order.order.paymentDetails.payment%><br>Payment Method : <%=order.order.paymentDetails.method%></p>
                         

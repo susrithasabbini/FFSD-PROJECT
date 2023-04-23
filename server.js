@@ -119,7 +119,12 @@ async function addFoodRecipe(client,foodRecipe){
     console.log(`New food Recipe added with the following id: ${result.insertedId}`);
 }
 
-async function addOrder(client,email,order){
+async function addRestaurantOrder(client,email,order){
+    const result = await client.db("Orders").collection(email).insertOne(order);
+    console.log(`New order placed with the following id: ${result.insertedId}`);
+}
+
+async function addCustomerOrder(client,email,order){
     const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
 }
@@ -161,6 +166,13 @@ async function getAdmin(client, id) {
     }
 }
 
+async function getUserOrders(client,cid){
+   
+    const cursor = client.db("Orders").collection(cid).find();
+    const results = await cursor.toArray();
+    return results;
+    
+}
 
 async function getRestaurantsByStatus(client,status){
    const cursor = client.db("hungrezy").collection("restaurants").find({status:status});
@@ -793,9 +805,10 @@ app.get('/Restaurant_Registration', function (req, res) {
 });
 
 app.get('/Menu', async function (req, res) {
+    if(currentUser==null)res.redirect('/login');
     const restaurant = await getRestaurantByEmail(client,req.query.id)
     let MenuItems = await getRestaurantMenu(client,restaurant._id);
-    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes"];
+    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes","Tiffins"];
     const Menu = [],recomended=[];
     let FoodImage = mongoose.model(restaurant.email,imageSchema2);
     let  foodItemImages = await FoodImage.find({});
@@ -830,7 +843,8 @@ app.post('/order', async function (req, res){
             orderStatus : "Delivery Pending"
         }
 
-        await addOrder(client,order.restaurantID,order)
+        await addRestaurantOrder(client,order.restaurantID,order)
+        await addCustomerOrder(client,order.customerID,order)
         console.log(order);
         res.redirect('/');
 
@@ -876,12 +890,30 @@ app.get('/View_Recipe', function (req, res) {
     
 });
 
-app.get('/Account', function (req, res) {
+app.get('/Account',  async function (req, res) {
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    const pageTitle = "Account";
-    res.render('pages/Account',{currentUser:currentUser,pageTitle:pageTitle});
+    const pageTitle="Account";
+    const Orders=[];
+    if(currentUser){
+        getRestaurantsByStatus(client,"approved").then(restaurants=>{
+
+            getUserOrders(client,currentUser._id).then(userOrders=>{
+                userOrders.map(order=>{
+                    restaurants.map(restaurant=>{
+                        if(order.restaurantID==restaurant._id)Orders.push({order:order,restaurant:restaurant});
+                    })
+                })
+                res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+            })
+       }) 
+    }else{
+        res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+    }
+  
+    
+   
 });
 
 app.get('/Admin', async function (req, res) {
