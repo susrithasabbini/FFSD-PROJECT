@@ -1,10 +1,13 @@
 <%- include('../partials/head.ejs') %>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gloock">
     <link rel="stylesheet" href="/Login/Admin_Login.css">
-
+    <script src="/Login/Admin_Login.js" defer></script>
 </head>
 
 <body>
+    <div class="preloader">
+        <img src="/Login/images/preloader.gif" alt="">
+      </div>
     <div class="login-container">
         <h2 ><i class="fa-solid fa-unlock-keyhole me-3"></i>Admin Login</h2>
         <form action="/Admin_Login" method="post">

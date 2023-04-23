@@ -67,7 +67,7 @@ filterRestaurants();
 // Get the Pure Veg filter button element
 
 const cardsWrapper = document.querySelector('.restuarants-wrapper');
-const originalCards = cardsWrapper.querySelectorAll('.card');
+const originalCards = cardsWrapper.querySelectorAll('.link');
 
 let filteredCards = Array.from(originalCards);
 

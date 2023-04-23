@@ -461,7 +461,7 @@ app.get('/Restaurant_Logout', function (req, res) {
     });
 
     // Redirect to the login page
-    res.redirect('/Restaurant_Login');
+    res.redirect('/login');
 });
 
 app.get('/helpAndSupport', function(req, res) {
@@ -868,7 +868,7 @@ app.get('/Add_Recipe', async function (req, res) {
     if(req.cookies.restaurantEmail != null){
     res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
     } else {
-        res.redirect('/Restaurant_Login');
+        res.redirect('/login');
     }
 });
 
