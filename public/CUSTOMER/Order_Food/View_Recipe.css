@@ -73,10 +73,15 @@ body{
 .recipe-container{
     margin-top: 15vh;
     color: #E38B29;
+
 }
 
 .recipe-container pre{
-    font-size: 1rem;
+    font-size: larger;
+}
+
+.recipe-container div{
+   padding-left: 40px;
 }
 
 .recipe-container h3{
@@ -88,6 +93,16 @@ body{
     margin: auto;
     padding: 5px;
     font-size: 25px;
+}
+
+.ingredients{
+    color: white;
+    background-color: #E38B29;
+    padding: 10px 0px;
+}
+
+.procedure pre{
+    margin: 80px 0px;
 }
 
 .ingredients pre{
