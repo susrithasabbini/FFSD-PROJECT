@@ -113,6 +113,12 @@ async function addFoodItem(client, email,foodItem){
     console.log(`New food item  added with the following id: ${result.insertedId}`);
 }
 
+
+async function addFoodRecipe(client,foodRecipe){
+    const result = await client.db("hungrezy").collection("FoodRecipes").insertOne(foodRecipe);
+    console.log(`New food Recipe added with the following id: ${result.insertedId}`);
+}
+
 async function addOrder(client,email,order){
     const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
@@ -168,6 +174,17 @@ async function getRestaurantOrders(client,email){
     const cursor = client.db("Orders").collection(email).find();
     const results = await cursor.toArray();
     return results;
+}
+
+async function getFoodRecipes(client){
+    const cursor = client.db("hungrezy").collection("FoodRecipes").find();
+    const results = await cursor.toArray();
+    return results;
+}
+
+async function getFoodRecipeByID(client,id){
+    const result = client.db("hungrezy").collection("FoodRecipes").findOne({recipeID:id});
+    return result;
 }
 
  async function getRestaurantMenu(client,email){
@@ -745,8 +762,44 @@ app.post('/Add_FoodItem', upload.single('image'),async function(req,res){
     console.error(err);
     res.sendStatus(500);
   }
+});
 
-  
+
+
+app.post('/addRecipe', upload.single('image'),async function(req,res){
+    if(true){
+        const FoodImage = mongoose.model("foodRecipes",imageSchema2);
+        const foodimage = new FoodImage({
+            _id: req.body.name,
+            data: req.file.buffer,
+            contentType: req.file.mimetype
+          });
+       const foodRecipe = {
+            recipeID : req.body.name.trim()+new Date().getTime(),
+            name : req.body.name,
+            category:req.body.category,
+            time : req.body.time,
+            description : req.body.description,
+            serves : req.body.serves,
+            ingredients : req.body.ingredients,
+            step1 : req.body.para1,
+            step2 : req.body.para2,
+            step3 : req.body.para3,
+            rating : Math.round(((Math.random() * (5 - 3) + 3)) *10)/10
+       }
+    
+       try {
+        await foodimage.save();
+        await addFoodRecipe(client,foodRecipe);
+        res.redirect('/Add_Recipe');
+      } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+      }
+    }else{
+        res.redirect('/Admin_Login');
+    }
+   
   
 });
 
@@ -809,15 +862,37 @@ app.post('/order', async function (req, res){
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
+    const FoodRecipes = [];
     if(req.cookies.mobileNumber==null) {
         currentUser = null;
     }
-    res.render('pages/Food_Recipes',{chickenRecipes : chickenRecipes,tiffinRecipes : tiffinRecipes,snacksRecipes : snacksRecipes,currentUser:currentUser,pageTitle:pageTitle});
-});
+    getFoodRecipes(client).then( recipes=>{
+        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
+        FoodImage.find().then(foodimages=>{
+            recipes.map(recipe=>{
+                foodimages.map(foodimage=>{
+                    if(recipe.name==foodimage._id)FoodRecipes.push({recipe,foodimage});
+                })
+               
+            })
+            res.render('pages/Food_Recipes',{FoodRecipes : FoodRecipes,currentUser:currentUser,pageTitle:pageTitle});
+        })
+       
+    });
+    })
+   
 
 app.get('/View_Recipe', function (req, res) {
     const pageTitle = "Recipe Blog";
-    res.render('pages/View_Recipe',{foodItem :chickenRecipes[1],currentUser:currentUser,pageTitle:pageTitle});
+    const id = req.query.id;
+    
+    getFoodRecipeByID(client,id).then(recipe=>{
+        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
+        FoodImage.findOne({_id:recipe.name}).then(image=>{
+            res.render('pages/View_Recipe',{foodItem :recipe,image:image,currentUser:currentUser,pageTitle:pageTitle});
+        })
+    })
+    
 });
 
 app.get('/Account', function (req, res) {
@@ -865,10 +940,10 @@ app.get('/Suspend_Restaurant', async function (req, res) {
 
 app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
-    if(req.cookies.restaurantEmail != null){
+    if(req.cookies.email!=null){
     res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
     } else {
-        res.redirect('/Restaurant_Login');
+        res.redirect('/Admin_Login');
     }
 });
 
