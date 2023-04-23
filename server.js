@@ -674,7 +674,7 @@ app.get('/Restaurant_Registration', function (req, res) {
 app.get('/Menu', async function (req, res) {
     const restaurant = await getRestaurantByEmail(client,req.query.id)
     let MenuItems = await getRestaurantMenu(client,restaurant._id);
-    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes"];
+    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes","Tiffins"];
     const Menu = [],recomended=[];
     let FoodImage = mongoose.model(restaurant.email,imageSchema2);
     let  foodItemImages = await FoodImage.find({});
