@@ -1054,6 +1054,7 @@ app.get('/Admin', async function (req, res) {
         res.redirect('/Admin_Login');
     }
     else {
+        const currentAdmin = await getAdminByEmail(client,req.cookies.email);
         res.render('pages/Admin',{currentUser:currentAdmin,pageTitle:pageTitle,pendingRestaurantVerifications:pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
     }
 });
@@ -1100,6 +1101,7 @@ app.get('/Suspend_Organization', async function (req, res) {
 app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
     if(req.cookies.email!=null){
+        currentAdmin = await getAdmin(client,req.cookies.email);
     res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
     } else {
         res.redirect('/login');
@@ -1285,5 +1287,12 @@ app.post('/Donate', async function (req, res) {
 });
 
 app.get('/Dashboard', async function (req, res) {
-    
+    const pageTitle = "Admin Dashboard";
+    if(req.cookies.email!=null){
+        currentAdmin = await getAdmin(client,req.cookies.email);
+    res.render('pages/Admin_Dashboard',{currentUser:currentAdmin,pageTitle:pageTitle});
+    } else {
+        res.redirect('/login');
+        res.redirect('/Admin_Login');
+    }
 });
