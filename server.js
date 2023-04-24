@@ -1283,3 +1283,7 @@ app.post('/Donate', async function (req, res) {
     res.redirect('/Restaurants_Home');
 
 });
+
+app.get('/Dashboard', async function (req, res) {
+    
+});
