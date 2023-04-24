@@ -6,7 +6,7 @@ const {MongoClient} = require('mongodb');
 const saltRounds = 10;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const { ObjectId } = require('mongodb');
 
 const mongoose = require("mongoose");
 const multer = require("multer");
@@ -209,6 +209,17 @@ async function getOrganizationsByStatus(client,status){
     return results;
  }
 
+ async function getDonationsByStatusAndRestaurant(client,restaurant, status){
+    const cursor = await client.db("hungrezy").collection("donations").find({
+        $and: [
+            { status: status },
+            {restaurant: restaurant}
+        ]
+        });
+    const results = await cursor.toArray();
+    return results;
+ }
+
 async function getUsers(client){
     const cursor = client.db("hungrezy").collection("users").find();
     const results = await cursor.toArray();
@@ -249,13 +260,6 @@ async function getRestaurantByEmail(client,email){
     
     return result;
  }
-
- async function updateDonationById(client, id, updateFields) {
-    const result = await client.db("hungrezy").collection("donations").updateOne(
-      { _id: id },
-      { $set: updateFields }
-    );
-}
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
@@ -1124,16 +1128,73 @@ app.get('/Restaurants_Home', async function(req,res){
     }
 });
 
+async function updateDonationById(client, id, status) {
+    const result = await client.db("hungrezy").collection("donations").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: {status: status}}
+    );
+}
+
+app.get('/Reject_Donation', async function (req, res) {
+    let id = req.query.donationId;
+    await updateDonationById(client,id,"rejected");
+    res.redirect('/Organizations_Home');
+});
+
+app.get('/Accept_Donation', async function (req, res) {
+    let id = req.query.donationId;
+    await updateDonationById(client,id,"accepted");
+    res.redirect('/Organizations_Home');
+});
+
+app.get('/Send_Donation', async function (req, res) {
+    let id = req.query.donationId;
+    await updateDonationById(client,id,"sending");
+    res.redirect('/Donations');
+});
+
+app.get('/Reached_Donation', async function (req, res) {
+    let id = req.query.donationId;
+    await updateDonationById(client,id,"success");
+    res.redirect('/Organizations_Home');
+});
+
+app.get('NotReached_Donation', async function (req, res) {
+    let id = req.query.donationId;
+    await updateDonationById(client,id,"not success");
+    res.redirect('/Organizations_Home');
+});
+
 
 app.get('/Organizations_Home', async function(req,res){
     const pageTitle = "Organizations Home";
     if(req.cookies.organizationEmail != null){
         currentOrganization = await getOrganizationByEmail(client,req.cookies.organizationEmail);
         const pendingDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "pending");
-        updateDonationById(client, "644597634df32a2454fec2bb", { status: "rejected" });
-        res.render('pages/Organizations_Home',{pageTitle:pageTitle,currentUser:currentOrganization, donations: pendingDonations});
+        const rejectedDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "rejected");
+        const acceptedDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "accepted");
+        const sendingDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "sending");
+        const successDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "success");
+        const notSuccessDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "not success");
+        res.render('pages/Organizations_Home',{pageTitle:pageTitle,currentUser:currentOrganization, donations: pendingDonations, sendingDonations: sendingDonations,successDonations: successDonations, rejectedDonations: rejectedDonations, acceptedDonations: acceptedDonations, notSuccessDonations: notSuccessDonations});
     }else{
         res.redirect('/Organization_Login');;
+    }
+});
+
+app.get('/Donations', async function(req,res){
+    const pageTitle = "Donations";
+    if(req.cookies.restaurantEmail != null){
+        currentRestaurant = await getRestaurantByEmail(client,req.cookies.restaurantEmail);
+        const pendingDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "pending");
+        const rejectedDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "rejected");
+        const acceptedDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "accepted");
+        const sendingDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "sending");
+        const successDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "success");
+        const notSuccessDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "not success")
+        res.render('pages/Donations',{pageTitle:pageTitle,currentUser:currentRestaurant, pendingDonations: pendingDonations, rejectedDonations: rejectedDonations,successDonations: successDonations, acceptedDonations: acceptedDonations, sendingDonations: sendingDonations, notSuccessDonations: notSuccessDonations});
+    }else{
+        res.redirect('/Restaurant_Login');;
     }
 });
 

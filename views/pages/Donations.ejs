@@ -5,28 +5,55 @@
 </head>
 
 <body onclick="closeMenu()">
-    <%- include('../partials/Organizations_Navbar.ejs') %>
+    <%- include('../partials/Restaurants_Navbar.ejs') %>
     <h4 class="ms-4">Welcome, <%=currentUser.name%>!</h4>
     <div class="main-body">
        
 
         <div class="pending-verifications">
 
-            <h3 class="mb-4"> Donations Received</h3>
-            <% donations.map((d)=>{ %>
+            <h3 class="mb-4"> Pending Donations </h3>
+            <% pendingDonations.map((d)=>{ %>
                 <div class="verification-card">
                     <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
+                        <h4>Organization Name: <%=d.organization%></h4>
+                        <p>Food Item: <%=d.food%></p>
+                        <p>No. of serves: <%=d.serves%></p>
+                        <p>Timeslot: <%=d.timeslot%></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <div class="approved-donations">
+            <h3 class="mb-4">Accepted Donations</h3>
+            <% acceptedDonations.map((d)=>{%>
+                <div class="verification-card">
+                    <div class="donation-details">
+                        <h4>Organization Name: <%=d.organization%></h4>
                         <p>Food Item: <%=d.food%></p>
                         <p>No. of serves: <%=d.serves%></p>
                         <p>Timeslot: <%=d.timeslot%></p>
                     </div>
                     <div class="verification-options">
-                        <a href="/Reject_Donation?donationId=<%=d._id%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Reject</a>
-                        <a href="/Accept_Donation?donationId=<%=d._id%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Accept</a>
+                        <a href="/Send_Donation?donationId=<%=d._id%>" class="bg-success">Send Food</a>
                     </div>
                 </div>
-            <% }); %>
+            <%});%>
+        </div>
+
+        <div class="suspended-donations">
+            <h3 class="mb-4">Rejected Donations</h3>
+            <% rejectedDonations.map((d)=>{%>
+                <div class="verification-card">
+                    <div class="donation-details">
+                        <h4>Organization Name: <%=d.organization%></h4>
+                        <p>Food Item: <%=d.food%></p>
+                        <p>No. of serves: <%=d.serves%></p>
+                        <p>Timeslot: <%=d.timeslot%></p>
+                    </div>
+                </div>
+            <%});%>
         </div>
 
         <div class="sending-donations">
@@ -34,25 +61,7 @@
             <% sendingDonations.map((d)=>{%>
                 <div class="verification-card">
                     <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
-                        <p>Food Item: <%=d.food%></p>
-                        <p>No. of serves: <%=d.serves%></p>
-                        <p>Timeslot: <%=d.timeslot%></p>
-                    </div>
-                    <div class="verification-options">
-                        <a href="/NotReached_Donation?donationId=<%=d._id%>" ><i class="fa-solid fa-circle-xmark me-2"></i>Not Reached</a>
-                        <a href="/Reached_Donation?donationId=<%=d._id%>" class="bg-success"><i class="fa-solid fa-badge-check me-2"></i>Reached</a>
-                    </div>
-                </div>
-            <%});%>
-        </div>
-
-        <div class="accepted-donations">
-            <h3 class="mb-4">Accepted Donations</h3>
-            <% acceptedDonations.map((d)=>{%>
-                <div class="verification-card">
-                    <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
+                        <h4>Organization Name: <%=d.organization%></h4>
                         <p>Food Item: <%=d.food%></p>
                         <p>No. of serves: <%=d.serves%></p>
                         <p>Timeslot: <%=d.timeslot%></p>
@@ -66,21 +75,7 @@
             <% successDonations.map((d)=>{%>
                 <div class="verification-card">
                     <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
-                        <p>Food Item: <%=d.food%></p>
-                        <p>No. of serves: <%=d.serves%></p>
-                        <p>Timeslot: <%=d.timeslot%></p>
-                    </div>
-                </div>
-            <%});%>
-        </div>
-
-        <div class="rejected-donations">
-            <h3 class="mb-4">Rejected Donations</h3>
-            <% rejectedDonations.map((d)=>{%>
-                <div class="verification-card">
-                    <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
+                        <h4>Organization Name: <%=d.organization%></h4>
                         <p>Food Item: <%=d.food%></p>
                         <p>No. of serves: <%=d.serves%></p>
                         <p>Timeslot: <%=d.timeslot%></p>
@@ -94,7 +89,7 @@
             <% notSuccessDonations.map((d)=>{%>
                 <div class="verification-card">
                     <div class="donation-details">
-                        <h4>Restaurant Name: <%=d.restaurant%></h4>
+                        <h4>Organization Name: <%=d.organization%></h4>
                         <p>Food Item: <%=d.food%></p>
                         <p>No. of serves: <%=d.serves%></p>
                         <p>Timeslot: <%=d.timeslot%></p>
@@ -102,7 +97,6 @@
                 </div>
             <%});%>
         </div>
-
 
     </div>
 
