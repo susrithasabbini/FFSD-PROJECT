@@ -54,3 +54,11 @@
 .services,.features,.contactus{
     text-align: center  ;
 }
+
+.footer {
+    display: flex;
+    width: 100%;
+    padding-bottom: 1rem;
+    background-color: #FFFCF4;
+    padding-top: 2rem;
+}

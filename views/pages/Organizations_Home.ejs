@@ -1,6 +1,10 @@
 <%- include('../partials/head.ejs') %>
 <link rel="stylesheet" href="/ORGANIZATIONS/Organizations_Home.css">
 <link rel="stylesheet" href="/ADMIN/Admin_Restaurants.css">
+<link rel="stylesheet" href="/CUSTOMER/Order_Food/Explore_Restuarants.css">
+<link rel ="stylesheet" href="/Food_Donation/Donations.css">
+<script src="/Food_Donation/Donations.js" defer></script>
+<script src="/ORGANIZATIONS/Organizations_Home.js" defer></script>
 
 </head>
 
@@ -8,11 +12,21 @@
     <%- include('../partials/Organizations_Navbar.ejs') %>
     <h4 class="ms-4">Welcome, <%=currentUser.name%>!</h4>
     <div class="main-body">
+
+        <select class="form-select ms-4" placeholder="Sort by" id="filter" name="sort" style="width: fit-content; margin: 20px;">
+            <option value="0">--Sort by--</option>
+            <option>Donations Received</option>
+            <option>Accepted Donations</option>
+            <option>Rejected Donations</option>
+            <option>Sending Donations</option>
+            <option>Successful Donations</option>
+            <option>Failed Donations</option>
+        </select>
        
 
-        <div class="pending-verifications">
+        <div class="pending-verifications" id="pendingVerifications">
 
-            <h3 class="mb-4"> Donations Received</h3>
+            <h3 class="mb-4">Donations Received</h3>
             <% donations.map((d)=>{ %>
                 <div class="verification-card">
                     <div class="donation-details">
@@ -29,7 +43,7 @@
             <% }); %>
         </div>
 
-        <div class="sending-donations">
+        <div class="sending-donations" id="sendingDonations">
             <h3 class="mb-4">Sending Donations</h3>
             <% sendingDonations.map((d)=>{%>
                 <div class="verification-card">
@@ -47,7 +61,7 @@
             <%});%>
         </div>
 
-        <div class="accepted-donations">
+        <div class="accepted-donations" id="acceptedDonations">
             <h3 class="mb-4">Accepted Donations</h3>
             <% acceptedDonations.map((d)=>{%>
                 <div class="verification-card">
@@ -61,7 +75,7 @@
             <%});%>
         </div>
 
-        <div class="success-donations">
+        <div class="success-donations" id="successDonations">
             <h3 class="mb-4">Successful Donations</h3>
             <% successDonations.map((d)=>{%>
                 <div class="verification-card">
@@ -75,7 +89,7 @@
             <%});%>
         </div>
 
-        <div class="rejected-donations">
+        <div class="rejected-donations" id="rejectedDonations">
             <h3 class="mb-4">Rejected Donations</h3>
             <% rejectedDonations.map((d)=>{%>
                 <div class="verification-card">
@@ -89,8 +103,8 @@
             <%});%>
         </div>
 
-        <div class="notsuccess-donations">
-            <h3 class="mb-4">Not Successful Donations</h3>
+        <div class="notsuccess-donations" id="notSuccessDonations">
+            <h3 class="mb-4">Failed Donations</h3>
             <% notSuccessDonations.map((d)=>{%>
                 <div class="verification-card">
                     <div class="donation-details">

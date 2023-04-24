@@ -1054,7 +1054,7 @@ app.get('/Admin', async function (req, res) {
         res.redirect('/Admin_Login');
     }
     else {
-        res.render('pages/Admin_Restaurants',{currentUser:currentAdmin,pageTitle:pageTitle,pendingRestaurantVerifications:pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+        res.render('pages/Admin',{currentUser:currentAdmin,pageTitle:pageTitle,pendingRestaurantVerifications:pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
     }
 });
 
