@@ -5,10 +5,9 @@ body{
 }
 
 .main-body{
-    min-height: 100vh;
     width: 50%;
     margin: auto;
-   
+    padding: 20px 50px;
 }
 
 .verification-card {
