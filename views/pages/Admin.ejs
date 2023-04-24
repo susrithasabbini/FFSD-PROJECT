@@ -1,6 +1,7 @@
 <%- include('../partials/head.ejs') %>
-<link rel="stylesheet" href="/ADMIN/Admin_Restaurants.css">
-<script src="/ADMIN/Admin_Restaurants.js" defer></script>
+<link rel="stylesheet" href="/ADMIN/Admin.css">
+<script src="/ADMIN/Admin.js" defer></script>
+<link rel="stylesheet" href="/CUSTOMER/Order_Food/Explore_Restuarants.css">
 
 </head>
 
@@ -9,9 +10,19 @@
 
     <div class="main-body">
 
-        <div class="pending-verifications">
+        <select class="form-select ms-4" placeholder="Sort by" id="fil" name="sort" style="width: fit-content; margin-top: 8rem; margin-bottom: 2rem;">
+            <option value="0">--Sort by--</option>
+            <option>Pending Restaurant Approvals</option>
+            <option>Accepted Organization Approvals</option>
+            <option>Approved Restaurants</option>
+            <option>Approved Organizations</option>
+            <option>Suspended Restaurants</option>
+            <option>Suspended Organizations</option>
+        </select>
 
-            <h3 class="mb-4"> Pending Restaurant Approvals</h3>
+        <div class="pending-restaurant-verifications">
+
+            <h3 class="mb-4">Pending Restaurant Approvals</h3>
             <% pendingRestaurantVerifications.map((restaurant)=>{%>
                 <div class="verification-card">
                     <div class="restaurant-details">
@@ -25,7 +36,10 @@
                     </div>
                 </div>
             <%});%>
-            <h3 class="mb-4"> Pending Organization Approvals</h3>
+        </div>
+
+        <div class="pending-organization-verifications">
+            <h3 class="mb-4">Pending Organization Approvals</h3>
             <% pendingOrganizationVerifications.map((organization)=>{%>
                 <div class="verification-card">
                     <div class="organization-details">
@@ -54,6 +68,9 @@
                     </div>
                 </div>
             <%});%>
+        </div>
+
+        <div class="approved-organizations">
             <h3 class="mb-4">Approved Organizations</h3>
             <% Organizations.map((organization)=>{%>
                 <div class="verification-card">
@@ -82,6 +99,9 @@
                     </div>
                 </div>
             <%});%>
+        </div>
+
+        <div class="suspended-organizations">
             <h3 class="mb-4">Suspended Organizations</h3>
             <% suspendedOrganizations.map((organization)=>{%>
                 <div class="verification-card">

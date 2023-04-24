@@ -1,5 +1,9 @@
 .main-body {
-    padding: 20px;
+    padding: 20px 50px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px #000000;
+}
+
+.donation-details h4 {
+    color: #E38B29;
 }
