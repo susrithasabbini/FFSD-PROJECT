@@ -504,7 +504,7 @@ app.get('/Admin_Logout', function (req, res) {
     });
 
     // Redirect to the login page
-    res.redirect('/Admin_Login');
+    res.redirect('/');
 });
 
 app.get('/Restaurant_Logout', function (req, res) {
@@ -714,6 +714,8 @@ app.post('/Organization_Login', async function (req, res){
 
     const organization = await getOrganizationByEmail(client,email);
 
+    if(organization==null)res.redirect('/Organization_Login');
+
     bcrypt.compare(password, organization.password, function(err, result) {
 
         if (result) {
@@ -767,35 +769,7 @@ app.post('/Restaurant_Login', async function (req, res){
     });
 });
 
-app.post('/Organization_Login', async function (req, res){
-   
-    let email = req.body.email;
-    let password = req.body.password;
 
-    const organization = await getRestaurantByEmail(client,email);
-
-    bcrypt.compare(password, organization.password, function(err, result) {
-        
-        if (result) {
-            // Set the email cookie with an expires value of 8 hours and sameSite value of true
-            const expirationDate = new Date();
-            expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
-            res.cookie('organizationEmail', organization.email, { 
-                expires: expirationDate,
-                sameSite: true
-            });
-
-            // log in
-            currentOrganization=organization;
-     
-            res.redirect('/Organizations_Home');
-        }
-        else {
-            // access denied
-            res.redirect('/Organization_Login');
-        }
-    });
-});
 
 
 app.post('/Register_Restaurant', upload.single('image'),function(req,res){
