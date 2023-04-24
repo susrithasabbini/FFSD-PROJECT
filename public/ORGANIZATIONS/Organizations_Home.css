@@ -8,8 +8,15 @@ body{
     width: 50%;
     margin: auto;
     padding: 20px 50px;
+    min-height: 100vh;
+    margin-bottom: 4rem;
 }
 
 .verification-card {
+    width: 100%;
+    background-color: #FDEEDC;
+    padding: 20px 40px;
+    margin: 20px 0px;
+    border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
