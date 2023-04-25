@@ -1,0 +1,80 @@
+<%- include('../partials/head.ejs') %>
+
+<style>
+    body{
+        background-color: #FFD8A9;
+    }
+    .main-body{
+        min-height: 100vh;
+        width: 60%;
+        margin: auto;
+        margin-top: 7rem;
+    }
+    textarea{
+        resize: none;
+    }
+
+    .form-control{
+        background-color:  #FDEEDC;
+    }
+
+    .form-control:focus{
+        box-shadow: none;
+        border: 3px solid #E38B29;
+        background-color:  #FDEEDC;
+    }
+
+    .announce-card{
+        background-color:  #FDEEDC;
+        min-height: 150px;
+        padding: 20px 40px;
+    }
+
+    .card a{
+        text-decoration: none;
+        width: fit-content;
+    }
+
+    .card div{
+        display: flex;
+        justify-content: right;
+    }
+    
+</style>
+</head>
+
+<body onclick="closeMenu()">
+    <%- include('../partials/Admin_Navbar.ejs') %>
+
+    <div class="main-body">
+       
+        <div class="form-body">
+            <form action="/addAnnouncement" method="post">
+                <div class="mb-4 mt-4">
+                    <label for="Announce">Announcement</label>
+                    <textarea name="Announce" id="Announce" cols="30" rows="4" class="form-control form-control-lg mt-2" required></textarea>
+                </div>
+                <div class="mb-4 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Announce</button>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <h3>Current Announcements</h3>
+            <%announcements.forEach(announcement=>{%>
+                <div class="announce-card card mt-4 mb-4">
+                    <h6><%=announcement.subject%></h6><br>
+                    <div>
+                        <a href='/removeAnnouncement?id=<%=announcement.AID%>' class="btn btn-danger">Remove Announcement</a>
+                    </div>
+                    
+                </div>
+            <%});%>
+        </div>
+
+
+    </div>
+    <%- include('../partials/footer.ejs') %>
+    <script src="/CUSTOMER/customer.js"></script>
+</body>
