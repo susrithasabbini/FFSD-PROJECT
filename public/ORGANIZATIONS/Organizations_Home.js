@@ -7,7 +7,7 @@ const successDonations = document.getElementById("successDonations");
 const notSuccessDonations = document.getElementById("notSuccessDonations");
 
 filter.addEventListener("change", () => {
-    if(filter.value === "Pending Donations") {
+    if(filter.value === "Donations Received") {
         pendingVerifications.style.display = "block";
         acceptedDonations.style.display = "none";
         rejectedDonations.style.display = "none";

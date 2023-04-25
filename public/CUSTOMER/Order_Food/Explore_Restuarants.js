@@ -45,7 +45,7 @@ function filterRestaurants() {
   const query = searchInput.value.trim().toLowerCase();
 
   // Get all restaurant cards
-  const cards = document.querySelectorAll('.restuarants-wrapper .card');
+  const cards = document.querySelectorAll('.link');
 
   // Loop through each card and check if it matches the search query
   cards.forEach((card) => {

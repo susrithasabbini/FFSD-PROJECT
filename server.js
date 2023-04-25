@@ -17,17 +17,17 @@ var app = express();
 app.use(cookieParser());
 
 app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // you can set secure to true if you're using HTTPS
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // you can set secure to true if you're using HTTPS
 }));
 
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
@@ -56,19 +56,19 @@ const uri = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/Images?ret
 const uri2 = "mongodb+srv://chandu:chandu@cluster0.y9hnpwu.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri2);
 
- 
+
 
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    
+
     try {
         // Connect to the MongoDB cluster
         await client.connect();
- 
-       console.log("Connected to mongodb atlas");
+
+        console.log("Connected to mongodb atlas");
     } catch (e) {
         console.error(e);
     }
@@ -77,7 +77,7 @@ async function main(){
     // }
 }
 
- main().catch(console.error);
+main().catch(console.error);
 
 const mongooseClient = mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -179,24 +179,24 @@ async function getAdmin(client, id) {
 }
 
 async function getUserOrders(client,cid){
-   
+
     const cursor = client.db("Orders").collection(cid).find();
     const results = await cursor.toArray();
     return results;
-    
+
 }
 
 async function getRestaurantsByStatus(client,status){
    const cursor = client.db("hungrezy").collection("restaurants").find({status:status});
-   const results = await cursor.toArray();
-   return results;
+    const results = await cursor.toArray();
+    return results;
 }
 
 async function getOrganizationsByStatus(client,status){
     const cursor = client.db("hungrezy").collection("organizations").find({status:status});
     const results = await cursor.toArray();
     return results;
- }
+}
 
  async function getDonationsByStatusAndOrganization(client,organization, status){
     const cursor = await client.db("hungrezy").collection("donations").find({
@@ -204,10 +204,10 @@ async function getOrganizationsByStatus(client,status){
             { status: status },
             {organization: organization}
         ]
-        });
+    });
     const results = await cursor.toArray();
     return results;
- }
+}
 
  async function getDonationsByStatusAndRestaurant(client,restaurant, status){
     const cursor = await client.db("hungrezy").collection("donations").find({
@@ -215,16 +215,16 @@ async function getOrganizationsByStatus(client,status){
             { status: status },
             {restaurant: restaurant}
         ]
-        });
+    });
     const results = await cursor.toArray();
     return results;
- }
+}
 
 async function getUsers(client){
     const cursor = client.db("hungrezy").collection("users").find();
     const results = await cursor.toArray();
     return results;
- }
+}
 
 async function getRestaurantOrders(client,email){
     const cursor = client.db("Orders").collection(email).find();
@@ -251,15 +251,15 @@ async function getFoodRecipeByID(client,id){
 
 async function getRestaurantByEmail(client,email){
     const result = client.db("hungrezy").collection("restaurants").findOne({email:email});
-    
+
     return result;
- }
+}
 
  async function getOrganizationByEmail(client,email){
     const result = client.db("hungrezy").collection("organizations").findOne({email:email});
-    
+
     return result;
- }
+}
 
 async function updateRestaurantStatus(client,email,status) {
     const result = await client.db("hungrezy").collection("restaurants").updateOne({ email:email }, { $set: {status:status} });
@@ -308,10 +308,10 @@ const sqlite3 = require('sqlite3').verbose();
 
 let db = new sqlite3.Database('./server.db', (err) => {
     if (err) {
-      console.error(err.message);
+        console.error(err.message);
     }
     console.log('Connected to the database.');
-  });
+});
 
 let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIMARY KEY,name varchar(50),image varchar(500),type varchar(200),rating varchar(1),time varchar(3),cost varchar(5),location varchar(250),offer varchar(3),menuid varchar(5))`;
 
@@ -358,45 +358,45 @@ query = `CREATE TABLE IF NOT EXISTS USERS(MOBILE VARCHAR(10) PRIMARY KEY,NAME VA
 
 query = `SELECT * FROM RESTAURANTS`;
 
-const Restaurants =[];
+const Restaurants = [];
 
 db.all(query, [], (err, rows) => {
     if (err) {
-      throw err;
+        throw err;
     }
-   rows.forEach((row)=>{
-    
-       let restaurant = {
-        image:row.image,name:row.name,type:row.type,rating:row.rating,time:row.time,cost:row.cost,location:row.location,offer:row.offer,restaurantID:row.restaurantid,menuID:row.menuid
-       }
-       //console.log(restaurant);
-       Restaurants.push(restaurant);
-   })
-  });
+    rows.forEach((row) => {
+
+        let restaurant = {
+            image: row.image, name: row.name, type: row.type, rating: row.rating, time: row.time, cost: row.cost, location: row.location, offer: row.offer, restaurantID: row.restaurantid, menuID: row.menuid
+        }
+        //console.log(restaurant);
+        Restaurants.push(restaurant);
+    })
+});
 
 
 
 
 query = 'SELECT * FROM USERS';
-const users=[];
+const users = [];
 
 
 db.all(query, [], (err, rows) => {
     if (err) {
-      throw err;
+        throw err;
     }
-   rows.forEach((row)=>{
-   // console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
-        let user={
-            mobileNumber : row.MOBILE,
-            password : row.PASSWORD,
-            name : row.NAME,
-            gender : row.GENDER,
-            email : row.EMAIL
+    rows.forEach((row) => {
+        // console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
+        let user = {
+            mobileNumber: row.MOBILE,
+            password: row.PASSWORD,
+            name: row.NAME,
+            gender: row.GENDER,
+            email: row.EMAIL
         }
         users.push(user);
-   })
-  });
+    })
+});
 
 //<-----------------------SQLite----------------------------------------->
 
@@ -409,39 +409,39 @@ db.all(query, [], (err, rows) => {
 
 app.get('/', async function (req, res) {
     const pageTitle = "Hungrezy";
-    if(req.cookies.mobileNumber==null) {
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
-        res.render('pages/Home',{pageTitle : pageTitle, currentUser: currentUser});
+        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
     }
     else {
         const currentUser = await getUser(client, req.cookies.mobileNumber);
         if (currentUser !== null) { // check if user is logged in
-            res.cookie('mobileNumber', currentUser.mobileNumber, { 
+            res.cookie('mobileNumber', currentUser.mobileNumber, {
                 expires: new Date(Date.now() + 8 * 60 * 60 * 1000), // 8 hours in milliseconds
                 sameSite: true
             });
         }
-        res.render('pages/Home',{pageTitle : pageTitle, currentUser: currentUser});
+        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
     }
 });
 
 
 
 app.get('/Restaurants', async function (req, res) {
-    if(req.cookies.mobileNumber==null) {
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
     const pageTitle = "Restaurants";
-    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
+    const approvedRestaurants = await getRestaurantsByStatus(client, "approved");
     const Restaurants = [];
-    approvedRestaurants.forEach(async (restaurant)=>{
-        let FoodImage = mongoose.model(restaurant.email,imageSchema2);
-        let  foodItemImage = await FoodImage.findOne({_id : restaurant.email});
-        Restaurants.push({restaurant:restaurant,image:foodItemImage});
+    approvedRestaurants.forEach(async (restaurant) => {
+        let FoodImage = mongoose.model(restaurant.email, imageSchema2);
+        let foodItemImage = await FoodImage.findOne({ _id: restaurant.email });
+        Restaurants.push({ restaurant: restaurant, image: foodItemImage });
     });
     try {
         const fooditems = await FoodItem.find({});
-        res.render('pages/Explore_Restuarants',{foodItems : fooditems,restuarants : Restaurants ,pageTitle : pageTitle,currentUser:currentUser});
+        res.render('pages/Explore_Restuarants', { foodItems: fooditems, restuarants: Restaurants, pageTitle: pageTitle, currentUser: currentUser });
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
@@ -450,22 +450,22 @@ app.get('/Restaurants', async function (req, res) {
 
 app.get('/login', function (req, res) {
     const pageTitle = "Login";
-    res.render('pages/login',{pageTitle : pageTitle});
+    res.render('pages/login', { pageTitle: pageTitle });
 });
 
 app.get('/Restaurant_Login', function (req, res) {
     const pageTitle = "Restaurant Login";
-    res.render('pages/Restaurant_Login',{pageTitle : pageTitle});
+    res.render('pages/Restaurant_Login', { pageTitle: pageTitle });
 });
 
 app.get('/Admin_Login', function (req, res) {
     const pageTitle = "Admin-Login";
-    res.render('pages/Admin_Login',{pageTitle : pageTitle});
+    res.render('pages/Admin_Login', { pageTitle: pageTitle });
 });
 
 app.get('/Organization_Login', function (req, res) {
     const pageTitle = "Organization-Login";
-    res.render('pages/Organization_Login',{pageTitle : pageTitle});
+    res.render('pages/Organization_Login', { pageTitle: pageTitle });
 });
 
 app.get('/logout', function (req, res) {
@@ -483,14 +483,14 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/deleteUserAccount', async function (req, res) {
-   if(currentUser==null){
+    if (currentUser == null) {
         res.redirect('login');
-   }else{
-        await deleteUser(client,currentUser._id);
-        currentUser=null;
+    } else {
+        await deleteUser(client, currentUser._id);
+        currentUser = null;
         res.redirect('/');
-   }
-   
+    }
+
 });
 
 app.get('/Admin_Logout', function (req, res) {
@@ -535,42 +535,42 @@ app.get('/Organization_Logout', function (req, res) {
     res.redirect('/login');
 });
 
-app.get('/helpAndSupport', function(req, res) {
-    if(req.cookies.mobileNumber==null) {
+app.get('/helpAndSupport', function (req, res) {
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
     const pageTitle = "Help & Support";
-    res.render('pages/helpAndSupport', {pageTitle: pageTitle,currentUser:currentUser});
+    res.render('pages/helpAndSupport', { pageTitle: pageTitle, currentUser: currentUser });
 });
 
 app.get('/About', function (req, res) {
     const pageTitle = "About Us";
-    if(req.cookies.mobileNumber==null) {
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
-    res.render('pages/About',{pageTitle : pageTitle,currentUser:currentUser});
+    res.render('pages/About', { pageTitle: pageTitle, currentUser: currentUser });
 });
 
-app.post('/login', async function (req, res){
-   
+app.post('/login', async function (req, res) {
+
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
 
-    const user = await getUser(client,mobileNumber);
+    const user = await getUser(client, mobileNumber);
 
-    if(user==null)res.redirect('/login');
+    if (user == null) res.redirect('/login');
 
-    bcrypt.compare(password, user.password, function(err, result) {
-        
+    bcrypt.compare(password, user.password, function (err, result) {
+
         if (result) {
             // Set the mobileNumber cookie with an expires value of 0 and sameSite value of true
             const expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
-            res.cookie('mobileNumber', user.mobileNumber, { 
+            res.cookie('mobileNumber', user.mobileNumber, {
                 expires: expirationDate,
                 sameSite: true
             });
-          
+
             // Set the currentUser variable to the logged in user
             currentUser = user;
 
@@ -584,113 +584,113 @@ app.post('/login', async function (req, res){
     });
 });
 
-  
+
 app.post('/registration', function (req, res) {
     let name = req.body.fname;
     let mobileNumber = req.body.mobileNumber;
     let password = req.body.password;
     let gender = req.body.gender;
     let email = req.body.email;
-  
+
     bcrypt.hash(password, saltRounds, async function (err, hash) {
-      if (err) throw err;
-      else {
-        const user = {
-          _id: mobileNumber,
-          mobileNumber: mobileNumber,
-          name: name,
-          email: email,
-          gender: gender,
-          password: hash,
-          address : req.body.address,
-          pincode : req.body.pincode,
-          state : req.body.state,
-          country : req.body.country
-        };
-  
-        await createUser(client, user);
-        req.session.user = user;
-        currentUser = user;
-        res.redirect('/');
-      }
+        if (err) throw err;
+        else {
+            const user = {
+                _id: mobileNumber,
+                mobileNumber: mobileNumber,
+                name: name,
+                email: email,
+                gender: gender,
+                password: hash,
+                address: req.body.address,
+                pincode: req.body.pincode,
+                state: req.body.state,
+                country: req.body.country
+            };
+
+            await createUser(client, user);
+            req.session.user = user;
+            currentUser = user;
+            res.redirect('/');
+        }
     });
 });
 
-app.post('/updateCustomerAddress',  function (req, res) {
-let addressDetails = {
-     address : req.body.address,
-     pincode : req.body.pincode,
-     state : req.body.state,
-     country : req.body.country,
-}
- 
-  if(currentUser){
-    updateUserAddress(client,currentUser,addressDetails).then(()=>{
-        res.redirect('/Account');
-    })
-  }else{
-    res.redirect('/Login');
-  }
-});
+app.post('/updateCustomerAddress', function (req, res) {
+    let addressDetails = {
+        address: req.body.address,
+        pincode: req.body.pincode,
+        state: req.body.state,
+        country: req.body.country,
+    }
 
-app.post('/submitUserFeedback',  async function (req, res) {
-    let feedback = req.body.feedback
-     
-      if(currentUser){
-        await addUserFeedback(client,currentUser._id,feedback);
-        res.redirect("/About");
-      }else{
+    if (currentUser) {
+        updateUserAddress(client, currentUser, addressDetails).then(() => {
+            res.redirect('/Account');
+        })
+    } else {
         res.redirect('/Login');
-      }
+    }
 });
-    
 
-app.post('/updateUserProfile',  async function (req, res) {
-   
-       let  name = req.body.name
-        let email = req.body.email
-        let gender = req.body.gender
-        let password = req.body.password
-    
+app.post('/submitUserFeedback', async function (req, res) {
+    let feedback = req.body.feedback
 
-    
-     
-      if(currentUser){
-        if(name!='' && name.length>0 && name!=currentUser.name)await updateUserName(client,currentUser.mobileNumber,name);
-        if(email!='' && email.length>0 && email!=currentUser.email)await updateUserEmail(client,currentUser.mobileNumber,email);
-        if(gender!='' && gender.length>0 && gender!=currentUser.gender)await updateUserGender(client,currentUser.mobileNumber,gender);
-        if(name!='' && password.length>0){
+    if (currentUser) {
+        await addUserFeedback(client, currentUser._id, feedback);
+        res.redirect("/About");
+    } else {
+        res.redirect('/Login');
+    }
+});
+
+
+app.post('/updateUserProfile', async function (req, res) {
+
+    let name = req.body.name
+    let email = req.body.email
+    let gender = req.body.gender
+    let password = req.body.password
+
+
+
+
+    if (currentUser) {
+        if (name != '' && name.length > 0 && name != currentUser.name) await updateUserName(client, currentUser.mobileNumber, name);
+        if (email != '' && email.length > 0 && email != currentUser.email) await updateUserEmail(client, currentUser.mobileNumber, email);
+        if (gender != '' && gender.length > 0 && gender != currentUser.gender) await updateUserGender(client, currentUser.mobileNumber, gender);
+        if (name != '' && password.length > 0) {
             bcrypt.hash(password, saltRounds, async function (err, hash) {
                 if (err) throw err;
                 else {
-                    await updateUserPassword(client,currentUser.mobileNumber,hash);
+                    await updateUserPassword(client, currentUser.mobileNumber, hash);
                 }
-              });
+            });
         }
-        currentUser = await getUser(client,currentUser.mobileNumber);
+        currentUser = await getUser(client, currentUser.mobileNumber);
         res.redirect('/Account');
-        
-      }else{
+
+    } else {
         res.redirect('/Login');
-      }
-    });
+    }
+});
 
 
 
-  
+
 
 app.post('/Admin_Login', async function (req, res){
-   
+
     let email = req.body.email;
     let password = req.body.password;
 
     const user = await  getAdmin(client,email);
-    
+
     if(user){
         if(user.password==password){
             const expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (4 * 60 * 60 * 1000)); // 4 hours in milliseconds
-            res.cookie('email', user.email, { 
+            res.cookie('email', user.email, {
                 expires: expirationDate,
                 sameSite: true
             });
@@ -712,70 +712,78 @@ app.post('/Organization_Login', async function (req, res){
     let email = req.body.email;
     let password = req.body.password;
 
-    const organization = await getOrganizationByEmail(client,email);
+    const organization = await getOrganizationByEmail(client, email);
 
-    if(organization==null)res.redirect('/Organization_Login');
+    if(organization) {
 
     bcrypt.compare(password, organization.password, function(err, result) {
 
-        if (result) {
-            // Set the email cookie with an expires value of 8 hours and sameSite value of true
-            const expirationDate = new Date();
-            expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
-            res.cookie('organizationEmail', organization.email, {
-                expires: expirationDate,
-                sameSite: true
-            });
-
-            // log in
-            currentOrganization=organization;
-            res.redirect('/Organizations_Home');
-        }
-        else {
-            // access denied
-            res.redirect('/Organization_Login');
-        }
-    });
+            if (result) {
+                // Set the email cookie with an expires value of 8 hours and sameSite value of true
+                const expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
+                res.cookie('organizationEmail', organization.email, {
+                    expires: expirationDate,
+                    sameSite: true
+                });
+    
+                // log in
+                currentOrganization = organization;
+                res.redirect('/Organizations_Home');
+            }
+            else {
+                // access denied
+                res.redirect('/Organization_Login');
+            }
+        });
+    } else {
+        res.redirect('/Organization_Login');
+    }
+    
 });
 
-app.post('/Restaurant_Login', async function (req, res){
-   
+app.post('/Restaurant_Login', async function (req, res) {
+
     let email = req.body.email;
     let password = req.body.password;
 
-    const restaurant = await getRestaurantByEmail(client,email);
-    if(restaurant==null)res.redirect('/Restaurant_Login');
+    const restaurant = await getRestaurantByEmail(client, email);
 
-    bcrypt.compare(password, restaurant.password, function(err, result) {
-        
-        if (result) {
-            // Set the email cookie with an expires value of 8 hours and sameSite value of true
-            const expirationDate = new Date();
-            expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
-            res.cookie('restaurantEmail', restaurant.email, { 
-                expires: expirationDate,
-                sameSite: true
-            });
+    if (restaurant) {
 
-            // log in
-            currentRestaurant=restaurant;
-     
-            res.redirect('/Restaurants_Home');
-        }
-        else {
-            // access denied
-            res.redirect('/Restaurant_Login');
-        }
-    });
+        bcrypt.compare(password, restaurant.password, function (err, result) {
+
+            if (result) {
+                // Set the email cookie with an expires value of 8 hours and sameSite value of true
+                const expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
+                res.cookie('restaurantEmail', restaurant.email, {
+                    expires: expirationDate,
+                    sameSite: true
+                });
+
+                // log in
+                currentRestaurant = restaurant;
+
+                res.redirect('/Restaurants_Home');
+            }
+            else {
+                // access denied
+                res.redirect('/Restaurant_Login');
+            }
+        });
+    } else {
+        res.redirect('/Restaurant_Login');
+    }
 });
 
 
 
 
-app.post('/Register_Restaurant', upload.single('image'),function(req,res){
+app.post('/Register_Restaurant', upload.single('image'), function (req, res) {
     function getOffer() {
         let offer = Math.floor(Math.random() * (60 - 10 + 1) + 10);
-        while(offer % 5 !== 0) {
+        while (offer % 5 !== 0) {
             offer = Math.floor(Math.random() * (60 - 10 + 1) + 10);
         }
         return offer;
@@ -783,419 +791,419 @@ app.post('/Register_Restaurant', upload.single('image'),function(req,res){
 
     const offer = getOffer();
 
-    
-   
-    bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
-        if(err)throw err;
-        else{
+
+
+    bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
+        if (err) throw err;
+        else {
             const restaurantObj = {
-                _id : req.body.restaurantEmail,
-                name : req.body.restaurantName,
-                email : req.body.restaurantEmail,
-                password : hash,
-                type : req.body.restaurantType,
-                time : req.body.deliveryTime,
-                cost : req.body.cost,
-                location : req.body.location, 
-                rating :Math.round(((Math.random() * (5 - 3) + 3)) *10)/10,
-                offer : offer,
-                status : 'pending',
-              
+                _id: req.body.restaurantEmail,
+                name: req.body.restaurantName,
+                email: req.body.restaurantEmail,
+                password: hash,
+                type: req.body.restaurantType,
+                time: req.body.deliveryTime,
+                cost: req.body.cost,
+                location: req.body.location,
+                rating: Math.round(((Math.random() * (5 - 3) + 3)) * 10) / 10,
+                offer: offer,
+                status: 'pending',
+
             }
 
-            await createRestaurant(client,restaurantObj);
+            await createRestaurant(client, restaurantObj);
             currentRestaurant = restaurantObj;
-            const FoodImage = mongoose.model(req.body.restaurantEmail,imageSchema2);
+            const FoodImage = mongoose.model(req.body.restaurantEmail, imageSchema2);
             const foodimage = new FoodImage({
                 _id: req.body.restaurantEmail,
                 data: req.file.buffer,
                 contentType: req.file.mimetype
-              });
-              try {
+            });
+            try {
                 await foodimage.save();
                 res.redirect('/Restaurants_Home');
-              } catch (err) {
+            } catch (err) {
                 console.error(err);
                 res.sendStatus(500);
-              }
-           
+            }
+
         }
-       
-       
+
+
     });
 });
 
-app.post('/Add_FoodItem', upload.single('image'),async function(req,res){
+app.post('/Add_FoodItem', upload.single('image'), async function (req, res) {
     const email = req.query.email;
-    const FoodImage = mongoose.model(email,imageSchema2);
+    const FoodImage = mongoose.model(email, imageSchema2);
     const foodimage = new FoodImage({
         _id: req.body.name,
         data: req.file.buffer,
         contentType: req.file.mimetype
-      });
-   const foodItem = {
-        name : req.body.name,
-        cost : req.body.cost,
-        description : req.body.description,
-        type : req.body.type,
-        category : req.body.category,
+    });
+    const foodItem = {
+        name: req.body.name,
+        cost: req.body.cost,
+        description: req.body.description,
+        type: req.body.type,
+        category: req.body.category,
         image: '/CUSTOMER/Order_Food/images/No-Image-Placeholder.svg',
-        rating : Math.round(((Math.random() * (5 - 3) + 3)) *10)/10
-   }
+        rating: Math.round(((Math.random() * (5 - 3) + 3)) * 10) / 10
+    }
 
-   try {
-    await foodimage.save();
-    await addFoodItem(client,email,foodItem);
-    res.redirect('/Add_Menu');
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
-  }
+    try {
+        await foodimage.save();
+        await addFoodItem(client, email, foodItem);
+        res.redirect('/Add_Menu');
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 });
 
 
 
-app.post('/addRecipe', upload.single('image'),async function(req,res){
-    if(true){
-        const FoodImage = mongoose.model("foodRecipes",imageSchema2);
+app.post('/addRecipe', upload.single('image'), async function (req, res) {
+    if (true) {
+        const FoodImage = mongoose.model("foodRecipes", imageSchema2);
         const foodimage = new FoodImage({
             _id: req.body.name,
             data: req.file.buffer,
             contentType: req.file.mimetype
-          });
-       const foodRecipe = {
-            recipeID : req.body.name.trim()+new Date().getTime(),
-            name : req.body.name,
-            category:req.body.category,
-            time : req.body.time,
-            description : req.body.description,
-            serves : req.body.serves,
-            ingredients : req.body.ingredients,
-            step1 : req.body.para1,
-            step2 : req.body.para2,
-            step3 : req.body.para3,
-            rating : Math.round(((Math.random() * (5 - 3) + 3)) *10)/10
-       }
-    
-       try {
-        await foodimage.save();
-        await addFoodRecipe(client,foodRecipe);
-        res.redirect('/Add_Recipe');
-      } catch (err) {
-        console.error(err);
-        res.sendStatus(500);
-      }
-    }else{
+        });
+        const foodRecipe = {
+            recipeID: req.body.name.trim() + new Date().getTime(),
+            name: req.body.name,
+            category: req.body.category,
+            time: req.body.time,
+            description: req.body.description,
+            serves: req.body.serves,
+            ingredients: req.body.ingredients,
+            step1: req.body.para1,
+            step2: req.body.para2,
+            step3: req.body.para3,
+            rating: Math.round(((Math.random() * (5 - 3) + 3)) * 10) / 10
+        }
+
+        try {
+            await foodimage.save();
+            await addFoodRecipe(client, foodRecipe);
+            res.redirect('/Add_Recipe');
+        } catch (err) {
+            console.error(err);
+            res.sendStatus(500);
+        }
+    } else {
         res.redirect('/Admin_Login');
     }
-   
-  
+
+
 });
 
 
 
 app.get('/Registration', function (req, res) {
     const pageTitle = "Registration";
-    res.render('pages/registration',{pageTitle:pageTitle});
+    res.render('pages/registration', { pageTitle: pageTitle });
 });
 
 app.get('/Restaurant_Registration', function (req, res) {
     const pageTitle = "Restaurant-Registration";
-    res.render('pages/Restaurant_Registration',{pageTitle:pageTitle});
+    res.render('pages/Restaurant_Registration', { pageTitle: pageTitle });
 });
 
 app.get('/Menu', async function (req, res) {
-    if(currentUser==null)res.redirect('/login');
-    const restaurant = await getRestaurantByEmail(client,req.query.id)
-    let MenuItems = await getRestaurantMenu(client,restaurant._id);
-    const categoryNames = ["Biryani-Rice","Curries","Bakery","Pizza-Burger","Soft-Drinks","Sweets","Recomended","Lassi-Shakes","Tiffins"];
-    const Menu = [],recomended=[];
-    let FoodImage = mongoose.model(restaurant.email,imageSchema2);
-    let  foodItemImages = await FoodImage.find({});
-    categoryNames.map((name)=>{
+    if (currentUser == null) res.redirect('/login');
+    const restaurant = await getRestaurantByEmail(client, req.query.id)
+    let MenuItems = await getRestaurantMenu(client, restaurant._id);
+    const categoryNames = ["Biryani-Rice", "Curries", "Bakery", "Pizza-Burger", "Soft-Drinks", "Sweets", "Recomended", "Lassi-Shakes", "Tiffins"];
+    const Menu = [], recomended = [];
+    let FoodImage = mongoose.model(restaurant.email, imageSchema2);
+    let foodItemImages = await FoodImage.find({});
+    categoryNames.map((name) => {
         let array = [];
-        MenuItems.map((item)=>{
-            if(name==item.category){
+        MenuItems.map((item) => {
+            if (name == item.category) {
                 let foodItemImage
-                foodItemImages.map(image=>{
-                    if(image._id==item.name)
-                        foodItemImage=image;
+                foodItemImages.map(image => {
+                    if (image._id == item.name)
+                        foodItemImage = image;
                 })
-                array.push({item:item,image:foodItemImage});
-                if(name=="Recomended")recomended.push({item:item,image:foodItemImage});
+                array.push({ item: item, image: foodItemImage });
+                if (name == "Recomended") recomended.push({ item: item, image: foodItemImage });
             }
         })
-        if(name!="Recomended" && array.length>0)Menu.push({categoryName:name,items:array});
+        if (name != "Recomended" && array.length > 0) Menu.push({ categoryName: name, items: array });
     })
-   
-    const pageTitle = "Menu-"+restaurant.name;
-    const menuItems = JSON.stringify( MenuItems ).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
-    res.render('pages/Restuarant_Menu',{Restuarant: restaurant,recomended : recomended,Menu : Menu,currentUser:currentUser,pageTitle:pageTitle,MenuItems:menuItems});
+
+    const pageTitle = "Menu-" + restaurant.name;
+    const menuItems = JSON.stringify(MenuItems).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
+    res.render('pages/Restuarant_Menu', { Restuarant: restaurant, recomended: recomended, Menu: Menu, currentUser: currentUser, pageTitle: pageTitle, MenuItems: menuItems });
 });
 
-app.post('/order', async function (req, res){
-        const order = {
-            orderID : req.query.rid+req.query.cid+ new Date().getTime(),
-            restaurantID : req.query.rid,
-            customerID : req.query.cid,
-            cart : JSON.parse(req.query.cart),
-            paymentDetails : {payment:req.query.pay,method:req.query.method},
-            orderStatus : "Delivery Pending"
-        }
+app.post('/order', async function (req, res) {
+    const order = {
+        orderID: req.query.rid + req.query.cid + new Date().getTime(),
+        restaurantID: req.query.rid,
+        customerID: req.query.cid,
+        cart: JSON.parse(req.query.cart),
+        paymentDetails: { payment: req.query.pay, method: req.query.method },
+        orderStatus: "Delivery Pending"
+    }
 
-        await addRestaurantOrder(client,order.restaurantID,order)
-        await addCustomerOrder(client,order.customerID,order)
-        console.log(order);
-        res.redirect('/');
+    await addRestaurantOrder(client, order.restaurantID, order)
+    await addCustomerOrder(client, order.customerID, order)
+    console.log(order);
+    res.redirect('/');
 
 });
 
 
 app.get('/Recipes', function (req, res) {
     const pageTitle = "Recipes";
-    const FoodRecipes = [],Veg=[],nonVeg=[];
-    if(req.cookies.mobileNumber==null) {
+    const FoodRecipes = [], Veg = [], nonVeg = [];
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
-    getFoodRecipes(client).then( recipes=>{
-        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
-        FoodImage.find().then(foodimages=>{
-            recipes.map(recipe=>{
-                foodimages.map(foodimage=>{
-                    if(recipe.name==foodimage._id)FoodRecipes.push({recipe,foodimage});
+    getFoodRecipes(client).then(recipes => {
+        let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
+        FoodImage.find().then(foodimages => {
+            recipes.map(recipe => {
+                foodimages.map(foodimage => {
+                    if (recipe.name == foodimage._id) FoodRecipes.push({ recipe, foodimage });
                 })
-               
+
             })
-            FoodRecipes.forEach(recipe=>{
-                if(recipe.recipe.category=="Vegetarian")Veg.push(recipe);
+            FoodRecipes.forEach(recipe => {
+                if (recipe.recipe.category == "Vegetarian") Veg.push(recipe);
                 else nonVeg.push(recipe);
             })
-            res.render('pages/Food_Recipes',{FoodRecipes : FoodRecipes,VegRecipes:Veg,nonVegRecipes:nonVeg,currentUser:currentUser,pageTitle:pageTitle});
+            res.render('pages/Food_Recipes', { FoodRecipes: FoodRecipes, VegRecipes: Veg, nonVegRecipes: nonVeg, currentUser: currentUser, pageTitle: pageTitle });
         })
-       
+
     });
-    })
-   
+})
+
 
 app.get('/View_Recipe', function (req, res) {
     const pageTitle = "Recipe Blog";
     const id = req.query.id;
-    
-    getFoodRecipeByID(client,id).then(recipe=>{
-        let FoodImage = mongoose.model("FoodRecipes",imageSchema2);
-        FoodImage.findOne({_id:recipe.name}).then(image=>{
-            res.render('pages/View_Recipe',{foodItem :recipe,image:image,currentUser:currentUser,pageTitle:pageTitle});
+
+    getFoodRecipeByID(client, id).then(recipe => {
+        let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
+        FoodImage.findOne({ _id: recipe.name }).then(image => {
+            res.render('pages/View_Recipe', { foodItem: recipe, image: image, currentUser: currentUser, pageTitle: pageTitle });
         })
     })
-    
+
 });
 
-app.get('/Account',  async function (req, res) {
-    if(req.cookies.mobileNumber==null) {
+app.get('/Account', async function (req, res) {
+    if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
-    const pageTitle="Account";
-    const Orders=[];
-    if(currentUser){
-        getRestaurantsByStatus(client,"approved").then(restaurants=>{
+    const pageTitle = "Account";
+    const Orders = [];
+    if (currentUser) {
+        getRestaurantsByStatus(client, "approved").then(restaurants => {
 
-            getUserOrders(client,currentUser._id).then(userOrders=>{
-                userOrders.map(order=>{
-                    restaurants.map(restaurant=>{
-                        if(order.restaurantID==restaurant._id)Orders.push({order:order,restaurant:restaurant});
+            getUserOrders(client, currentUser._id).then(userOrders => {
+                userOrders.map(order => {
+                    restaurants.map(restaurant => {
+                        if (order.restaurantID == restaurant._id) Orders.push({ order: order, restaurant: restaurant });
                     })
                 })
-                res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+                res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders });
             })
-       }) 
-    }else{
-        res.render('pages/Account',{pageTitle:pageTitle,currentUser:currentUser,orders:Orders});
+        })
+    } else {
+        res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders });
     }
-  
-    
-   
+
+
+
 });
 
 app.get('/Admin', async function (req, res) {
     const pageTitle = "Admin";
-    const pendingRestaurants = await getRestaurantsByStatus(client,"pending");
-    const approvedRestaurants = await getRestaurantsByStatus(client,"approved");
-    const suspendedRestaurants = await getRestaurantsByStatus(client,"suspended");
-    const pendingOrganizations = await getOrganizationsByStatus(client,"pending");
-    const approvedOrganizations = await getOrganizationsByStatus(client,"approved");
-    const suspendedOrganizations = await getOrganizationsByStatus(client,"suspended");
-    if(req.cookies.email==null) {
+    const pendingRestaurants = await getRestaurantsByStatus(client, "pending");
+    const approvedRestaurants = await getRestaurantsByStatus(client, "approved");
+    const suspendedRestaurants = await getRestaurantsByStatus(client, "suspended");
+    const pendingOrganizations = await getOrganizationsByStatus(client, "pending");
+    const approvedOrganizations = await getOrganizationsByStatus(client, "approved");
+    const suspendedOrganizations = await getOrganizationsByStatus(client, "suspended");
+    if (req.cookies.email == null) {
         res.redirect('/Admin_Login');
     }
     else {
-        const currentAdmin = await getAdmin(client,req.cookies.email);
-        res.render('pages/Admin',{currentUser:currentAdmin,pageTitle:pageTitle,pendingRestaurantVerifications:pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants:approvedRestaurants,suspendedRestaurants:suspendedRestaurants});
+        const currentAdmin = await getAdmin(client, req.cookies.email);
+        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants });
     }
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {
     let email = req.query.email;
-    await updateRestaurantStatus(client,email,"approved");
+    await updateRestaurantStatus(client, email, "approved");
     res.redirect('/Admin');
-  
+
 });
 
 
 app.get('/Reject_Restaurant', async function (req, res) {
     let email = req.query.email;
-    await updateRestaurantStatus(client,email,"rejected");
+    await updateRestaurantStatus(client, email, "rejected");
     res.redirect('/Admin');
 });
 
 app.get('/Suspend_Restaurant', async function (req, res) {
     let email = req.query.email;
-    await updateRestaurantStatus(client,email,"suspended");
+    await updateRestaurantStatus(client, email, "suspended");
     res.redirect('/Admin');
-  
+
 });
 
 app.get('/Approve_Organization', async function (req, res) {
     let email = req.query.email;
-    await updateOrganizationStatus(client,email,"approved");
+    await updateOrganizationStatus(client, email, "approved");
     res.redirect('/Admin');
 });
 
 app.get('/Reject_Organization', async function (req, res) {
     let email = req.query.email;
-    await updateOrganizationStatus(client,email,"rejected");
+    await updateOrganizationStatus(client, email, "rejected");
     res.redirect('/Admin');
 });
 
 app.get('/Suspend_Organization', async function (req, res) {
     let email = req.query.email;
-    await updateOrganizationStatus(client,email,"suspended");
+    await updateOrganizationStatus(client, email, "suspended");
     res.redirect('/Admin');
 });
 
 app.get('/Add_Recipe', async function (req, res) {
     const pageTitle = "Admin";
-    if(req.cookies.email!=null){
-        currentAdmin = await getAdmin(client,req.cookies.email);
-    res.render('pages/Admin_AddRecipe',{currentUser:currentAdmin,pageTitle:pageTitle});
+    if (req.cookies.email != null) {
+        currentAdmin = await getAdmin(client, req.cookies.email);
+        res.render('pages/Admin_AddRecipe', { currentUser: currentAdmin, pageTitle: pageTitle });
     } else {
         res.redirect('/login');
         res.redirect('/Admin_Login');
     }
 });
 
-app.get('/Restaurants_Home', async function(req,res){
+app.get('/Restaurants_Home', async function (req, res) {
     const pageTitle = "Restaurant Home";
-    let restaurantOrders=[], Orders = [];
-    if(req.cookies.restaurantEmail != null){
-        currentRestaurant = await getRestaurantByEmail(client,req.cookies.restaurantEmail);
-       getUsers(client).then(users=>{
-            getRestaurantOrders(client,currentRestaurant._id).then(restaurantOrders=>{
-                restaurantOrders.map(order=>{
-                    users.map(user=>{
-                        if(order.customerID==user._id)Orders.push({order:order,user:user});
+    let restaurantOrders = [], Orders = [];
+    if (req.cookies.restaurantEmail != null) {
+        currentRestaurant = await getRestaurantByEmail(client, req.cookies.restaurantEmail);
+        getUsers(client).then(users => {
+            getRestaurantOrders(client, currentRestaurant._id).then(restaurantOrders => {
+                restaurantOrders.map(order => {
+                    users.map(user => {
+                        if (order.customerID == user._id) Orders.push({ order: order, user: user });
                     })
                 })
-                res.render('pages/Restaurants_Home',{pageTitle:pageTitle,currentUser:currentRestaurant,Orders:Orders});
+                res.render('pages/Restaurants_Home', { pageTitle: pageTitle, currentUser: currentRestaurant, Orders: Orders });
             })
-       })  
-    }else{
-        res.redirect('/Restaurant_Login');; 
-       
+        })
+    } else {
+        res.redirect('/Restaurant_Login');;
+
     }
 });
 
 async function updateDonationById(client, id, status) {
     const result = await client.db("hungrezy").collection("donations").updateOne(
-      { _id: new ObjectId(id) },
-      { $set: {status: status}}
+        { _id: new ObjectId(id) },
+        { $set: { status: status } }
     );
 }
 
 app.get('/Reject_Donation', async function (req, res) {
     let id = req.query.donationId;
-    await updateDonationById(client,id,"rejected");
+    await updateDonationById(client, id, "rejected");
     res.redirect('/Organizations_Home');
 });
 
 app.get('/Accept_Donation', async function (req, res) {
     let id = req.query.donationId;
-    await updateDonationById(client,id,"accepted");
+    await updateDonationById(client, id, "accepted");
     res.redirect('/Organizations_Home');
 });
 
 app.get('/Send_Donation', async function (req, res) {
     let id = req.query.donationId;
-    await updateDonationById(client,id,"sending");
+    await updateDonationById(client, id, "sending");
     res.redirect('/Donations');
 });
 
 app.get('/Reached_Donation', async function (req, res) {
     let id = req.query.donationId;
-    await updateDonationById(client,id,"success");
+    await updateDonationById(client, id, "success");
     res.redirect('/Organizations_Home');
 });
 
 app.get('NotReached_Donation', async function (req, res) {
     let id = req.query.donationId;
-    await updateDonationById(client,id,"not success");
+    await updateDonationById(client, id, "not success");
     res.redirect('/Organizations_Home');
 });
 
 
-app.get('/Organizations_Home', async function(req,res){
+app.get('/Organizations_Home', async function (req, res) {
     const pageTitle = "Organizations Home";
-    if(req.cookies.organizationEmail != null){
-        currentOrganization = await getOrganizationByEmail(client,req.cookies.organizationEmail);
-        const pendingDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "pending");
-        const rejectedDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "rejected");
-        const acceptedDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "accepted");
-        const sendingDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "sending");
-        const successDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "success");
-        const notSuccessDonations = await getDonationsByStatusAndOrganization(client,currentOrganization.name, "not success");
-        res.render('pages/Organizations_Home',{pageTitle:pageTitle,currentUser:currentOrganization, donations: pendingDonations, sendingDonations: sendingDonations,successDonations: successDonations, rejectedDonations: rejectedDonations, acceptedDonations: acceptedDonations, notSuccessDonations: notSuccessDonations});
-    }else{
+    if (req.cookies.organizationEmail != null) {
+        currentOrganization = await getOrganizationByEmail(client, req.cookies.organizationEmail);
+        const pendingDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "pending");
+        const rejectedDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "rejected");
+        const acceptedDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "accepted");
+        const sendingDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "sending");
+        const successDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "success");
+        const notSuccessDonations = await getDonationsByStatusAndOrganization(client, currentOrganization.name, "not success");
+        res.render('pages/Organizations_Home', { pageTitle: pageTitle, currentUser: currentOrganization, donations: pendingDonations, sendingDonations: sendingDonations, successDonations: successDonations, rejectedDonations: rejectedDonations, acceptedDonations: acceptedDonations, notSuccessDonations: notSuccessDonations });
+    } else {
         res.redirect('/Organization_Login');;
     }
 });
 
-app.get('/Donations', async function(req,res){
+app.get('/Donations', async function (req, res) {
     const pageTitle = "Donations";
-    if(req.cookies.restaurantEmail != null){
-        currentRestaurant = await getRestaurantByEmail(client,req.cookies.restaurantEmail);
-        const pendingDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "pending");
-        const rejectedDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "rejected");
-        const acceptedDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "accepted");
-        const sendingDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "sending");
-        const successDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "success");
-        const notSuccessDonations = await getDonationsByStatusAndRestaurant(client,currentRestaurant.name, "not success")
-        res.render('pages/Donations',{pageTitle:pageTitle,currentUser:currentRestaurant, pendingDonations: pendingDonations, rejectedDonations: rejectedDonations,successDonations: successDonations, acceptedDonations: acceptedDonations, sendingDonations: sendingDonations, notSuccessDonations: notSuccessDonations});
-    }else{
+    if (req.cookies.restaurantEmail != null) {
+        currentRestaurant = await getRestaurantByEmail(client, req.cookies.restaurantEmail);
+        const pendingDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "pending");
+        const rejectedDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "rejected");
+        const acceptedDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "accepted");
+        const sendingDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "sending");
+        const successDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "success");
+        const notSuccessDonations = await getDonationsByStatusAndRestaurant(client, currentRestaurant.name, "not success")
+        res.render('pages/Donations', { pageTitle: pageTitle, currentUser: currentRestaurant, pendingDonations: pendingDonations, rejectedDonations: rejectedDonations, successDonations: successDonations, acceptedDonations: acceptedDonations, sendingDonations: sendingDonations, notSuccessDonations: notSuccessDonations });
+    } else {
         res.redirect('/Restaurant_Login');;
     }
 });
 
 
-app.get('/Add_Menu',function(req,res){
+app.get('/Add_Menu', function (req, res) {
     const pageTitle = "Add Menu";
-    if(req.cookies.restaurantEmail != null){
-        res.render('pages/Add_Menu',{pageTitle:pageTitle,currentUser:currentRestaurant});
+    if (req.cookies.restaurantEmail != null) {
+        res.render('pages/Add_Menu', { pageTitle: pageTitle, currentUser: currentRestaurant });
     } else {
         res.redirect('/Restaurant_Login');
     }
 });
 
 
-app.get('/orderStatus',async function(req,res){
+app.get('/orderStatus', async function (req, res) {
     let orderID = req.query.order;
     let email = req.query.rid;
-    await updateOrderStatus(client,email,orderID);
+    await updateOrderStatus(client, email, orderID);
     res.redirect('/Restaurants_Home')
 });
 
 app.get('/Donate_Food', function (req, res) {
     const pageTitle = "Donate Food";
-    if(req.cookies.restaurantEmail != null){
-        res.render('pages/Donate_Food',{banners : banners,pageTitle:pageTitle});
+    if (req.cookies.restaurantEmail != null) {
+        res.render('pages/Donate_Food', { banners: banners, pageTitle: pageTitle });
     } else {
         res.redirect('/Restaurant_Login');
     }
@@ -1207,38 +1215,38 @@ app.get("/magic", function (req, res) {
 
 app.get('/Organization_Register', function (req, res) {
     const pageTitle = "Organization Register";
-    res.render('pages/Organization_Registration',{pageTitle:pageTitle});
+    res.render('pages/Organization_Registration', { pageTitle: pageTitle });
 });
 
-app.post('/Register_Organization', function(req,res){
-   
-    bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
-        if(err)throw err;
-        else{
+app.post('/Register_Organization', function (req, res) {
+
+    bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
+        if (err) throw err;
+        else {
             const organizationObj = {
-                _id : req.body.organizationEmail,
-                name : req.body.organizationName,
-                email : req.body.organizationEmail,
-                password : hash,
-                location : req.body.location, 
-                status : 'pending',
+                _id: req.body.organizationEmail,
+                name: req.body.organizationName,
+                email: req.body.organizationEmail,
+                password: hash,
+                location: req.body.location,
+                status: 'pending',
             }
 
             await createOrganization(client, organizationObj);
             currentOrganization = organizationObj;
-            res.cookie('organizationEmail',currentOrganization.email);
+            res.cookie('organizationEmail', currentOrganization.email);
             res.redirect('/Organizations_Home');
         }
     });
 });
 
 app.get('/Donate', async function (req, res) {
-    const approvedOrganizations = await getOrganizationsByStatus(client,"approved");
+    const approvedOrganizations = await getOrganizationsByStatus(client, "approved");
     const pageTitle = "Donate";
-    if(req.cookies.restaurantEmail != null){
-        currentRestaurant = await getRestaurantByEmail(client,req.cookies.restaurantEmail);
+    if (req.cookies.restaurantEmail != null) {
+        currentRestaurant = await getRestaurantByEmail(client, req.cookies.restaurantEmail);
         let MenuItems = await getRestaurantMenu(client, currentRestaurant._id);
-        res.render('pages/Donate',{pageTitle:pageTitle, currentUser: currentRestaurant, Organization: approvedOrganizations, MenuItems: MenuItems});
+        res.render('pages/Donate', { pageTitle: pageTitle, currentUser: currentRestaurant, Organization: approvedOrganizations, MenuItems: MenuItems });
     } else {
         res.redirect('/Restaurant_Login');
     }
@@ -1262,9 +1270,9 @@ app.post('/Donate', async function (req, res) {
 
 app.get('/Dashboard', async function (req, res) {
     const pageTitle = "Admin Dashboard";
-    if(req.cookies.email!=null){
-        currentAdmin = await getAdmin(client,req.cookies.email);
-    res.render('pages/Admin_Dashboard',{currentUser:currentAdmin,pageTitle:pageTitle});
+    if (req.cookies.email != null) {
+        currentAdmin = await getAdmin(client, req.cookies.email);
+        res.render('pages/Admin_Dashboard', { currentUser: currentAdmin, pageTitle: pageTitle });
     } else {
         res.redirect('/login');
         res.redirect('/Admin_Login');
