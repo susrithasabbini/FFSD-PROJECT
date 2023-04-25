@@ -1189,6 +1189,7 @@ app.get('/Donations', async function (req, res) {
 app.get('/Add_Menu', function (req, res) {
     const pageTitle = "Add Menu";
     if (req.cookies.restaurantEmail != null) {
+        currentRestaurant = getRestaurantByEmail(client, req.cookies.restaurantEmail);
         res.render('pages/Add_Menu', { pageTitle: pageTitle, currentUser: currentRestaurant });
     } else {
         res.redirect('/Restaurant_Login');
