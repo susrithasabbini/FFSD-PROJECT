@@ -198,7 +198,7 @@ async function getUserOrders(client,cid){
 
 async function getAnnouncements(client,cid){
 
-    const cursor = client.db("hungrezy").collection("Announcements").find();
+    const cursor = client.db("hungrezy").collection("Announcements").find().sort({ last_review: 1 });
     const results = await cursor.toArray();
     return results;
 
@@ -844,8 +844,6 @@ app.post('/addRecipe', upload.single('image'), async function (req, res) {
 });
 
 
-
-
 app.post('/addAnnouncement', async function (req, res) {
   
     const data = {
@@ -911,8 +909,13 @@ app.post('/order', async function (req, res) {
     await addRestaurantOrder(client, order.restaurantID, order)
     await addCustomerOrder(client, order.customerID, order)
     console.log(order);
-    res.redirect('/');
+    res.redirect('/orderPlaced');
 
+});
+
+app.get('/orderPlaced', async function (req, res) {
+   pageTitle="OrderPlaced";
+    res.render('pages/orderMessage',{pageTitle})
 });
 
 

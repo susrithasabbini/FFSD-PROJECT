@@ -216,7 +216,7 @@ body{
     width: fit-content;
     margin: auto;
     display: grid;
-    grid-template-columns: auto auto auto auto;   
+    grid-template-columns: auto auto auto;   
     gap: 50px;
 }
 
