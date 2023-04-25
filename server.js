@@ -165,6 +165,7 @@ async function getUser(client, id) {
     }
 }
 
+
 async function getAdmin(client, id) {
     const result = await client.db("hungrezy").collection("Admins").findOne({ _id: id });
 
@@ -1055,8 +1056,14 @@ app.get('/Admin', async function (req, res) {
     }
     else {
         const currentAdmin = await getAdmin(client, req.cookies.email);
-        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants, usersCount: Users.length, restaurantsCount: Restaurants.length, organizationsCount: Organizations.length });
+        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants, users: Users, restaurantsCount: Restaurants.length, organizationsCount: Organizations.length });
     }
+});
+
+app.get("/Remove_User", async function (req, res) {
+    let id = req.query.id;
+    await deleteUser(client, id);
+    res.redirect('/Admin');
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {

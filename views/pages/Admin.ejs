@@ -13,9 +13,29 @@
         <div class="flex-box">
 
             <div class="flex-box-items" id="users">
-                <div class="users">
+                <div class="users" id="open-popup-btn">
                     <h4>Users</h4>
-                    <h4><%= usersCount %></h4>
+                    <h4><%= users.length %></h4>
+                </div>
+            </div>
+
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <table id="user-list">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                        <% users.map((user)=>{%>
+                            <tr>
+                                <td><%=user.name%></td>
+                                <td><%=user.email%></td>
+                                <td><a href="/Remove_User?id=<%=user._id%>">Remove</a></td>
+                            </tr>
+                        <%});%>
+                    </table>
+                    <button id="close-popup-btn"><i class="fa-solid fa-circle-xmark me-2"></i>Close</button>
                 </div>
             </div>
     
