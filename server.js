@@ -1256,6 +1256,8 @@ app.get('/Donate', async function (req, res) {
     }
 });
 
+
+
 app.post('/Donate', async function (req, res) {
 
     const donationObj = {
@@ -1272,13 +1274,11 @@ app.post('/Donate', async function (req, res) {
 
 });
 
-app.get('/Dashboard', async function (req, res) {
-    const pageTitle = "Admin Dashboard";
-    if (req.cookies.email != null) {
-        currentAdmin = await getAdmin(client, req.cookies.email);
-        res.render('pages/Admin_Dashboard', { currentUser: currentAdmin, pageTitle: pageTitle });
-    } else {
-        res.redirect('/login');
-        res.redirect('/Admin_Login');
-    }
-});
+
+
+
+
+
+
+
+
