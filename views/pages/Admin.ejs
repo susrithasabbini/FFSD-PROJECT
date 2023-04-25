@@ -10,7 +10,32 @@
 
     <div class="main-body">
 
-        <select class="form-select ms-4" placeholder="Sort by" id="fil" name="sort" style="width: fit-content; margin-top: 8rem; margin-bottom: 2rem;">
+        <div class="flex-box">
+
+            <div class="flex-box-items" id="users">
+                <div class="users">
+                    <h4>Users</h4>
+                    <h4><%= usersCount %></h4>
+                </div>
+            </div>
+    
+            <div class="flex-box-items" id="restaurants">
+                <div class="restaurants">
+                    <h4>Restaurants</h4>
+                    <h4><%= restaurantsCount %></h4>
+                </div>
+            </div>
+    
+            <div class="flex-box-items" id="organizations">
+                <div class="organizations">
+                    <h4>Organizations</h4>
+                    <h4><%= organizationsCount %></h4>
+                </div>
+            </div>
+
+        </div>
+
+        <select class="form-select ms-4" placeholder="Sort by" id="fil" name="sort" style="width: fit-content; margin-top: 2rem; margin-bottom: 2rem;">
             <option value="0">--Sort by--</option>
             <option>Pending Restaurant Approvals</option>
             <option>Pending Organization Approvals</option>

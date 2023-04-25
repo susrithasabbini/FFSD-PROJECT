@@ -226,6 +226,18 @@ async function getUsers(client){
     return results;
 }
 
+async function getRestaurants(client) {
+    const cursor = client.db("hungrezy").collection("restaurants").find();
+    const results = await cursor.toArray();
+    return results;
+}
+
+async function getOrganizations(client) {
+    const cursor = client.db("hungrezy").collection("organizations").find();
+    const results = await cursor.toArray();
+    return results;
+}
+
 async function getRestaurantOrders(client,email){
     const cursor = client.db("Orders").collection(email).find();
     const results = await cursor.toArray();
@@ -1035,12 +1047,15 @@ app.get('/Admin', async function (req, res) {
     const pendingOrganizations = await getOrganizationsByStatus(client, "pending");
     const approvedOrganizations = await getOrganizationsByStatus(client, "approved");
     const suspendedOrganizations = await getOrganizationsByStatus(client, "suspended");
+    const Users = await getUsers(client);
+    const Restaurants = await getRestaurants(client);
+    const Organizations = await getOrganizations(client);
     if (req.cookies.email == null) {
         res.redirect('/Admin_Login');
     }
     else {
         const currentAdmin = await getAdmin(client, req.cookies.email);
-        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants });
+        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants, usersCount: Users.length, restaurantsCount: Restaurants.length, organizationsCount: Organizations.length });
     }
 });
 
