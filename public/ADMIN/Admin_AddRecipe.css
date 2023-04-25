@@ -35,6 +35,17 @@ textarea{
     border: 2px solid  #E38B29;
 }
 
+.form-select:focus{
+    box-shadow: none;
+    border: 2px solid  #E38B29;
+    background-color:  #FDEEDC;
+}
+
+.form-select{
+    background-color:  #FDEEDC;
+    border: 2px solid  #E38B29;
+}
+
 .quick-info{
     display: flex;
     flex-direction: row;

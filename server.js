@@ -962,6 +962,7 @@ app.get('/View_Recipe', async function (req, res) {
 
 app.get('/Account', async function (req, res) {
     announcements = await getAnnouncements(client);
+    let showOrders = req.query.showOrders;
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
@@ -976,11 +977,11 @@ app.get('/Account', async function (req, res) {
                         if (order.restaurantID == restaurant._id) Orders.push({ order: order, restaurant: restaurant });
                     })
                 })
-                res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements });
+                res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements,showOrders });
             })
         })
     } else {
-        res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements });
+        res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements,showOrders });
     }
 
 
