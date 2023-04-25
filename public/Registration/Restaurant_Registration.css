@@ -1,3 +1,9 @@
+.error{
+    position: absolute;
+    width: 100%;
+    color: red;
+    font-size: x-small;
+}
 
 .form-control:focus{
     box-shadow: none;
