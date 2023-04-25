@@ -35,14 +35,14 @@ filter.addEventListener("change", () => {
         sendingDonations.style.display = "block";
         successDonations.style.display = "none";
         notSuccessDonations.style.display = "none";
-    } else if(filter.value === "Success Donations") {
+    } else if(filter.value === "Successful Donations") {
         pendingVerifications.style.display = "none";
         acceptedDonations.style.display = "none";
         rejectedDonations.style.display = "none";
         sendingDonations.style.display = "none";
         successDonations.style.display = "block";
         notSuccessDonations.style.display = "none";
-    } else if(filter.value === "Not Success Donations") {
+    } else if(filter.value === "Failed Donations") {
         pendingVerifications.style.display = "none";
         acceptedDonations.style.display = "none";
         rejectedDonations.style.display = "none";
