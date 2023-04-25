@@ -558,7 +558,7 @@ app.post('/login', async function (req, res) {
 
     const user = await getUser(client, mobileNumber);
 
-    if (user == null) res.redirect('/login');
+    if(user) {
 
     bcrypt.compare(password, user.password, function (err, result) {
 
@@ -582,6 +582,9 @@ app.post('/login', async function (req, res) {
             res.redirect('/login');
         }
     });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 
