@@ -849,7 +849,8 @@ app.post('/Register_Restaurant', upload.single('image'), function (req, res) {
 });
 
 app.post('/Add_FoodItem', upload.single('image'), async function (req, res) {
-    const email = req.query.email;
+    if(currentRestaurant==null)res.redirect('/Restaurant_Login');
+    const email = currentRestaurant.email;
     const FoodImage = mongoose.model(email, imageSchema2);
     const foodimage = new FoodImage({
         _id: req.body.name,
@@ -1204,8 +1205,8 @@ app.get('/Donations', async function (req, res) {
 app.get('/Add_Menu', function (req, res) {
     const pageTitle = "Add Menu";
     if (req.cookies.restaurantEmail != null) {
-        currentRestaurant = getRestaurantByEmail(client, req.cookies.restaurantEmail);
-        res.render('pages/Add_Menu', { pageTitle: pageTitle, currentUser: currentRestaurant });
+       
+        res.render('pages/Add_Menu', { pageTitle: pageTitle,currentUser:currentRestaurant });
     } else {
         res.redirect('/Restaurant_Login');
     }
