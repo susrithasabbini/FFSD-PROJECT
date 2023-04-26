@@ -10,17 +10,17 @@
         <div >
             <h2 class="heading">Food Recipe</h2>
         </div>
-        <div class="recipe-form">
+        <div class="recipe-form mt-4">
             <form action="/addRecipe" method="post" enctype="multipart/form-data">
                <div class="recipe-name mb-4">
                     <label for="recipe-name">Food Item Name :</label>
-                    <input type="text" name="name" id="recipe-name" class="form-control form-control-lg"><br>
+                    <input type="text" name="name" id="recipe-name" class="form-control form-control-lg" required><br>
                     <label for="recipe-description">Food Item Description : </label>
-                    <textarea type="text" id="recipe-description" cols="30" rows="4" class="form-control" name="description"></textarea>
+                    <textarea type="text" id="recipe-description" cols="30" rows="4" class="form-control" name="description" required></textarea>
                </div>
 
                <div class="mb-4">
-                <select class="form-select" id="type" name="category" style="height: 60px;">
+                <select class="form-select" id="type" name="category" style="height: 60px;" required>
                     <option value="0">--Select Food Item Category--</option>
                     <option>Non-Vegetarian</option>
                     <option>Vegetarian</option>
@@ -30,34 +30,34 @@
                <div class="quick-info mt-4 mb-4">
                     <div>
                         <label for="prep-time">Preparation Time :</label>
-                        <input type="text" name="time" id="prep-time" class="form-control form-control-lg">
+                        <input type="text" name="time" id="prep-time" class="form-control form-control-lg" required>
                     </div>
                     <div>
                         <label for="serves">Serves : </label>
-                        <input type="text" id="serves" class="form-control form-control-lg" name="serves">
+                        <input type="text" id="serves" class="form-control form-control-lg" name="serves" required>
                     </div>
                </div>
 
                <div class="ingredients mt-4 mb-4">
                     <label for="ingredients">Ingredients : </label>
-                    <textarea name="ingredients" id="ingredients" cols="30" rows="8" class="form-control form-control-lg"></textarea>
+                    <textarea name="ingredients" id="ingredients" cols="30" rows="8" class="form-control form-control-lg" required></textarea>
                </div>
 
                <div class="procedure mt-4 mb-4">
                     <h4>Procedure : </h4>
 
                     <label for="step1">Step 1</label>
-                    <textarea name="para1" id="step1" cols="30" rows="8" class="form-control form-control-lg"></textarea>
+                    <textarea name="para1" id="step1" cols="30" rows="8" class="form-control form-control-lg" required></textarea>
 
                     <label for="step2">Step 2 </label>
-                    <textarea name="para2" id="step2" cols="30" rows="8" class="form-control form-control-lg"></textarea>
+                    <textarea name="para2" id="step2" cols="30" rows="8" class="form-control form-control-lg" required></textarea>
 
                     <label for="step3">Step 3</label>
-                    <textarea name="para3" id="step3" cols="30" rows="8" class="form-control form-control-lg"></textarea>
+                    <textarea name="para3" id="step3" cols="30" rows="8" class="form-control form-control-lg" required></textarea>
                </div>
 
                <div class="image-div mt-3 mb-3">
-                <input type="file" class="form-control form-control-lg" id="food-image"  accept="image/*" name='image'> 
+                <input type="file" class="form-control form-control-lg" id="food-image"  accept="image/*" name='image' required> 
                 <label for="food-image" class="form-label ms-3">Food Item Image</label>
                 </div>
 

@@ -1,0 +1,51 @@
+<%- include('../partials/head.ejs') %>
+
+    <link rel="stylesheet" href="/CUSTOMER/Home.css">
+    <style>
+        body{
+            background-color: white;
+        }
+        .links{
+            position: absolute;
+            z-index: 10;
+            right:10%;
+            top:25%;
+           text-align: center;
+        }
+        a{
+            background-color:  #E38B29;
+            text-decoration: none;
+            padding: 15px;
+            color: white;
+           margin: 40px 20px;
+            
+        }
+        a:hover{
+            color: white;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .preloader{
+            z-index: 1;
+            width: 60vw;
+        }
+        h1{
+            font-size: 100px;
+            color: green;
+        }
+    </style>
+   
+</head>
+<body onclick="closeMenu()">
+  <div class="main-body">
+    <div class="preloader">
+        <img src="/CUSTOMER/images/chef-cooking.gif" alt="">
+      </div>
+      <div class="links">
+        <h1><i class="fa-solid fa-badge-check me-2"></i></h1>
+        <h1>Order Placed</h1><br><br>
+        <a href="/Account?showOrders=yes">Go to Orders</a>
+        <a href="/Restaurants">Explore Restaurants</a>
+      </div>
+  </div>
+</body>
+</html>

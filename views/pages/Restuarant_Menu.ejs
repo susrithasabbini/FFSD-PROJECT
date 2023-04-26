@@ -185,6 +185,7 @@
         let subtotal=0,deliveryFee=40,gst,grandTotal,method="POD";
         const orderForm = document.getElementById('order-form');
         function placeOrder(){
+            if(!cartItems2.length>0)return;
             if("<%- currentUser %>"){
                 console.log("<%- currentUser %>",1)
                 let postString = `/order?cid=${"<%- currentUser._id %>"}&rid=${"<%- Restuarant.email %>"}&cart=${JSON.stringify( cartItems2 )}&pay=${grandTotal}&method=${method}`;
@@ -276,14 +277,12 @@
             `
             ).join('');
 
-           
+            subtotal=0,deliveryFee=40,gst,grandTotal,method="POD";
             cartItems.forEach(item=>{
                 subtotal=subtotal+(item.cost*quantities.get(item._id));
             })
             gst= 0.18*subtotal;
-            grandTotal = subtotal+gst+deliveryFee;
-
-           
+            grandTotal = subtotal+gst+deliveryFee;           
 
 
             billContainer.innerHTML=`
@@ -320,6 +319,12 @@
             for(let i=0;i<cartItems.length;i++){
                 if(cartItems[i]?._id==id){
                     delete cartItems[i];
+                }
+            }
+
+            for(let i=0;i<cartItems2.length;i++){
+                if(cartItems2[i].foodItem?._id==id){
+                    delete cartItems2[i];
                 }
             }
            

@@ -304,3 +304,17 @@
 .scrolled-up{
     transform:translateY(0); transition: all 0.5s ease-in-out;
 }
+
+
+.announcement{
+    background-color: #FDEEDC;
+    padding: 10px;
+}
+
+.announcement h6{
+    color: #E38B29;
+}
+
+.cart-menu h3{
+    color: red;
+}
