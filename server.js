@@ -1261,7 +1261,7 @@ app.post('/Register_Organization', function (req, res) {
             await createOrganization(client, organizationObj);
             currentOrganization = organizationObj;
             res.cookie('organizationEmail', currentOrganization.email);
-            res.redirect('/Organizations_Home');
+            res.redirect('/Organization_Login');
         }
     });
 });
