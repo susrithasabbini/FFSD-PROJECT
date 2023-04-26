@@ -71,3 +71,111 @@ body{
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+  
+.popup-content {
+    background-color: white;
+    padding: 12px;
+    width: 80%;
+    max-width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-content h2 {
+    color: #E38B29;
+    text-align: center;
+    margin-bottom: 20px;
+}
+  
+#user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #E38B29;
+    overflow: scroll;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+#user-list th {
+    padding: 10px;
+    background-color: #E38B29;
+}
+
+#user-list td {
+    padding: 12px;
+    background-color: #FDEEDC;
+}
+  
+.remove-user-btn {
+    margin-bottom: 10px;
+}
+  
+.remove-user-btn {
+    margin-left: 10px;
+}
+  
+#close-popup-btn {
+    margin-top: 20px;
+    padding: 5px 10px;
+    background-color: #E38B29;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+  
+#users:hover {
+    background-color: #E38B29;
+    color: white;
+    cursor: pointer;
+}
+
+#popup-btn:hover {
+    background-color: #E38B29;
+    color: white;
+    cursor: pointer;
+}
+
+td a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    width:150px;
+    text-align: center;
+    margin-left: 40px;
+    font-size: large;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    background-color: #c73535;
+}
+
+td a:hover {
+    text-decoration: none;
+    color: #c73535;
+    padding: 10px;
+    width:150px;
+    text-align: center;
+    margin-left: 40px;
+    font-size: large;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+}

@@ -131,6 +131,11 @@ async function addFoodRecipe(client,foodRecipe){
     console.log(`New food Recipe added with the following id: ${result.insertedId}`);
 }
 
+async function addAnnouncement(client,announcement){
+    const result = await client.db("hungrezy").collection("Announcements").insertOne(announcement);
+    console.log(`New announcement added with the following id: ${result.insertedId}`);
+}
+
 async function addRestaurantOrder(client,email,order){
     const result = await client.db("Orders").collection(email).insertOne(order);
     console.log(`New order placed with the following id: ${result.insertedId}`);
@@ -151,6 +156,10 @@ async function deleteUser(client,userid){
     const result = await client.db("hungrezy").collection("users").deleteOne({_id:userid});
 }
 
+async function deleteAnnouncement(client,id){
+    const result = await client.db("hungrezy").collection("Announcements").deleteOne({AID:id});
+    console.log(result);
+}
 
 async function getUser(client, id) {
     const result = await client.db("hungrezy").collection("users").findOne({ _id: id });
@@ -164,6 +173,7 @@ async function getUser(client, id) {
         return null;
     }
 }
+
 
 async function getAdmin(client, id) {
     const result = await client.db("hungrezy").collection("Admins").findOne({ _id: id });
@@ -186,8 +196,16 @@ async function getUserOrders(client,cid){
 
 }
 
+async function getAnnouncements(client,cid){
+
+    const cursor = client.db("hungrezy").collection("Announcements").find().sort({ last_review: 1 });
+    const results = await cursor.toArray();
+    return results;
+
+}
+
 async function getRestaurantsByStatus(client,status){
-   const cursor = client.db("hungrezy").collection("restaurants").find({status:status});
+   const cursor = client.db("hungrezy").collection("restaurants").find({status:status}).limit(20);
     const results = await cursor.toArray();
     return results;
 }
@@ -312,118 +330,19 @@ async function updateOrderStatus(client,email,ID) {
 
 
 
-//<-----------------------SQLite----------------------------------------->
-
-// don't uncomment the queries in this section if not required as it will create issues in already created database.
-
-const sqlite3 = require('sqlite3').verbose();
-
-let db = new sqlite3.Database('./server.db', (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the database.');
-});
-
-let query = `CREATE TABLE IF NOT EXISTS RESTAURANTS(restaurantid varchar(5) PRIMARY KEY,name varchar(50),image varchar(500),type varchar(200),rating varchar(1),time varchar(3),cost varchar(5),location varchar(250),offer varchar(3),menuid varchar(5))`;
 
 
-
-query = `CREATE TABLE IF NOT EXISTS USERS(MOBILE VARCHAR(10) PRIMARY KEY,NAME VARCHAR(50),GENDER VARCHAR(10),EMAIL VARCHAR(50),PASSWORD VARCHAR(100))`;
-
-
-// db.run(query, [], (err, rows) => {
-//     if (err) {
-//       throw err;
-//     }
-//    console.log("table created");
-//   });
-
-
-
-//query = `INSERT INTO RESTAURANTS VALUES('R0001','Hotel Rajadhani','/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg','Biryani Chinese Fast Food','5','15','100','Sricity','30','M0001')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0002',"Quality Bakery","/CUSTOMER/Order_Food/images/cakes.jpeg",'Chinese cakes Fast Food','4.9','25','150','Sricity','20','M0002')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0003',"Hotel Abhiruchi","/CUSTOMER/Order_Food/images/muttoncurry.jpeg",'Chinese Tandoori Items','4','20','190','Sricity','25','M0003')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0004',"Hotel Manasa","/CUSTOMER/Order_Food/images/muttoncurry.jpeg",'Biryani Chinese Fast Food','3.8','19','200','Sricity','22','M0004')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0005',"The Indian Grill","/CUSTOMER/Order_Food/images/fishfry.jpeg",'Biryani Curries','4.4','41','250','Sricity','31','M0005')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0006',"Hotel Paradise","/CUSTOMER/Order_Food/images/chickenbiriyani.jpeg",'Biryani Breads Curries','4.2','20','99','Sricity','15','M0006')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0007',"Continental Bakery","/CUSTOMER/Order_Food/images/samosa.jpeg",'Samosa Fast Food','4','23','199','Sricity','19','M0007')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0008',"Hotel Platform 65","/CUSTOMER/Order_Food/images/muttoncurry.jpeg",'Biryani Tandoori Chinese','5','21','299','Sricity','28','M0008')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0009',"Hotel Sweet Magic","/CUSTOMER/Order_Food/images/chickenmandibiriyani.jpeg",'MandiBiryani Curries','4.8','40','499','Sricity','40','M0009')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0010',"Hotel 7 Hills","/CUSTOMER/Order_Food/images/fishfry.jpeg",'Biryani Seafoods','3','15','199','Sricity','10','M0010')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0011',"Green Bucket Biriyani","/CUSTOMER/Order_Food/images/chickentandoori.jpeg",'Biryani Tandoori FastFood','5','25','200','Sricity','25','M0011')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0012',"Hotel Swarnamukhi","/CUSTOMER/Order_Food/images/muttoncurry.jpeg",'Biryani Chinese  Curries','3.5','15','100','Sricity','30','M0012')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0013',"Hotel Cherries","/CUSTOMER/Order_Food/images/chickendrumsticks.jpeg",'Biryani Fast Food','3.5','24','250','Sricity','33','M0013')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0014',"Ravi plaza","/CUSTOMER/Order_Food/images/fishbiriyani.jpeg",'Biryani Chinese Seafoods','4.2','14','219','Sricity','30','M0014')`;
-//query = `INSERT INTO RESTAURANTS VALUES('R0015',"Sunny Cafe","/CUSTOMER/Order_Food/images/panipuri.jpeg",'Panipuri Fast Food','4.0','34','80','Sricity','20','M0015')`;
-
-//query = `UPDATE RESTAURANTS SET NAME = 'Quality Bakery' WHERE RESTAURANTID = 'R0002'`
-//query = `update restaurants set image = '/CUSTOMER/Order_Food/images/cakes.jpeg' where restaurantid = 'R0002'`
-
-
-// db.run(query, [], (err, rows) => {
-//     if (err) {
-//       throw err;
-//     }
-//    console.log("row inserted");
-//   });
-
-query = `SELECT * FROM RESTAURANTS`;
-
-const Restaurants = [];
-
-db.all(query, [], (err, rows) => {
-    if (err) {
-        throw err;
-    }
-    rows.forEach((row) => {
-
-        let restaurant = {
-            image: row.image, name: row.name, type: row.type, rating: row.rating, time: row.time, cost: row.cost, location: row.location, offer: row.offer, restaurantID: row.restaurantid, menuID: row.menuid
-        }
-        //console.log(restaurant);
-        Restaurants.push(restaurant);
-    })
-});
-
-
-
-
-query = 'SELECT * FROM USERS';
-const users = [];
-
-
-db.all(query, [], (err, rows) => {
-    if (err) {
-        throw err;
-    }
-    rows.forEach((row) => {
-        // console.log(row.MOBILE,row.PASSWORD,row.NAME,row.EMAIL,row.GENDER);
-        let user = {
-            mobileNumber: row.MOBILE,
-            password: row.PASSWORD,
-            name: row.NAME,
-            gender: row.GENDER,
-            email: row.EMAIL
-        }
-        users.push(user);
-    })
-});
-
-//<-----------------------SQLite----------------------------------------->
-
-
-
-
+let announcements=[];
 
 // *** GET Routes - display pages ***
 // Root Route
 
 app.get('/', async function (req, res) {
     const pageTitle = "Hungrezy";
+    announcements = await getAnnouncements(client);
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
-        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
+        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser,announcements });
     }
     else {
         const currentUser = await getUser(client, req.cookies.mobileNumber);
@@ -433,30 +352,37 @@ app.get('/', async function (req, res) {
                 sameSite: true
             });
         }
-        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser });
+        res.render('pages/Home', { pageTitle: pageTitle, currentUser: currentUser,announcements });
     }
 });
 
 
 
 app.get('/Restaurants', async function (req, res) {
+    announcements = await getAnnouncements(client);
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
     const pageTitle = "Restaurants";
     const approvedRestaurants = await getRestaurantsByStatus(client, "approved");
+    
     const Restaurants = [];
     approvedRestaurants.forEach(async (restaurant) => {
         let FoodImage = mongoose.model(restaurant.email, imageSchema2);
         let foodItemImage = await FoodImage.findOne({ _id: restaurant.email });
+        
         Restaurants.push({ restaurant: restaurant, image: foodItemImage });
-    });
-    try {
-        const fooditems = await FoodItem.find({});
-        res.render('pages/Explore_Restuarants', { foodItems: fooditems, restuarants: Restaurants, pageTitle: pageTitle, currentUser: currentUser });
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
+    })
+   
+    {
+        try {
+            const fooditems = await FoodItem.find({});
+            console.log(Restaurants.length);
+            res.render('pages/Explore_Restuarants', { foodItems: fooditems, restuarants: Restaurants, pageTitle: pageTitle, currentUser: currentUser,announcements });
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
     }
 });
 
@@ -547,20 +473,22 @@ app.get('/Organization_Logout', function (req, res) {
     res.redirect('/login');
 });
 
-app.get('/helpAndSupport', function (req, res) {
+app.get('/helpAndSupport', async function (req, res) {
+    announcements = await getAnnouncements(client);
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
     const pageTitle = "Help & Support";
-    res.render('pages/helpAndSupport', { pageTitle: pageTitle, currentUser: currentUser });
+    res.render('pages/helpAndSupport', { pageTitle: pageTitle, currentUser: currentUser,announcements });
 });
 
 app.get('/About', function (req, res) {
+    
     const pageTitle = "About Us";
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
-    res.render('pages/About', { pageTitle: pageTitle, currentUser: currentUser });
+    res.render('pages/About', { pageTitle: pageTitle, currentUser: currentUser,announcements });
 });
 
 app.post('/login', async function (req, res) {
@@ -917,6 +845,17 @@ app.post('/addRecipe', upload.single('image'), async function (req, res) {
 });
 
 
+app.post('/addAnnouncement', async function (req, res) {
+  
+    const data = {
+        AID :""+ new Date().getTime(),
+        subject :req.body.Announce
+    }
+    await addAnnouncement(client,data);
+    res.redirect('/Announcements');
+});
+
+
 
 app.get('/Registration', function (req, res) {
     const pageTitle = "Registration";
@@ -929,6 +868,7 @@ app.get('/Restaurant_Registration', function (req, res) {
 });
 
 app.get('/Menu', async function (req, res) {
+    announcements = await getAnnouncements(client);
     if (currentUser == null) res.redirect('/login');
     const restaurant = await getRestaurantByEmail(client, req.query.id)
     let MenuItems = await getRestaurantMenu(client, restaurant._id);
@@ -954,7 +894,7 @@ app.get('/Menu', async function (req, res) {
 
     const pageTitle = "Menu-" + restaurant.name;
     const menuItems = JSON.stringify(MenuItems).replace(/\\/g, '\\\\').replace(/"/g, '\\\"');
-    res.render('pages/Restuarant_Menu', { Restuarant: restaurant, recomended: recomended, Menu: Menu, currentUser: currentUser, pageTitle: pageTitle, MenuItems: menuItems });
+    res.render('pages/Restuarant_Menu', { Restuarant: restaurant, recomended: recomended, Menu: Menu, currentUser: currentUser, pageTitle: pageTitle, MenuItems: menuItems,announcements });
 });
 
 app.post('/order', async function (req, res) {
@@ -970,12 +910,18 @@ app.post('/order', async function (req, res) {
     await addRestaurantOrder(client, order.restaurantID, order)
     await addCustomerOrder(client, order.customerID, order)
     console.log(order);
-    res.redirect('/');
+    res.redirect('/orderPlaced');
 
 });
 
+app.get('/orderPlaced', async function (req, res) {
+   pageTitle="OrderPlaced";
+    res.render('pages/orderMessage',{pageTitle})
+});
 
-app.get('/Recipes', function (req, res) {
+
+app.get('/Recipes', async function (req, res) {
+    announcements = await getAnnouncements(client);
     const pageTitle = "Recipes";
     const FoodRecipes = [], Veg = [], nonVeg = [];
     if (req.cookies.mobileNumber == null) {
@@ -994,27 +940,30 @@ app.get('/Recipes', function (req, res) {
                 if (recipe.recipe.category == "Vegetarian") Veg.push(recipe);
                 else nonVeg.push(recipe);
             })
-            res.render('pages/Food_Recipes', { FoodRecipes: FoodRecipes, VegRecipes: Veg, nonVegRecipes: nonVeg, currentUser: currentUser, pageTitle: pageTitle });
+            res.render('pages/Food_Recipes', { FoodRecipes: FoodRecipes, VegRecipes: Veg, nonVegRecipes: nonVeg, currentUser: currentUser, pageTitle: pageTitle,announcements });
         })
 
     });
 })
 
 
-app.get('/View_Recipe', function (req, res) {
+app.get('/View_Recipe', async function (req, res) {
     const pageTitle = "Recipe Blog";
     const id = req.query.id;
-
+    announcements = await getAnnouncements(client);
     getFoodRecipeByID(client, id).then(recipe => {
+       
         let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
         FoodImage.findOne({ _id: recipe.name }).then(image => {
-            res.render('pages/View_Recipe', { foodItem: recipe, image: image, currentUser: currentUser, pageTitle: pageTitle });
+            res.render('pages/View_Recipe', { foodItem: recipe, image: image, currentUser: currentUser, pageTitle: pageTitle,announcements });
         })
     })
 
 });
 
 app.get('/Account', async function (req, res) {
+    announcements = await getAnnouncements(client);
+    let showOrders = req.query.showOrders;
     if (req.cookies.mobileNumber == null) {
         currentUser = null;
     }
@@ -1029,11 +978,11 @@ app.get('/Account', async function (req, res) {
                         if (order.restaurantID == restaurant._id) Orders.push({ order: order, restaurant: restaurant });
                     })
                 })
-                res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders });
+                res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements,showOrders });
             })
         })
     } else {
-        res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders });
+        res.render('pages/Account', { pageTitle: pageTitle, currentUser: currentUser, orders: Orders,announcements,showOrders });
     }
 
 
@@ -1056,8 +1005,29 @@ app.get('/Admin', async function (req, res) {
     }
     else {
         const currentAdmin = await getAdmin(client, req.cookies.email);
-        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants, usersCount: Users.length, restaurantsCount: Restaurants.length, organizationsCount: Organizations.length });
+        res.render('pages/Admin', { currentUser: currentAdmin, pageTitle: pageTitle, pendingRestaurantVerifications: pendingRestaurants, pendingOrganizationVerifications: pendingOrganizations, Organizations: approvedOrganizations, suspendedOrganizations: suspendedOrganizations, Restaurants: approvedRestaurants, suspendedRestaurants: suspendedRestaurants, users: Users, restaurantsCount: Restaurants.length, organizationsCount: Organizations.length });
     }
+});
+
+app.get('/Announcements', async function (req, res) {
+    let pageTitle="Announcements";
+    const announcements = await getAnnouncements(client);
+    res.render('pages/Announcements',{pageTitle,announcements,currentUser:currentAdmin});
+
+});
+
+app.get('/removeAnnouncement', async function (req, res) {
+    
+    await deleteAnnouncement(client,req.query.id);
+    console.log(req.query.id);
+    res.redirect('/Announcements')
+
+});
+
+app.get("/Remove_User", async function (req, res) {
+    let id = req.query.id;
+    await deleteUser(client, id);
+    res.redirect('/Admin');
 });
 
 app.get('/Approve_Restaurant', async function (req, res) {

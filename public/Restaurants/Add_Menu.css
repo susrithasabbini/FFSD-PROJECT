@@ -52,3 +52,10 @@ h2{
 #food-image{
     width: 70%;
 }
+
+.add-menu{
+    background-color: #FDEEDC;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
