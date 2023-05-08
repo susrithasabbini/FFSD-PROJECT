@@ -11,6 +11,8 @@ const { ObjectId } = require('mongodb');
 const mongoose = require("mongoose");
 const multer = require("multer");
 
+const port = process.env.PORT || 8080;
+
 // Initialise Express
 var app = express();
 
@@ -39,8 +41,8 @@ app.set('views', 'views')
 
 
 // Port website will run on
-app.listen(8080, () => {
-    console.log("Your server is running on port 8080.");
+app.listen(port, () => {
+    console.log("Your server is running on port ${port}.");
 });
 
 let currentUser=null;
