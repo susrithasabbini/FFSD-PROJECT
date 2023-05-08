@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": ">=14.20.1"
+  }
   "scripts": {
     
     "start": "node server.js",
@@ -28,8 +31,8 @@
     "express-session": "^1.17.3",
     "mongodb": "^5.2.0",
     "mongoose": "^7.0.3",
-    "multer": "^1.4.5-lts.1",
-    "sqlite3": "^5.1.6"
+    "multer": "^1.4.5-lts.1"
+    
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
