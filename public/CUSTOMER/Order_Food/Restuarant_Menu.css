@@ -139,7 +139,7 @@ body{
 
 #cart-message h4{
     display: inline-block;
-    width: 80%;
+    width: 70%;
     color: white;
 }
 
@@ -260,6 +260,11 @@ body{
     }
 }
 
+
+
+#animated-icon {
+    color: white;
+}
 
 
 
