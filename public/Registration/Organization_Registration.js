@@ -45,7 +45,7 @@ function emailValidation(){
         emailValidateMessage.innerText="Email Can't be Empty!";
         return false;
     }
-    else if(!email.match(/^[a-zA-Z0-9._%+-]+@gmail.com$/)){
+    else if(!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)){
         emailValidateMessage.innerText="Invalid Email";
         return false;
     }
