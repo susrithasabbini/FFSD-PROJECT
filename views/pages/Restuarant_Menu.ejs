@@ -24,7 +24,7 @@
 
     <div class="tabs-menu">
         <button class="tab-link" onclick="openTab(0)" id="default-tab">Menu</button>
-        <button class="tab-link" onclick="openTab(1)">Table Booking</button>
+        <!-- <button class="tab-link" onclick="openTab(1)">Table Booking</button> -->
     </div>
 
     <div class="table-booking mt-4 mb-4">
@@ -354,10 +354,10 @@
         }
 
         const icon = document.getElementById('animated-icon');
-
+        let direction = 1; 
+        let position = 0; 
         function moveIcon() {
-            let direction = 1; 
-            let position = 0; 
+           
             position += direction;
 
             if (position >= 15) {
