@@ -845,7 +845,15 @@ app.post("/Register_Restaurant", upload.single("image"), function (req, res) {
       };
 
       await createRestaurant(client, restaurantObj);
-      currentRestaurant = restaurantObj;
+      const expirationDate = new Date();
+        expirationDate.setTime(expirationDate.getTime() + 8 * 60 * 60 * 1000); // 8 hours in milliseconds
+        res.cookie("restaurantEmail", restaurantObj.email, {
+          expires: expirationDate,
+          sameSite: true,
+        });
+
+        // log in
+        currentRestaurant = restaurantObj;
       const FoodImage = mongoose.model(req.body.restaurantEmail, imageSchema2);
       const foodimage = new FoodImage({
         _id: req.body.restaurantEmail,
@@ -1456,9 +1464,17 @@ app.post("/Register_Organization", function (req, res) {
       };
 
       await createOrganization(client, organizationObj);
-      currentOrganization = organizationObj;
+      const expirationDate = new Date();
+        expirationDate.setTime(expirationDate.getTime() + 8 * 60 * 60 * 1000); // 8 hours in milliseconds
+        res.cookie("organizationEmail", organizationObj.email, {
+          expires: expirationDate,
+          sameSite: true,
+        });
+
+        currentOrganization = organizationObj;
+      
       res.cookie("organizationEmail", currentOrganization.email);
-      res.redirect("/Organization_Login");
+      res.redirect("/Organizations_Home");
     }
   });
 });
