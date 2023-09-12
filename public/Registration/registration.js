@@ -11,8 +11,10 @@ function showTab(n) {
   }
   if (n == tabs.length - 1) {
     document.getElementById("next").innerHTML = "Submit";
+    document.getElementById("next").setAttribute("type", "submit"); // Change button type to submit
   } else {
     document.getElementById("next").innerHTML = "Next";
+    document.getElementById("next").setAttribute("type", "button"); // Change button type back to button
   }
   fixStepIndicator(n);
 }
@@ -203,4 +205,46 @@ window.addEventListener("load", () => {
     container.style.display = "flex";
     preloader.style.display = "none";
   }, 2000);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("regForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fname = document.getElementById("fname").value;
+    const mobileNumber = document.getElementById("mobileNumber").value;
+    const gender = document.getElementById("gender").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const address = document.getElementById("addr").value;
+    const pincode = document.getElementById("pincode").value;
+    const state = document.getElementById("state").value;
+    const country = document.getElementById("cont").value;
+    try {
+      const response = await fetch("/registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fname,
+          mobileNumber,
+          gender,
+          email,
+          password,
+          address,
+          pincode,
+          state,
+          country,
+        }),
+      });
+      if (response.status === 200) {
+        window.location.href = "/";
+      } else {
+        console.log("Wrong Credentials");
+        alert("Login Failed. Please try again!");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  });
 });

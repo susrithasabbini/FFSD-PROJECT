@@ -660,6 +660,14 @@ app.post("/registration", function (req, res) {
 
       await createUser(client, user);
       req.session.user = user;
+      const expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + 8 * 60 * 60 * 1000); // 8 hours in milliseconds
+      res.cookie("mobileNumber", user.mobileNumber, {
+        expires: expirationDate,
+        sameSite: true,
+      });
+
+      // Set the currentUser variable to the logged in user
       currentUser = user;
       res.redirect("/");
     }
