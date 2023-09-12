@@ -1050,39 +1050,9 @@ app.get('/Recipes', async function (req, res) {
             })
             res.render('pages/Food_Recipes', { FoodRecipes: FoodRecipes.slice(0,8), VegRecipes: Veg, nonVegRecipes: nonVeg, currentUser: currentUser, pageTitle: pageTitle,announcements });
         })
-
-app.get("/Recipes", async function (req, res) {
-  announcements = await getAnnouncements(client);
-  const pageTitle = "Recipes";
-  const FoodRecipes = [],
-    Veg = [],
-    nonVeg = [];
-  if (req.cookies.mobileNumber == null) {
-    currentUser = null;
-  }
-  getFoodRecipes(client).then((recipes) => {
-    let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
-    FoodImage.find().then((foodimages) => {
-      recipes.map((recipe) => {
-        foodimages.map((foodimage) => {
-          if (recipe.name == foodimage._id)
-            FoodRecipes.push({ recipe, foodimage });
-        });
-      });
-      FoodRecipes.forEach((recipe) => {
-        if (recipe.recipe.category == "Vegetarian") Veg.push(recipe);
-        else nonVeg.push(recipe);
-      });
-      res.render("pages/Food_Recipes", {
-        FoodRecipes: FoodRecipes,
-        VegRecipes: Veg,
-        nonVegRecipes: nonVeg,
-        currentUser: currentUser,
-        pageTitle: pageTitle,
-        announcements,
-      });
-    });
+    })
 })
+
 
 
 app.get("/View_Recipe", async function (req, res) {
