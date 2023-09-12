@@ -42,7 +42,7 @@ app.set("views", "views");
 
 // Port website will run on
 app.listen(port, () => {
-  console.log(`Your server is running on port ${port}.`);
+    console.log(`Your server is running on port ${port}.`);
 });
 
 let currentUser = null;
@@ -1019,39 +1019,49 @@ app.get("/orderPlaced", async function (req, res) {
   res.render("pages/orderMessage", { pageTitle });
 });
 
-app.get("/Recipes", async function (req, res) {
-  announcements = await getAnnouncements(client);
-  const pageTitle = "Recipes";
-  const FoodRecipes = [],
-    Veg = [],
-    nonVeg = [];
-  if (req.cookies.mobileNumber == null) {
-    currentUser = null;
-  }
-  getFoodRecipes(client).then((recipes) => {
-    let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
-    FoodImage.find().then((foodimages) => {
-      recipes.map((recipe) => {
-        foodimages.map((foodimage) => {
-          if (recipe.name == foodimage._id)
-            FoodRecipes.push({ recipe, foodimage });
-        });
-      });
-      FoodRecipes.forEach((recipe) => {
-        if (recipe.recipe.category == "Vegetarian") Veg.push(recipe);
-        else nonVeg.push(recipe);
-      });
-      res.render("pages/Food_Recipes", {
-        FoodRecipes: FoodRecipes,
-        VegRecipes: Veg,
-        nonVegRecipes: nonVeg,
-        currentUser: currentUser,
-        pageTitle: pageTitle,
-        announcements,
-      });
-    });
-  });
+
+const FoodRecipes = [];
+
+app.get("/getMoreRecipes", (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const recipesPerPage = 8; // Number of recipes to fetch per page
+
+    // Simulating fetching more recipes from your data source
+    const startIndex = (page - 1) * recipesPerPage;
+    const endIndex = startIndex + recipesPerPage;
+    const moreRecipes = FoodRecipes.slice(startIndex, endIndex);
+
+    res.json(moreRecipes);
 });
+
+
+
+app.get('/Recipes', async function (req, res) {
+    announcements = await getAnnouncements(client);
+    const pageTitle = "Recipes";
+    const  Veg = [], nonVeg = [];
+    if (req.cookies.mobileNumber == null) {
+        currentUser = null;
+    }
+    getFoodRecipes(client).then(recipes => {
+        let FoodImage = mongoose.model("FoodRecipes", imageSchema2);
+        FoodImage.find().then(foodimages => {
+            recipes.map(recipe => {
+                foodimages.map(foodimage => {
+                    if (recipe.name == foodimage._id) FoodRecipes.push({ recipe, foodimage });
+                })
+
+            })
+            FoodRecipes.forEach(recipe => {
+                if (recipe.recipe.category == "Vegetarian") Veg.push(recipe);
+                else nonVeg.push(recipe);
+            })
+            res.render('pages/Food_Recipes', { FoodRecipes: FoodRecipes.slice(0,8), VegRecipes: Veg, nonVegRecipes: nonVeg, currentUser: currentUser, pageTitle: pageTitle,announcements });
+        })
+    })
+})
+
+
 
 app.get("/View_Recipe", async function (req, res) {
   const pageTitle = "Recipe Blog";

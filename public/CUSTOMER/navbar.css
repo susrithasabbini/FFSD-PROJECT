@@ -318,3 +318,8 @@
 .cart-menu h3{
     color: red;
 }
+
+.cart-menu{
+    height : 180px;
+    overflow-y: hidden;
+}

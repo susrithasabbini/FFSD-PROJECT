@@ -17,7 +17,7 @@
 
     <div class="profile">
         <img src="/CUSTOMER/images/user.png" alt="" height="30px" class="user-pic" onmouseover="toggleMenu()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <img src="/CUSTOMER/images/cart.png" height="30px" onclick="openNav()" class="cart-pic">
+        <h4 style="display: inline-block;"><i style="color: chocolate;" onclick="openNav()" class="fa-solid fa-megaphone cart-pic"></i></h4>
     </div>
 
     <div class="hamburger">
@@ -90,7 +90,7 @@
 
     <div class="cart-wrap" id="cart">
         
-        <div class="cart-menu">
+        <!-- <div class="cart-menu">
             <h3>Announcements<i class="fa-solid fa-megaphone ms-3"></i></h3>
             <div class="announcement mt-2 mb-2">
                 <%announcements.forEach(announcement=>{%>
@@ -98,7 +98,17 @@
                 <%});%>
             </div>
            
+        </div> -->
+        <div class="cart-menu">
+            <h3>Announcements<i class="fa-solid fa-megaphone ms-3 mb-4" id="microphone-icon"></i></h3>
+            <div class="announcement-container mt-2 mb-2">
+                <% announcements.forEach(announcement => { %>
+                    <h6 class="announcement-item"><%= announcement.subject %></h6>
+                <% }); %>
+            </div>
         </div>
+        
+        
     </div>
 
 </header>

@@ -106,9 +106,10 @@
 
             </div>
         <%})%>
-
+        
         <div id="cart-message" data-bs-toggle="modal" data-bs-target="#modal-cart" onclick="displayCart()">
-            <h4>Items added to cart!</h4>
+            <h5><i class="fa-solid fa-hand-point-right" id="animated-icon"></i></h5>
+            <h4 class="ms-4">Items added to cart!</h4>
             <h5>View Cart &nbsp;<i class="fa-solid fa-arrow-right fa-lg"></i></h5>
         </div>
 
@@ -351,6 +352,27 @@
             }
            
         }
+
+        const icon = document.getElementById('animated-icon');
+
+        function moveIcon() {
+            let direction = 1; 
+            let position = 0; 
+            position += direction;
+
+            if (position >= 15) {
+                direction = -1;
+            } else if (position <= 0) {
+                direction = 1;
+            }
+
+            icon.style.transform = `translateX(${position}px)`;
+
+            requestAnimationFrame(moveIcon);
+        }
+
+        moveIcon();
+
     </script>
      <script src="/CUSTOMER/customer.js"></script>
 </body>
